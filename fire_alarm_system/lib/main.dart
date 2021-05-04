@@ -1,4 +1,5 @@
 import 'package:fire_alarm_system/ui/homepage/nested_tab_bar.dart';
+import 'package:fire_alarm_system/ui/roomview/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:fire_alarm_system/ui/auth/screens/auth_screen.dart';
 import 'package:fire_alarm_system/ui/signout.dart';
@@ -37,12 +38,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: NestedTabBar(),
+      home: RoomView(),
       routes: {
         'intro': (context) => IntroScreen(),
         'home': (context) => NestedTabBar(),
         'login': (context) => AuthScreen(authType: AuthType.login),
         'register': (context) => AuthScreen(authType: AuthType.register),
+        'roomview': (context) => RoomView()
       },
     );
   }
