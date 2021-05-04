@@ -1,8 +1,8 @@
-import 'package:fire_alarm_system/ui/screens/nested_tab_bar.dart';
+import 'package:fire_alarm_system/ui/homepage/nested_tab_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:fire_alarm_system/ui/screens/auth_screen.dart';
-import 'package:fire_alarm_system/ui/screens/home_screen.dart';
-import 'package:fire_alarm_system/ui/screens/intro_screen.dart';
+import 'package:fire_alarm_system/ui/auth/screens/auth_screen.dart';
+import 'package:fire_alarm_system/ui/signout.dart';
+import 'package:fire_alarm_system/ui/onboarding/screens/intro_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {

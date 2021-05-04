@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fire_alarm_system/ui/screens/auth_screen.dart';
-import 'package:fire_alarm_system/ui/widgets/original_button.dart';
+import 'package:fire_alarm_system/ui/auth/screens/auth_screen.dart';
+import 'package:fire_alarm_system/ui/onboarding/widgets/original_button.dart';
 import 'package:fire_alarm_system/services/auth.dart';
 
 class AuthForm extends StatefulWidget {

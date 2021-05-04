@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fire_alarm_system/ui/widgets/original_button.dart';
+import 'package:fire_alarm_system/ui/onboarding/widgets/original_button.dart';
 
 class IntroScreen extends StatelessWidget {
   @override

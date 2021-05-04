@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 import 'package:fire_alarm_system/theme.dart';
-import 'package:fire_alarm_system/ui/widgets/rooms_card.dart';
+import 'package:fire_alarm_system/ui/homepage/screens/rooms.dart';
+import 'package:fire_alarm_system/ui/homepage/widgets/rooms_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -170,7 +171,7 @@ class _NestedTabBarState extends State<NestedTabBar>
                   child: TabBarView(
                     controller: _nestedTabController,
                     children: <Widget>[
-                      RoomsCard(image: Image(image: AssetImage('assets/images/icons/livingroom.png')), room_name: "Living Room"),
+                      Rooms(),
                       SizedBox(),
                     ],
                   ),
@@ -183,3 +184,5 @@ class _NestedTabBarState extends State<NestedTabBar>
     );
   }
 }
+
+
