@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "954388388921",
+    "project_id": "firealarmsystem-b0f9f",
+    "storage_bucket": "firealarmsystem-b0f9f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954388388921:android:100144465123b1908481e8",
+        "android_client_info": {
+          "package_name": "com.mdp.fire_alarm_system"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954388388921-rtruldn9e9j3v08bu3dttldi38k6c7q0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzdWvBC8qT2WsTXO41oHuPWKODqJF48yA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954388388921-rtruldn9e9j3v08bu3dttldi38k6c7q0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

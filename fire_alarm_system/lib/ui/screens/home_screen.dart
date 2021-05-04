@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fire_alarm_system/services/auth.dart';
 
 class HomeScreen extends StatelessWidget {
-  AuthBase authBase = AuthBase();
+  final AuthBase authBase = AuthBase();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: FlatButton(
+        child: TextButton(
           child: Text('Sign out'),
           onPressed: () async {
             await authBase.logout();

@@ -28,7 +28,7 @@ class _AuthFormState extends State<AuthForm> {
             TextFormField(
               decoration: InputDecoration(
                 labelText: 'Enter your email',
-                hintText: 'ex: test@gmail.com',
+                hintText: 'ex: example@gmail.com',
               ),
               onChanged: (value) {
                 _email = value;
@@ -69,7 +69,7 @@ class _AuthFormState extends State<AuthForm> {
               },
             ),
             SizedBox(height: 6),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 if (widget.authType == AuthType.login) {
                   Navigator.of(context).pushReplacementNamed('register');

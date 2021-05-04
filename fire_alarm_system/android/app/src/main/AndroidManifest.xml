@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.fire_alarm_system">
+    package="com.mdp.fire_alarm_system">
    <application
         android:label="fire_alarm_system">
         <activity

@@ -1,9 +1,13 @@
+import 'package:fire_alarm_system/ui/screens/nested_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fire_alarm_system/ui/screens/auth_screen.dart';
 import 'package:fire_alarm_system/ui/screens/home_screen.dart';
 import 'package:fire_alarm_system/ui/screens/intro_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -36,7 +40,7 @@ class MyApp extends StatelessWidget {
       home: IntroScreen(),
       routes: {
         'intro': (context) => IntroScreen(),
-        'home': (context) => HomeScreen(),
+        'home': (context) => NestedTabBar(),
         'login': (context) => AuthScreen(authType: AuthType.login),
         'register': (context) => AuthScreen(authType: AuthType.register),
       },
