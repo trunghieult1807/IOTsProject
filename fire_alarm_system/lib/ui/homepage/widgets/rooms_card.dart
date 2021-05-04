@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:fire_alarm_system/theme.dart';
 import 'package:flutter/material.dart';
 
 class RoomsCard extends StatefulWidget {

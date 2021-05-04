@@ -6,8 +6,8 @@ import 'package:fire_alarm_system/ui/onboarding/screens/intro_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: IntroScreen(),
+      home: NestedTabBar(),
       routes: {
         'intro': (context) => IntroScreen(),
         'home': (context) => NestedTabBar(),
