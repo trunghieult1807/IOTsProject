@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:fire_alarm_system/theme.dart';
 import 'package:fire_alarm_system/ui/homepage/screens/rooms.dart';
 import 'package:fire_alarm_system/ui/homepage/widgets/rooms_card.dart';
+import 'package:fire_alarm_system/ui/signout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -172,7 +173,7 @@ class _NestedTabBarState extends State<NestedTabBar>
                     controller: _nestedTabController,
                     children: <Widget>[
                       Rooms(),
-                      SizedBox(),
+                      HomeScreen(),
                     ],
                   ),
                 ),

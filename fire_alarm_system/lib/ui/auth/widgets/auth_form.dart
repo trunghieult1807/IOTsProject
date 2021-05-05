@@ -1,93 +1,67 @@
-import 'package:fire_alarm_system/ui/onboarding/widgets/original_button.dart';
-import 'package:flutter/material.dart';
-import 'package:fire_alarm_system/ui/auth/screens/auth_screen.dart';
-import 'package:fire_alarm_system/services/auth.dart';
-
-class AuthForm extends StatefulWidget {
-  final AuthType authType;
-
-  const AuthForm({Key key, @required this.authType}) : super(key: key);
-
-  @override
-  _AuthFormState createState() => _AuthFormState();
-}
-
-class _AuthFormState extends State<AuthForm> {
-  final _formKey = GlobalKey<FormState>();
-  String _email = '', _password = '';
-  AuthBase authBase = AuthBase();
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-        child: Column(
-          children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Enter your email',
-                hintText: 'ex: example@gmail.com',
-              ),
-              onChanged: (value) {
-                _email = value;
-              },
-              validator: (value) =>
-                  value.isEmpty ? 'You must enter a valid email' : null,
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Enter your password',
-              ),
-              obscureText: true,
-              onChanged: (value) {
-                _password = value;
-              },
-              validator: (value) => value.length <= 6
-                  ? 'Your password must be larger than 6 characters'
-                  : null,
-            ),
-            SizedBox(height: 20),
-            OriginalButton(
-              text: widget.authType == AuthType.login ? 'Login' : 'Register',
-              color: Colors.lightBlue,
-              textColor: Colors.white,
-              onPressed: () async {
-                if (_formKey.currentState.validate()) {
-                  if (widget.authType == AuthType.login) {
-                    await authBase.loginWithEmailAndPassword(_email, _password);
-                    Navigator.of(context).pushReplacementNamed('home');
-                  } else {
-                    await authBase.registerWithEmailAndPassword(_email, _password);
-                    Navigator.of(context).pushReplacementNamed('home');
-                  }
-//                  print(_email);
-//                  print(_password);
-                }
-              },
-            ),
-            SizedBox(height: 6),
-            TextButton(
-              onPressed: () {
-                if (widget.authType == AuthType.login) {
-                  Navigator.of(context).pushReplacementNamed('register');
-                  print(widget.authType);
-                } else {
-                  Navigator.of(context).pushReplacementNamed('login');
-                }
-              },
-              child: Text(
-                widget.authType == AuthType.login
-                    ? 'Don\'t have an account?'
-                    : 'Already have an account?',
-                style: TextStyle(fontSize: 18, color: Colors.black54),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// import 'package:fire_alarm_system/theme.dart';
+// import 'package:flutter/material.dart';
+//
+// class PasswordTextField extends StatefulWidget {
+//
+//   final String hint;
+//   String password;
+//
+//
+//   PasswordTextField({
+//     Key key,
+//     @required this.hint,
+//     @required this.hint,
+//   }) : super(key: key);
+//   @override
+//   _PasswordTextFieldState createState() => _PasswordTextFieldState();
+// }
+//
+// class _PasswordTextFieldState extends State<PasswordTextField> {
+//   bool _showPassword = false;
+//   @override
+//   Widget build(BuildContext context) {
+//     final Size size = MediaQuery.of(context).size;
+// // Widget password(String hint, bool pass, Size size) {
+//     return Padding(
+//       padding: EdgeInsets.symmetric(
+//           horizontal: size.width * 0.1, vertical: size.height * 0.02),
+//       child: Stack(
+//         children: [
+//           Container(
+//             height: 50,
+//             decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(size.height * 0.05),
+//                 color: Colors.white),
+//           ),
+//           TextFormField(
+//             obscureText: !_showPassword,
+//             autovalidateMode: AutovalidateMode.onUserInteraction,
+//             onSaved: (input) => password = input,
+//             validator: (input) => input.isEmpty ? "*Required" : null,
+//             decoration: InputDecoration(
+//                 hintText: widget.hint,
+//                 hintStyle: TextStyle(
+//                   fontFamily: ThemeText.textStyle,
+//                 ),
+//                 contentPadding:
+//                     EdgeInsets.only(top: 15, bottom: 15, left: 0, right: 0),
+//                 prefixIcon: Icon(
+//                   Icons.security_outlined,
+//                   color: Colors.grey,
+//                 ),
+//                 suffixIcon: IconButton(
+//                   icon: Icon(
+//                     Icons.remove_red_eye,
+//                     color: this._showPassword ? Colors.blue : Colors.grey,
+//                   ),
+//                   onPressed: () {
+//                     setState(() => _showPassword = !_showPassword);
+//                   },
+//                 ),
+//                 border: UnderlineInputBorder(borderSide: BorderSide.none)),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
