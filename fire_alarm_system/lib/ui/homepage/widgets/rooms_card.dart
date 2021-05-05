@@ -1,3 +1,4 @@
+import 'package:fire_alarm_system/theme.dart';
 import 'package:fire_alarm_system/ui/homepage/models/room_info.dart';
 import 'package:flutter/material.dart';
 
@@ -21,31 +22,28 @@ class _RoomsCardState extends State<RoomsCard> {
       margin: EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30.0),
-        color: Colors.red,
+        color: Colors.red.shade300,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  child: Container(
-                    height: 80,
-                    width: 80,
-                    child: widget.roomInfo.image,
-                  ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Container(
+                  height: 80,
+                  width: 80,
+                  child: widget.roomInfo.image,
                 ),
-                Text(
-                  widget.roomInfo.roomName,
-                  maxLines: 1,
-                  style: TextStyle(color: Colors.white),
-                )
-              ],
-            ),
+              ),
+              Text(
+                widget.roomInfo.roomName,
+                maxLines: 1,
+                style: TextStyle(color: Colors.white),
+              )
+            ],
           ),
           Container(
             height: 90,
@@ -58,52 +56,100 @@ class _RoomsCardState extends State<RoomsCard> {
                   end: Alignment.bottomLeft,
                 )),
           ),
-          SizedBox(
-            width: 20,
-          ),
           Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  child: Text(
-                    "Temperature",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontFamily: 'theme',
-                      fontSize: 10.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                SizedBox(
+                  height: 10,
                 ),
-                Container(
-                  child: Text(
-                    "Gas status",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontFamily: 'theme',
-                      fontSize: 10.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
+                Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 20,
+                      child: Image(
+                        image:
+                            AssetImage('assets/images/icons/temperature.png'),
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      child: Text(
+                        "Temperature",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: 'theme',
+                          fontSize: 15.0,
+                          color: LightThemeColors.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  child: Text(
-                    "Prediction",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontFamily: 'theme',
-                      fontSize: 10.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
+                Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 20,
+                      child: Image(
+                        image:
+                            AssetImage('assets/images/icons/sensor.png'),
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      child: Text(
+                        "Gas status",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: 'theme',
+                          fontSize: 15.0,
+                          color: LightThemeColors.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 20,
+                      child: Image(
+                        image:
+                            AssetImage('assets/images/icons/prediction_warning.png'),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      child: Text(
+                        "Prediction",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: 'theme',
+                          fontSize: 15.0,
+                          color: LightThemeColors.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
                 ),
               ],
             ),
