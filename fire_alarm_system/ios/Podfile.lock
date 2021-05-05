@@ -4,7 +4,7 @@ PODS:
     - FirebaseAuth (~> 7.11.0)
   - Firebase/CoreOnly (7.11.0):
     - FirebaseCore (= 7.11.0)
-  - firebase_auth (1.1.2):
+  - firebase_auth (1.1.3):
     - Firebase/Auth (= 7.11.0)
     - firebase_core
     - Flutter
@@ -52,11 +52,14 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (1.2.12)
+  - shared_preferences (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
 SPEC REPOS:
   trunk:
@@ -77,10 +80,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
 
 SPEC CHECKSUMS:
   Firebase: c121feb35e4126c0b355e3313fa9b487d47319fd
-  firebase_auth: e7065954aa2a7c8ef1a8502fba3009bcdd8fc91a
+  firebase_auth: e831dc75625eceb49a508832c165a63032eecc35
   firebase_core: 84dcd80ac6d29c3d1039071b7306ee99688eb9c7
   FirebaseAuth: 5fe4585c2ed847319f0ea68bd1d82c77e49ff9a0
   FirebaseCore: 907447d8917a4d3eb0cce2829c5a0ad21d90b432
@@ -91,6 +96,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
 
 PODFILE CHECKSUM: fe0e1ee7f3d1f7d00b11b474b62dd62134535aea
 

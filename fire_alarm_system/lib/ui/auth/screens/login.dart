@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:fire_alarm_system/services/auth.dart';
 import 'package:fire_alarm_system/theme.dart';
-import 'package:fire_alarm_system/ui/auth/controller/validate.dart';
+import 'package:fire_alarm_system/ui/auth/controllers/validate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -49,6 +49,9 @@ class _LoginPageState extends State<LoginPage> {
                 "Login",
                 style: TextStyle(
                   fontFamily: ThemeText.textStyle,
+                  fontSize: 40,
+                  fontWeight: FontWeight.w500,
+                  color: LightThemeColors.contrast,
                 ),
               ),
               SizedBox(
@@ -66,36 +69,38 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: size.height * 0.02,
               ),
-              TextButton(
-                onPressed: () async {
-                  validate(_formKey);
-                  if (_formKey.currentState.validate()) {
-                    setState(() => loading = true);
-                    dynamic result = await _auth.signInWithEmailAndPassword(
-                        _email, _password);
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: 20, horizontal: size.width * 0.2),
+                child: TextButton(
+                  onPressed: () async {
+                    validate(_formKey);
+                    if (_formKey.currentState.validate()) {
+                      setState(() => loading = true);
+                      dynamic result = await _auth.signInWithEmailAndPassword(
+                          _email, _password);
 
-                    if (result == null) {
-                      setState(() {
-                        loading = false;
-                        error = 'Could not sign in with those credentials';
-                      });
+                      if (result == null) {
+                        setState(() {
+                          loading = false;
+                          error = 'Could not sign in with those credentials';
+                        });
+                      }
                     }
-                  }
-                  //_validateLoginInput();
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 20, horizontal: size.width * 0.2),
+                    //_validateLoginInput();
+                  },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: ThemeColors.primary,
-                        borderRadius: BorderRadius.circular(30)),
+                      color: LightThemeColors.darkGreen,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                     height: 45,
                     child: Center(
                       child: Text(
                         "Login",
                         style: TextStyle(
                           fontFamily: ThemeText.textStyle,
+                          color: LightThemeColors.primary,
                         ),
                       ),
                     ),
@@ -106,6 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                 "Forget your password?",
                 style: TextStyle(
                   fontFamily: ThemeText.textStyle,
+                  color: LightThemeColors.contrast,
                 ),
               ),
             ],
@@ -116,6 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                 "Or connect with",
                 style: TextStyle(
                   fontFamily: ThemeText.textStyle,
+                  color: LightThemeColors.contrast,
                 ),
               ),
               Padding(
@@ -137,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              "assets/facebook.png",
+                              "assets/images/facebook.png",
                               color: Colors.white,
                             ),
                             SizedBox(
@@ -166,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                "assets/google.png",
+                                "assets/images/google.png",
                                 color: Colors.white,
                               ),
                               SizedBox(
@@ -186,10 +193,14 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.ideographic,
                 children: [
                   Text(
                     "Don't have account?",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: LightThemeColors.contrast,
+                    ),
                   ),
                   SizedBox(
                     width: 10,
@@ -237,8 +248,13 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             height: 50,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(size.height * 0.05),
-                color: Colors.white),
+              borderRadius: BorderRadius.circular(size.height * 0.05),
+              color: Colors.white,
+              border: Border.all(
+                width: 1,
+                color: Colors.black45,
+              ),
+            ),
           ),
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -247,20 +263,19 @@ class _LoginPageState extends State<LoginPage> {
             },
             validator: emailValidator,
             decoration: InputDecoration(
-                fillColor: Colors.transparent,
-                hintText: hint,
-                hintStyle: TextStyle(
-                  fontFamily: ThemeText.textStyle,
-                ),
-                contentPadding:
-                    EdgeInsets.only(top: 15, bottom: 15, left: 0, right: 0),
-                prefixIcon: Icon(
-                  Icons.person_outline,
-                  color: Colors.grey,
-                ),
-                // suffixIcon: Icon(Icons.assignment_turned_in_rounded,
-                //     color: Colors.greenAccent),
-                border: UnderlineInputBorder(borderSide: BorderSide.none)),
+              fillColor: Colors.red,
+              hintText: hint,
+              hintStyle: TextStyle(
+                fontFamily: ThemeText.textStyle,
+              ),
+              contentPadding:
+                  EdgeInsets.only(top: 15, bottom: 15, left: 0, right: 0),
+              prefixIcon: Icon(
+                Icons.person_outline,
+                color: Colors.grey,
+              ),
+              border: UnderlineInputBorder(borderSide: BorderSide.none),
+            ),
           ),
         ],
       ),
@@ -276,8 +291,13 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             height: 50,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(size.height * 0.05),
-                color: Colors.white),
+              borderRadius: BorderRadius.circular(size.height * 0.05),
+              color: Colors.white,
+              border: Border.all(
+                width: 1,
+                color: Colors.black45,
+              ),
+            ),
           ),
           TextFormField(
             obscureText: !this._showPassword,
@@ -285,31 +305,30 @@ class _LoginPageState extends State<LoginPage> {
             onSaved: (input) => _password = input,
             validator: (input) => input.isEmpty ? "*Required" : null,
             decoration: InputDecoration(
-                hintText: hint,
-                hintStyle: TextStyle(
-                  fontFamily: ThemeText.textStyle,
+              hintText: hint,
+              hintStyle: TextStyle(
+                fontFamily: ThemeText.textStyle,
+              ),
+              contentPadding:
+                  EdgeInsets.only(top: 15, bottom: 15, left: 0, right: 0),
+              prefixIcon: Icon(
+                Icons.lock_outline,
+                color: Colors.grey,
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  Icons.remove_red_eye,
+                  color: this._showPassword ? Colors.blue : Colors.grey,
                 ),
-                contentPadding:
-                    EdgeInsets.only(top: 15, bottom: 15, left: 0, right: 0),
-                prefixIcon: Icon(
-                  Icons.lock_outline,
-                  color: Colors.grey,
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.remove_red_eye,
-                    color: this._showPassword ? Colors.blue : Colors.grey,
-                  ),
-                  onPressed: () {
-                    setState(() => this._showPassword = !this._showPassword);
-                  },
-                ),
-                border: UnderlineInputBorder(borderSide: BorderSide.none)),
+                onPressed: () {
+                  setState(() => this._showPassword = !this._showPassword);
+                },
+              ),
+              border: UnderlineInputBorder(borderSide: BorderSide.none),
+            ),
           ),
         ],
       ),
     );
   }
-
-
 }

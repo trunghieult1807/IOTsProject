@@ -34,7 +34,7 @@ class _NestedTabBarState extends State<NestedTabBar>
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: LightThemeColors.primary,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

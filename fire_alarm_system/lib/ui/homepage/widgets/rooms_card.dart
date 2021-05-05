@@ -1,13 +1,12 @@
+import 'package:fire_alarm_system/ui/homepage/models/room_info.dart';
 import 'package:flutter/material.dart';
 
 class RoomsCard extends StatefulWidget {
-  final Image image;
-  final String roomName;
+  final RoomInfo roomInfo;
 
   RoomsCard({
     Key key,
-    @required this.image,
-    @required this.roomName,
+    @required this.roomInfo,
   }) : super(key: key);
 
   @override
@@ -37,11 +36,11 @@ class _RoomsCardState extends State<RoomsCard> {
                   child: Container(
                     height: 80,
                     width: 80,
-                    child: widget.image,
+                    child: widget.roomInfo.image,
                   ),
                 ),
                 Text(
-                  widget.roomName,
+                  widget.roomInfo.roomName,
                   maxLines: 1,
                   style: TextStyle(color: Colors.white),
                 )
@@ -63,12 +62,39 @@ class _RoomsCardState extends State<RoomsCard> {
             width: 20,
           ),
           Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   child: Text(
-                    "Content",
+                    "Temperature",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: 'theme',
+                      fontSize: 10.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    "Gas status",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: 'theme',
+                      fontSize: 10.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    "Prediction",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(

@@ -1,9 +1,12 @@
+import 'package:fire_alarm_system/controllers/navigation_bar_controller.dart';
+import 'package:fire_alarm_system/controllers/splash_controller.dart';
 import 'package:fire_alarm_system/services/auth.dart';
 import 'package:fire_alarm_system/ui/auth/screens/login.dart';
 import 'package:fire_alarm_system/ui/auth/screens/register.dart';
 import 'package:fire_alarm_system/ui/homepage/nested_tab_bar.dart';
-import 'package:fire_alarm_system/wrapper.dart';
+import 'package:fire_alarm_system/controllers/wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fire_alarm_system/ui/roomview/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:fire_alarm_system/ui/onboarding/screens/intro_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,36 +25,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<UserModel>.value(
       value: AuthService().user,
+      initialData: null,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          inputDecorationTheme: InputDecorationTheme(
-            filled: true,
-            fillColor: Color(0xfff2f9fe),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey[200]),
-              borderRadius: BorderRadius.circular(25),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey[200]),
-              borderRadius: BorderRadius.circular(25),
-            ),
-            disabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey[200]),
-              borderRadius: BorderRadius.circular(25),
-            ),
-          ),
-        ),
-        home: Wrapper(),
+        title: 'Fire Alarm System',
+        home: Splash(),
         routes: {
-          'intro': (context) => IntroScreen(),
+          'splash': (context) => Splash(),
+          'onboarding': (context) => IntroScreen(),
           'home': (context) => NestedTabBar(),
-          'auth': (context) => Wrapper(),
+          'wrapper': (context) => Wrapper(),
+          'navbar': (context) => NavigationBarController(),
           'login': (context) => LoginPage(),
           'register': (context) => RegisterPage(),
+          'roomview': (context) => RoomView()
         },
       ),
     );

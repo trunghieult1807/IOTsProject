@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:fire_alarm_system/services/auth.dart';
 import 'package:fire_alarm_system/theme.dart';
-import 'package:fire_alarm_system/ui/auth/controller/validate.dart';
+import 'package:fire_alarm_system/ui/auth/controllers/validate.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     final topPadding = MediaQuery.of(context).padding.top;
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: LightThemeColors.primary,
       resizeToAvoidBottomInset: false,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,6 +51,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 "Register",
                 style: TextStyle(
                   fontFamily: ThemeText.textStyle,
+                  fontSize: 40,
+                  fontWeight: FontWeight.w500,
+                  color: LightThemeColors.contrast,
                 ),
               ),
               SizedBox(
@@ -67,35 +70,37 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(
                 height: size.height * 0.02,
               ),
-              TextButton(
-                onPressed: () async {
-                  _validate();
-                  if (_formKey.currentState.validate()) {
-                    setState(() => loading = true);
-                    dynamic result = await _auth.registerWithEmailAndPassword(
-                        _email, _password);
-                    if (result == null) {
-                      setState(() {
-                        loading = false;
-                        error = 'Please supply a valid email';
-                      });
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: 10, horizontal: size.width * 0.2),
+                child: TextButton(
+                  onPressed: () async {
+                    _validate();
+                    if (_formKey.currentState.validate()) {
+                      setState(() => loading = true);
+                      dynamic result = await _auth.registerWithEmailAndPassword(
+                          _email, _password);
+                      if (result == null) {
+                        setState(() {
+                          loading = false;
+                          error = 'Please supply a valid email';
+                        });
+                      }
                     }
-                  }
-                  //_validateRegisterInput();
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 10, horizontal: size.width * 0.2),
+                    //_validateRegisterInput();
+                  },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: ThemeColors.primary,
-                        borderRadius: BorderRadius.circular(30)),
+                      borderRadius: BorderRadius.circular(30),
+                      color: LightThemeColors.darkGreen,
+                    ),
                     height: 45,
                     child: Center(
                       child: Text(
                         "Sign up",
                         style: TextStyle(
                           fontFamily: ThemeText.textStyle,
+                          color: LightThemeColors.primary,
                         ),
                       ),
                     ),
@@ -110,6 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 "Or connect with",
                 style: TextStyle(
                   fontFamily: ThemeText.textStyle,
+                  color: LightThemeColors.contrast,
                 ),
               ),
               Padding(
@@ -131,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              "assets/facebook.png",
+                              "assets/images/facebook.png",
                               color: Colors.white,
                             ),
                             SizedBox(
@@ -160,7 +166,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                "assets/google.png",
+                                "assets/images/google.png",
                                 color: Colors.white,
                               ),
                               SizedBox(
@@ -180,10 +186,14 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.ideographic,
                 children: [
                   Text(
                     "Already have account?",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: LightThemeColors.contrast,
+                    ),
                   ),
                   SizedBox(
                     width: 10,
@@ -231,8 +241,13 @@ class _RegisterPageState extends State<RegisterPage> {
           Container(
             height: 50,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(size.height * 0.05),
-                color: Colors.white),
+              borderRadius: BorderRadius.circular(size.height * 0.05),
+              color: Colors.white,
+              border: Border.all(
+                width: 1,
+                color: Colors.black45,
+              ),
+            ),
           ),
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -241,20 +256,21 @@ class _RegisterPageState extends State<RegisterPage> {
             },
             validator: emailValidator,
             decoration: InputDecoration(
-                fillColor: Colors.transparent,
-                hintText: hint,
-                hintStyle: TextStyle(
-                  fontFamily: ThemeText.textStyle,
-                ),
-                contentPadding:
-                    EdgeInsets.only(top: 15, bottom: 15, left: 0, right: 0),
-                prefixIcon: Icon(
-                  Icons.person_outline,
-                  color: Colors.grey,
-                ),
-                // suffixIcon: Icon(Icons.assignment_turned_in_rounded,
-                //     color: Colors.greenAccent),
-                border: UnderlineInputBorder(borderSide: BorderSide.none),),
+              fillColor: Colors.transparent,
+              hintText: hint,
+              hintStyle: TextStyle(
+                fontFamily: ThemeText.textStyle,
+              ),
+              contentPadding:
+                  EdgeInsets.only(top: 15, bottom: 15, left: 0, right: 0),
+              prefixIcon: Icon(
+                Icons.person_outline,
+                color: Colors.grey,
+              ),
+              // suffixIcon: Icon(Icons.assignment_turned_in_rounded,
+              //     color: Colors.greenAccent),
+              border: UnderlineInputBorder(borderSide: BorderSide.none),
+            ),
           ),
         ],
       ),
@@ -270,8 +286,13 @@ class _RegisterPageState extends State<RegisterPage> {
           Container(
             height: 50,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(size.height * 0.05),
-                color: Colors.white),
+              borderRadius: BorderRadius.circular(size.height * 0.05),
+              color: Colors.white,
+              border: Border.all(
+                width: 1,
+                color: Colors.black45,
+              ),
+            ),
           ),
           TextFormField(
             obscureText: !this._showPassword,
@@ -314,8 +335,13 @@ class _RegisterPageState extends State<RegisterPage> {
           Container(
             height: 50,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(size.height * 0.05),
-                color: Colors.white),
+              borderRadius: BorderRadius.circular(size.height * 0.05),
+              color: Colors.white,
+              border: Border.all(
+                width: 1,
+                color: Colors.black45,
+              ),
+            ),
           ),
           TextFormField(
             obscureText: !this._showConfirmPassword,
@@ -362,4 +388,3 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 }
-
