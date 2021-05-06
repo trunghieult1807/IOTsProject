@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fire Alarm System',
-        home: Splash(),
+        home: RoomView(),
         routes: {
           'splash': (context) => Splash(),
           'onboarding': (context) => IntroScreen(),
