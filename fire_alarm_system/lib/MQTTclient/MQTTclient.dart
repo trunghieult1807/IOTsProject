@@ -1,0 +1,18 @@
+/// The following scheme can be used conditionally import either the server or browser client
+/// automatically.
+///
+///import 'server.dart' if (dart.library.html) 'browser.dart' as mqttsetup;
+/// ...
+///var client = mqttsetup.setup(serverAddress, port);
+///
+/// where server.dart will contain such as the following
+///
+///MqttClient setup(String serverAddress, String uniqueID, int port) {
+///  return MqttServerClient.withPort(serverAddress, uniqueID, port);
+///}
+///
+/// and browser.dart
+///
+/// MqttClient setup(String serverAddress, String uniqueID, int port) {
+///  return MqttBrowserClient.withPort(serverAddress, uniqueID, port);
+/// }
