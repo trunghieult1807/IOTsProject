@@ -18,6 +18,7 @@ dependencies:
   animated_bottom_navigation_bar: ^0.3.2
   after_layout: ^1.1.0
   shared_preferences: ^2.0.5
+  sleek_circular_slider : ^2.0.0 #https://pub.dev/packages/sleek_circular_slider
 
 dev_dependencies:
   flutter_test:
