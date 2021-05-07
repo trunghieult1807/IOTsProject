@@ -1,3 +1,4 @@
+import 'package:fire_alarm_system/ui/edit_threshold/screens/edit_threshold.dart';
 import 'package:fire_alarm_system/controllers/navigation_bar_controller.dart';
 import 'package:fire_alarm_system/controllers/splash_controller.dart';
 import 'package:fire_alarm_system/services/auth.dart';
@@ -17,7 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:fire_alarm_system/MQTTclient/server.dart' as mqttsetup;
 import 'package:mqtt_client/mqtt_server_client.dart';
 
-MqttServerClient testClient;// = mqttsetup.setup('io.adafruit.com', 1833);
+MqttServerClient testClient; // = mqttsetup.setup('io.adafruit.com', 1833);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +26,8 @@ void main() async {
 
   testClient = await mqttsetup.setup('io.adafruit.com', 1883);
   testClient.subscribe('Siv_Cloud/feeds/test-feed-led', MqttQos.atLeastOnce);
-  testClient.subscribe('Siv_Cloud/feeds/test-text-publish', MqttQos.atLeastOnce);
+  testClient.subscribe(
+      'Siv_Cloud/feeds/test-text-publish', MqttQos.atLeastOnce);
 
   runApp(MyApp());
 }
@@ -33,8 +35,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   final User user = FirebaseAuth.instance.currentUser;
 
-
-  
   @override
   Widget build(BuildContext context) {
     return StreamProvider<UserModel>.value(
@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
           'roomview': (context) => RoomView(),
           'addRoomView': (context) => AddRoom(),
           'addDeviceView': (context) => AddDevice(),
+          'editThreshold': (context) => EditThreshold(),
         },
       ),
     );
