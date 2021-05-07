@@ -14,6 +14,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^1.1.2
   firebase_core: ^1.1.0
+
+  syncfusion_flutter_gauges: ^19.1.59
+
   provider: ^5.0.0
   animated_bottom_navigation_bar: ^0.3.2
   after_layout: ^1.1.0
