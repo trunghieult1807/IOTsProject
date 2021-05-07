@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
-Future<MqttServerClient> setup(String serverAddress, int port) async {
+Future<MqttServerClient> setup(String serverAddress, int port, String username, String apikey) async {
   // connection succeeded
   void onConnected() {
     print('Connected');
@@ -46,7 +46,7 @@ Future<MqttServerClient> setup(String serverAddress, int port) async {
   client.pongCallback = pong;
 
   final connMessage = MqttConnectMessage()
-      .authenticateAs('Siv_Cloud', 'aio_AQgi91NzzPCkj0SDhFDxM1h2VIfb')
+      .authenticateAs(username, apikey)
       //.authenticateAs('username', 'password')
       .keepAliveFor(20)
       .withWillTopic('willtopic')

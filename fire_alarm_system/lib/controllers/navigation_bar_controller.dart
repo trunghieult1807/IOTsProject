@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:fire_alarm_system/theme.dart';
 import 'package:fire_alarm_system/ui/homepage/nested_tab_bar.dart';
+import 'package:fire_alarm_system/ui/roomview/screens/roomview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,7 @@ class _NavigationBarControllerState extends State<NavigationBarController> {
   List<Widget> _buildScreens() {
     return [
       NestedTabBar(),
-      SizedBox(),
+      RoomView(),
       SizedBox(),
       SizedBox(),
     ];
