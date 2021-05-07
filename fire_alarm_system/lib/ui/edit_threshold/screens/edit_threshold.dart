@@ -39,6 +39,26 @@ class _EditThresholdState extends State<EditThreshold> {
     }
   }
 
+  void handleLongPress(bool isIncrease, bool isRisk) {
+    if (isIncrease) {
+      setState(() {
+        if (isRisk) {
+          cur_risk += 5;
+        } else {
+          cur_actual += 5;
+        }
+      });
+    } else {
+      setState(() {
+        if (isRisk) {
+          cur_risk -= 5;
+        } else {
+          cur_actual -= 5;
+        }
+      });
+    }
+  }
+
   void handleSave() {
     print("set risk threshold to: $cur_risk");
     print("set actual fire threshold to: $cur_actual");
@@ -63,9 +83,11 @@ class _EditThresholdState extends State<EditThreshold> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
-                        child: IconButton(
-                            icon: Icon(Icons.add_circle),
-                            onPressed: () => handleClick(true, true)),
+                        child: ElevatedButton(
+                          child: Icon(Icons.add_circle),
+                          onPressed: () => handleClick(true, true),
+                          onLongPress: () => handleLongPress(true, true),
+                        ),
                         flex: 1,
                       ),
                       Expanded(
@@ -73,9 +95,11 @@ class _EditThresholdState extends State<EditThreshold> {
                               currValue: cur_risk, title: 'Risk of fire'),
                           flex: 4),
                       Expanded(
-                          child: IconButton(
-                              icon: Icon(Icons.remove_circle),
-                              onPressed: () => handleClick(false, true)),
+                          child: ElevatedButton(
+                            child: Icon(Icons.remove_circle),
+                            onPressed: () => handleClick(false, true),
+                            onLongPress: () => handleLongPress(false, true),
+                          ),
                           flex: 1)
                     ],
                   )),
@@ -89,9 +113,10 @@ class _EditThresholdState extends State<EditThreshold> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Expanded(
-                          child: IconButton(
-                              icon: Icon(Icons.add_circle),
-                              onPressed: () => handleClick(true, false)),
+                          child: ElevatedButton(
+                              child: Icon(Icons.add_circle),
+                              onPressed: () => handleClick(true, false),
+                              onLongPress: () => handleLongPress(true, false)),
                           flex: 1,
                         ),
                         Expanded(
@@ -99,9 +124,11 @@ class _EditThresholdState extends State<EditThreshold> {
                                 currValue: cur_actual, title: 'Actual fire'),
                             flex: 4),
                         Expanded(
-                            child: IconButton(
-                                icon: Icon(Icons.remove_circle),
-                                onPressed: () => handleClick(false, false)),
+                            child: ElevatedButton(
+                                child: Icon(Icons.remove_circle),
+                                onPressed: () => handleClick(false, false),
+                                onLongPress: () =>
+                                    handleLongPress(false, false)),
                             flex: 1)
                       ],
                     ))),
