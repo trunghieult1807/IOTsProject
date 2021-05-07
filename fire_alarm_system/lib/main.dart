@@ -6,7 +6,7 @@ import 'package:fire_alarm_system/ui/auth/screens/register.dart';
 import 'package:fire_alarm_system/ui/homepage/nested_tab_bar.dart';
 import 'package:fire_alarm_system/controllers/wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fire_alarm_system/ui/roomview/screens/screens.dart';
+import 'package:fire_alarm_system/ui/roomview/screens/roomview.dart';
 import 'package:flutter/material.dart';
 import 'package:fire_alarm_system/ui/onboarding/screens/intro_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
