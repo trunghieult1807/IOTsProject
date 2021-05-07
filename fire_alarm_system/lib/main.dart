@@ -1,3 +1,4 @@
+import 'package:fire_alarm_system/ui/edit_threshold/screens/edit_threshold.dart';
 import 'package:fire_alarm_system/ui/homepage/nested_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fire_alarm_system/ui/auth/screens/auth_screen.dart';
@@ -37,12 +38,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: NestedTabBar(),
+      home: EditThreshold(),
       routes: {
         'intro': (context) => IntroScreen(),
         'home': (context) => NestedTabBar(),
         'login': (context) => AuthScreen(authType: AuthType.login),
         'register': (context) => AuthScreen(authType: AuthType.register),
+        'edit_threshold': (context) => EditThreshold(),
       },
     );
   }

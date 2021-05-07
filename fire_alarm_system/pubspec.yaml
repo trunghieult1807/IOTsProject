@@ -14,6 +14,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^1.1.2
   firebase_core: ^1.1.0
+  syncfusion_flutter_gauges: ^19.1.59
 
 dev_dependencies:
   flutter_test:
