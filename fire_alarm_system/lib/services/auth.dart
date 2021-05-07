@@ -7,35 +7,56 @@ class UserModel {
   UserModel({@required this.uid});
 }
 
-class AuthBase {
-  UserModel _userFromFirebase(User user) {
-    return user != null ? UserModel(uid: user.uid) : null;
+
+class AuthService {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // create user obj based on firebase user
+  UserModel _userFromFirebaseUser(User user) {
+    return user != null ? UserModel(uid: user.uid, ) : null;
   }
 
-  Future<void> registerWithEmailAndPassword(
-      String email, String password) async {
+  // auth change user stream
+  Stream<UserModel> get user {
+    return _auth.userChanges()
+        .map(_userFromFirebaseUser);
+  }
+
+
+  // sign in with email and password
+  Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential authResult = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      return _userFromFirebase(authResult.user);
-    } catch (e) {
-      print(e.toString());
+      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      User user = result.user;
+      return user;
+    } catch (error) {
+      print(error.toString());
       return null;
     }
   }
 
-  Future<void> loginWithEmailAndPassword(String email, String password) async {
+  // register with email and password
+  Future registerWithEmailAndPassword(String email, String password) async {
     try {
-      final authResult = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      return _userFromFirebase(authResult.user);
-    } catch (e) {
-      print(e.toString());
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      User user = result.user;
+      return _userFromFirebaseUser(user);
+    } catch (error) {
+      print(error.toString());
       return null;
     }
   }
 
-  Future<void> logout() async {
-    await FirebaseAuth.instance.signOut();
+  // sign out
+  Future signOut() async {
+    try {
+      return await _auth.signOut();
+    } catch (error) {
+      print(error.toString());
+      return null;
+    }
   }
+
 }

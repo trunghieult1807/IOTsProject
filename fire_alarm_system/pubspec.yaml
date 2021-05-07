@@ -14,7 +14,15 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_auth: ^1.1.2
   firebase_core: ^1.1.0
+
   syncfusion_flutter_gauges: ^19.1.59
+
+  provider: ^5.0.0
+  animated_bottom_navigation_bar: ^0.3.2
+  after_layout: ^1.1.0
+  shared_preferences: ^2.0.5
+  sleek_circular_slider : ^2.0.0 #https://pub.dev/packages/sleek_circular_slider
+  mqtt_client: ^9.2.0 #https://pub.dev/packages/mqtt_client
 
 dev_dependencies:
   flutter_test:
