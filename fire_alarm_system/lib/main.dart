@@ -20,8 +20,11 @@ MqttServerClient testClient;// = mqttsetup.setup('io.adafruit.com', 1833);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   testClient = await mqttsetup.setup('io.adafruit.com', 1883);
   testClient.subscribe('Siv_Cloud/feeds/test-feed-led', MqttQos.atLeastOnce);
+  testClient.subscribe('Siv_Cloud/feeds/test-text-publish', MqttQos.atLeastOnce);
+
   runApp(MyApp());
 }
 
