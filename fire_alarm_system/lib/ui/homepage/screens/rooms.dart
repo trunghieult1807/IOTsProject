@@ -1,3 +1,5 @@
+import 'package:fire_alarm_system/theme.dart';
+import 'package:fire_alarm_system/ui/homepage/models/room_info.dart';
 import 'package:fire_alarm_system/ui/homepage/widgets/rooms_card.dart';
 import 'package:flutter/material.dart';
 
@@ -9,53 +11,76 @@ class Rooms extends StatefulWidget {
 class _RoomsState extends State<Rooms> {
   @override
   Widget build(BuildContext context) {
-
-
     List<Widget> cards = [
       RoomsCard(
-        image: Image(
-          image: AssetImage('assets/images/icons/livingroom.png'),
+        roomInfo: RoomInfo(
+          Image(
+            image: AssetImage('assets/images/icons/livingroom.png'),
+          ),
+          "Living Room",
+          "30C",
+          "Normal",
+          "OK",
         ),
-        roomName: "Living Room",
       ),
       RoomsCard(
-        image: Image(
-          image: AssetImage('assets/images/icons/livingroom.png'),
+        roomInfo: RoomInfo(
+          Image(
+            image: AssetImage('assets/images/icons/livingroom.png'),
+          ),
+          "Living Room",
+          "30C",
+          "Normal",
+          "OK",
         ),
-        roomName: "Living Room",
       ),
       RoomsCard(
-        image: Image(
-          image: AssetImage('assets/images/icons/livingroom.png'),
+        roomInfo: RoomInfo(
+          Image(
+            image: AssetImage('assets/images/icons/livingroom.png'),
+          ),
+          "Living Room",
+          "30C",
+          "Normal",
+          "OK",
         ),
-        roomName: "Living Room",
       ),
       RoomsCard(
-        image: Image(
-          image: AssetImage('assets/images/icons/livingroom.png'),
+        roomInfo: RoomInfo(
+          Image(
+            image: AssetImage('assets/images/icons/livingroom.png'),
+          ),
+          "Living Room",
+          "30C",
+          "Normal",
+          "OK",
         ),
-        roomName: "Living Room",
       ),
       RoomsCard(
-        image: Image(
-          image: AssetImage('assets/images/icons/livingroom.png'),
+        roomInfo: RoomInfo(
+          Image(
+            image: AssetImage('assets/images/icons/livingroom.png'),
+          ),
+          "Living Room",
+          "30C",
+          "Normal",
+          "OK",
         ),
-        roomName: "Living Room",
       ),
       RoomsCard(
-        image: Image(
-          image: AssetImage('assets/images/icons/livingroom.png'),
+        roomInfo: RoomInfo(
+          Image(
+            image: AssetImage('assets/images/icons/livingroom.png'),
+          ),
+          "Living Room",
+          "30C",
+          "Normal",
+          "OK",
         ),
-        roomName: "Living Room",
-      ),
-      RoomsCard(
-        image: Image(
-          image: AssetImage('assets/images/icons/livingroom.png'),
-        ),
-        roomName: "Living Room",
       ),
     ];
     return Scaffold(
+      backgroundColor: LightThemeColors.primary,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(
           20,
@@ -74,7 +99,7 @@ class _RoomsState extends State<Rooms> {
                 itemBuilder: (context, index) {
                   return cards[index];
                 },
-              )
+              ),
             ),
           ],
         ),

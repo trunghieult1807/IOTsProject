@@ -12,16 +12,12 @@ class OriginalButton extends StatelessWidget {
     return SizedBox(
       height: 55,
       width: double.infinity,
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: onPressed,
         child: Text(
           text,
           style: TextStyle(color: textColor, fontSize: 18),
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
-        ),
-        color: color,
       ),
     );
   }

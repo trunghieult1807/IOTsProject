@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:fire_alarm_system/theme.dart';
 import 'package:fire_alarm_system/ui/homepage/screens/rooms.dart';
 import 'package:fire_alarm_system/ui/homepage/widgets/rooms_card.dart';
+import 'package:fire_alarm_system/ui/signout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class _NestedTabBarState extends State<NestedTabBar>
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: LightThemeColors.primary,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -172,7 +173,7 @@ class _NestedTabBarState extends State<NestedTabBar>
                     controller: _nestedTabController,
                     children: <Widget>[
                       Rooms(),
-                      SizedBox(),
+                      HomeScreen(),
                     ],
                   ),
                 ),

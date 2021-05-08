@@ -87,24 +87,24 @@ class _AddDeviceState extends State<AddDevice> {
           SizedBox(height: 20),
           Expanded(
               child: GridView.count(crossAxisCount: 3, mainAxisSpacing: 10, children: <Widget>[
-                IconBtn(
-                    iconURL: "assets/images/icons/kitchen.png", name: "Kitchen"),
-                IconBtn(
-                    iconURL: "assets/images/icons/bedroom.png", name: "BedRoom"),
-                IconBtn(
-                    iconURL: "assets/images/icons/bathroom.png", name: "BathRoom"),
-                IconBtn(
-                    iconURL: "assets/images/icons/office.png", name: "Living Room"),
-                IconBtn(iconURL: "assets/images/icons/tvroom.png", name: "BedRoom"),
-                IconBtn(
-                    iconURL: "assets/images/icons/livingroom.png",
-                    name: "BathRoom"),
-                IconBtn(
-                    iconURL: "assets/images/icons/garage.png", name: "Living Room"),
-                IconBtn(iconURL: "assets/images/icons/toilet.png", name: "BedRoom"),
-                IconBtn(
-                    iconURL: "assets/images/icons/kidroom.png", name: "BathRoom"),
-              ]))
+            IconBtn(
+                iconURL: "assets/images/icons/kitchen.png", name: "Kitchen"),
+            IconBtn(
+                iconURL: "assets/images/icons/bedroom.png", name: "BedRoom"),
+            IconBtn(
+                iconURL: "assets/images/icons/bathroom.png", name: "BathRoom"),
+            IconBtn(
+                iconURL: "assets/images/icons/office.png", name: "Living Room"),
+            IconBtn(iconURL: "assets/images/icons/tvroom.png", name: "BedRoom"),
+            IconBtn(
+                iconURL: "assets/images/icons/livingroom.png",
+                name: "BathRoom"),
+            IconBtn(
+                iconURL: "assets/images/icons/garage.png", name: "Living Room"),
+            IconBtn(iconURL: "assets/images/icons/toilet.png", name: "BedRoom"),
+            IconBtn(
+                iconURL: "assets/images/icons/kidroom.png", name: "BathRoom"),
+          ]))
         ],
       ),
     );
