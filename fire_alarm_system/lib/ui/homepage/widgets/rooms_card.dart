@@ -1,5 +1,6 @@
 import 'package:fire_alarm_system/theme.dart';
 import 'package:fire_alarm_system/ui/homepage/models/room_info.dart';
+import 'package:fire_alarm_system/ui/homepage/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class RoomsCard extends StatefulWidget {
@@ -35,7 +36,7 @@ class _RoomsCardState extends State<RoomsCard> {
                 child: Container(
                   height: 80,
                   width: 80,
-                  child: widget.roomInfo.image,
+                  child: getImageFromId(widget.roomInfo.imageId),
                 ),
               ),
               Text(

@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 
 class RoomInfo {
-  Image _image;
+  String _roomId;
+  String _imageId;
   String _roomName;
   String _temperature;
   String _sensorStatus;
   String _prediction;
 
-  RoomInfo(Image image, String roomName, String temperature,
+  RoomInfo(String roomId, String imageId, String roomName, String temperature,
       String sensorStatus, String prediction)
-      : _image = image,
+      : _roomId = roomId,
+        _imageId = imageId,
         _roomName = roomName,
         _temperature = temperature,
         _sensorStatus = sensorStatus,
         _prediction = prediction;
 
-  Image get image => _image;
+  RoomInfo.db(String roomId, String imageId, String roomName)
+      : _roomId = roomId,
+        _imageId = imageId,
+        _roomName = roomName;
+
+  String get roomId => _roomId;
+
+  String get imageId => _imageId;
 
   String get roomName => _roomName;
 

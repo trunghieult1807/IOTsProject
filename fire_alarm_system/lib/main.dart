@@ -104,7 +104,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fire Alarm System',
-        home: IntroScreen(),
+        home: Splash(),
         routes: {
           'splash': (context) => Splash(),
           'onboarding': (context) => IntroScreen(),

@@ -12,3 +12,29 @@ class ThemeText {
   static const String textStyle = 'textTheme';
 }
 
+
+
+class MyBackButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context, rootNavigator: false).pop(context);
+      },
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Container(
+          height: 30,
+          width: 30,
+          child: Center(
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.black45,
+              size: 20,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
