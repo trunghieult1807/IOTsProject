@@ -151,10 +151,10 @@ class _RoomViewState extends State<RoomView> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 50,
-            ),
-            PowerButton(),
+            //SizedBox(
+            //  height: 50,
+            //),
+            //PowerButton(),
           ],
         ),
       ),
