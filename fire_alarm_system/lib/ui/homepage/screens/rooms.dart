@@ -1,6 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:fire_alarm_system/theme.dart';
-import 'package:fire_alarm_system/ui/homepage/models/room_info.dart';
+import 'package:fire_alarm_system/model/core/room_schema.dart';
 import 'package:fire_alarm_system/ui/homepage/screens/add_room.dart';
 import 'package:fire_alarm_system/ui/homepage/widgets/rooms_card.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +19,7 @@ class _RoomsState extends State<Rooms> {
     List<Widget> cards = [
       RoomsCard(
         roomInfo: RoomInfo(
+          "0",
           "1",
           "livingroom",
           "Living Room",
@@ -29,6 +30,7 @@ class _RoomsState extends State<Rooms> {
       ),
       RoomsCard(
         roomInfo: RoomInfo(
+          "1",
           "2",
           "bedroom",
           "Bed Room",
@@ -39,6 +41,7 @@ class _RoomsState extends State<Rooms> {
       ),
       RoomsCard(
         roomInfo: RoomInfo(
+          "2",
           "3",
           "bathroom",
           "Bath Room",

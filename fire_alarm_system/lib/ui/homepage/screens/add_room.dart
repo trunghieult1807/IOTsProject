@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_alarm_system/theme.dart';
-import 'package:fire_alarm_system/ui/homepage/models/room_info.dart';
+import 'package:fire_alarm_system/model/core/room_schema.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
@@ -224,6 +224,7 @@ class _AddRoomState extends State<AddRoom> {
       _formKey.currentState.save();
       if (!widget.isEditMode) {
         final newRoom = RoomInfo.db(
+            firebaseUser.uid,
           Uuid().v4(),
           _title,
           _desc,

@@ -1,5 +1,5 @@
 import 'package:fire_alarm_system/theme.dart';
-import 'package:fire_alarm_system/ui/homepage/models/room_info.dart';
+import 'package:fire_alarm_system/model/core/room_schema.dart';
 import 'package:fire_alarm_system/ui/homepage/utils/utils.dart';
 import 'package:flutter/material.dart';
 
