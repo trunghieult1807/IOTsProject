@@ -78,8 +78,6 @@ class _EditThresholdState extends State<EditThreshold> {
   void handleSave() {
     UserService.setFireThreshold(curActual);
     UserService.setWarningThreshold(curRisk);
-    print("set risk threshold to: $curRisk");
-    print("set actual fire threshold to: $curActual");
   }
 
 
