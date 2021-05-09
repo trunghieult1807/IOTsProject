@@ -1,5 +1,8 @@
 import 'package:fire_alarm_system/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:fire_alarm_system/config.dart' as CONFIG;
+import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
 
 class PowerButton extends StatefulWidget {
   @override
@@ -11,7 +14,15 @@ class _PowerButtonState extends State<PowerButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print("Tapped power");
+        final builder1 = MqttClientPayloadBuilder();
+        final builder2 = MqttClientPayloadBuilder();
+        final builder3 = MqttClientPayloadBuilder();
+        builder1.addString('{ "id":"11", "name":"RELAY", "data":"0", "unit":"" }');
+        builder2.addString('{ "id":"1", "name":"LED", "data":"0", "unit":"" }');
+        builder3.addString('{ "id":"3", "name":"SPEAKER", "data":"0", "unit":"" }');
+        CONFIG.Config.relayClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce, builder1.payload);
+        CONFIG.Config.ledClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-led', MqttQos.atLeastOnce, builder2.payload);
+        CONFIG.Config.buzzerClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce, builder3.payload);
       },
       child: Container(
         width: 50,
