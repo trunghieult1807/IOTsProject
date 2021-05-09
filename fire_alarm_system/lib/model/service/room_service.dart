@@ -17,7 +17,7 @@ class RoomService {
         .collection('roomList')
         .get();
     return snapshot.docs.map((doc) => RoomInfo.db(uid, doc.id,
-        doc['imageId'], doc['roomName']));
+        doc['imageId'], doc['roomName'])).toList();
   }
 
   static void createOrEditRoom(RoomInfo newRoom){
