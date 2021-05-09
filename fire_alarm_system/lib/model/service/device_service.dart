@@ -18,7 +18,7 @@ class DeviceService {
         .collection('DeviceList')
         .get();
     return snapshot.docs.map((doc) => Device(room.userID, room.userID, doc.id,
-        doc['deviceName'], doc['deviceImg'], doc['deviceType']));
+        doc['deviceName'], doc['deviceImg'], doc['deviceType'])).toList();
   }
 
   static Future<List<Device>> getAllDeviceOfUser() async {
