@@ -1,5 +1,5 @@
 import 'package:fire_alarm_system/services/firestore.dart';
-import 'package:fire_alarm_system/ui/homepage/models/room_info.dart';
+import 'package:fire_alarm_system/model/core/room_schema.dart';
 import 'package:fire_alarm_system/ui/homepage/screens/rooms.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +14,11 @@ class RoomsProvider extends StatelessWidget {
     print(user.uid);
     return StreamProvider<List<RoomInfo>>(
       create: (_) {
-        return db.streamRoomList(user);
+        return db.streamRoomList(user); //return into roomList param in room.dart builder
       },
       initialData: [
         RoomInfo(
+          "0",
           "1",
           "livingroom",
           "Living Room",

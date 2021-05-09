@@ -26,9 +26,7 @@ bool gasthresholdReach = false;
 bool tempthresholdReach =false;
 
 void checkForFire(){
-  print("HI3");
   if (gasthresholdReach && tempthresholdReach){
-    print("HI4");
     final builder2 = MqttClientPayloadBuilder();
     builder2.addString('{"id":"3", "name":"SPEAKER", "data":"1023", "unit":""}');
     CONFIG.Config.buzzerClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce, builder2.payload);
@@ -38,10 +36,8 @@ void checkForFire(){
 void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
   final payload = MqttPublishPayload.bytesToStringAsString(message.payload.message);
-  //print('Received message:$payload from topic: ${c[0].topic}>');
   var json = jsonDecode(payload);
-  //YPUR CODE HERE
-  print("HI");
+  //YOUR CODE HERE
   if (int.parse(json['data']) > 200) {
     tempthresholdReach = true;
     checkForFire();
@@ -50,10 +46,8 @@ void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
 void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
   final payload = MqttPublishPayload.bytesToStringAsString(message.payload.message);
-  //print('Received message:$payload from topic: ${c[0].topic}>');
   var json = jsonDecode(payload);
-  //YPUR CODE HERE
-  print("HI2");
+  //YOUR CODE HERE
   if (int.parse(json['data']) == 1) {
     gasthresholdReach = true;
     checkForFire();
@@ -78,17 +72,6 @@ void main() async {
 
   CONFIG.Config.tempSensorClient.updates.listen(checkTempThreshold);
   CONFIG.Config.gasSensorClient.updates.listen(checkGasThreshold);
-  // final builder1 = MqttClientPayloadBuilder();
-  // builder1.addString('TEST LED PUBLISH');
-  // G_ledClient.publishMessage(G_username + '/feeds/bk-iot-led', MqttQos.atLeastOnce, builder1.payload);
-  //
-  // final builder2 = MqttClientPayloadBuilder();
-  // builder2.addString('TEST BUZZER PUBLISH');
-  // G_buzzerClient.publishMessage(G_username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce, builder2.payload);
-  //
-  // final builder3 = MqttClientPayloadBuilder();
-  // builder3.addString('TEST PUMP PUBLISH');
-  // G_relayClient.publishMessage(G_username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce, builder3.payload);
 
   runApp(MyApp());
 }
