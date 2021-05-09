@@ -4,10 +4,12 @@ import 'package:fire_alarm_system/model/core/room_schema.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
 
+
+
 class DeviceService {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<List<Device>> getAllDeviceInRoom(RoomInfo room) async {
+  static Future<List<Device>> getAllDeviceInRoom(RoomInfo room) async {
     var snapshot = await db
         .collection('users')
         .doc(room.userID)
@@ -16,10 +18,10 @@ class DeviceService {
         .collection('DeviceList')
         .get();
     return snapshot.docs.map((doc) => Device(room.userID, room.userID, doc.id,
-        doc['deviceName'], doc['deviceType']));
+        doc['deviceName'], doc['deviceImg'], doc['deviceType']));
   }
 
-  Future<List<Device>> getAllDeviceOfUser() async {
+  static Future<List<Device>> getAllDeviceOfUser() async {
     QuerySnapshot roomSnapshot = await db
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser.uid)
@@ -38,6 +40,7 @@ class DeviceService {
           roomDoc.id,
           deviceDoc.id,
           deviceDoc['deviceName'],
+          deviceDoc['deviceImg'],
           deviceDoc['deviceType'])).toList();
     }));
 
