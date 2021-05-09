@@ -25,4 +25,12 @@ class UserService{
     db.collection('users').doc(uid).update({'warningThreshold': newThreshold});
   }
 
+  static Stream<int> getFireThresholdStream(){
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    return db.collection('users').doc(uid).snapshots().map((snapshot) => snapshot['fireThreshold']);
+  }
+  static Stream<int> getWarningThresholdStream(){
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    return db.collection('users').doc(uid).snapshots().map((snapshot) => snapshot['warningThreshold']);
+  }
 }
