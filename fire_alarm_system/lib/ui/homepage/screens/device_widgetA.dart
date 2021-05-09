@@ -21,6 +21,7 @@ class _DeviceWigdetAState extends State<DeviceWigdetA> {
   List<Device> deviceList = [];
 
   _DeviceWigdetAState(){
+    print("HI");
     DeviceService.getAllDeviceOfUser().then((value) =>
       setState(() {
         this.deviceList = value;

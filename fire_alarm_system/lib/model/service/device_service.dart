@@ -3,7 +3,7 @@ import 'package:fire_alarm_system/model/core/device_schema.dart';
 import 'package:fire_alarm_system/model/core/room_schema.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
-
+import 'package:uuid/uuid.dart';
 
 
 class DeviceService {
@@ -47,6 +47,18 @@ class DeviceService {
     return listOfDeviceList.fold<List<Device>>([], (acc, ele) {
       acc.addAll(ele);
       return acc;
+    });
+  }
+
+  static void createOrEditDevice(Device newDevice){
+    //to edit, set the newRoom.roomId to an existing room in firestore that you want to edit
+    String uID = newDevice.userID == null ? FirebaseAuth.instance.currentUser.uid: newDevice.userID;
+    String dID = newDevice.dID == null ? Uuid().v4(): newDevice.dID;
+    db.collection("users").doc(uID).collection("roomList").doc(newDevice.roomID).collection('DeviceList')
+    .doc(dID).set({
+      'deviceName': newDevice.dName,
+      'deviceImg': newDevice.dImg,
+      'deviceType': newDevice.dType,
     });
   }
 }

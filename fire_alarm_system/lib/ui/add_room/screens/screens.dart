@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_alarm_system/model/core/room_schema.dart';
+import 'package:fire_alarm_system/model/model_export.dart';
 import 'package:fire_alarm_system/theme.dart';
 import 'package:fire_alarm_system/ui/add_room/widgets/iconBtn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-export 'package:fire_alarm_system/model/model_export.dart';
 
 class AddRoom extends StatefulWidget {
   @override
@@ -15,8 +15,6 @@ class AddRoom extends StatefulWidget {
 class _AddRoomState extends State<AddRoom> {
   String roomImg = '';
   TextEditingController roomNameController = new TextEditingController();
-  var firebaseUser = FirebaseAuth.instance.currentUser;
-  final firestoreInstance = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +38,7 @@ class _AddRoomState extends State<AddRoom> {
                 style: TextStyle(fontSize: 18),
               ),
               onPressed: () {
-                var id = Uuid().v4();
-                firestoreInstance
-                    .collection("users")
-                    .doc(firebaseUser.uid)
-                    .collection("roomList")
-                    .doc(id)
-                    .set({
-                  "roomId": id,
-                  "imageId": roomImg,
-                  "roomName": roomNameController.text,
-                });
+                RoomService.createOrEditRoom(RoomInfo.db(null, null, this.roomImg, this.roomNameController.text));
 
                 Navigator.of(context, rootNavigator: false).pop(context);},
                 ),
