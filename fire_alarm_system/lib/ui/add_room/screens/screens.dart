@@ -1,6 +1,11 @@
-import 'package:fire_alarm_system/ui/iconBtn.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fire_alarm_system/model/core/room_schema.dart';
+import 'package:fire_alarm_system/theme.dart';
+import 'package:fire_alarm_system/ui/add_room/widgets/iconBtn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+export 'package:fire_alarm_system/model/model_export.dart';
 
 class AddRoom extends StatefulWidget {
   @override
@@ -8,6 +13,11 @@ class AddRoom extends StatefulWidget {
 }
 
 class _AddRoomState extends State<AddRoom> {
+  String roomImg = '';
+  TextEditingController roomNameController = new TextEditingController();
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+  final firestoreInstance = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,9 +25,10 @@ class _AddRoomState extends State<AddRoom> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0xff2A2A37),
-        leading: BackButton(
-          color: Colors.white,
-        ),
+        leading: MyBackButton(),
+        // BackButton(
+        //   color: Colors.white,
+        // ),
         title: Text(
           "Add Room",
         ),
@@ -28,7 +39,21 @@ class _AddRoomState extends State<AddRoom> {
                 "Save",
                 style: TextStyle(fontSize: 18),
               ),
-              onPressed: () {})
+              onPressed: () {
+                var id = Uuid().v4();
+                firestoreInstance
+                    .collection("users")
+                    .doc(firebaseUser.uid)
+                    .collection("roomList")
+                    .doc(id)
+                    .set({
+                  "roomId": id,
+                  "imageId": roomImg,
+                  "roomName": roomNameController.text,
+                });
+
+                Navigator.of(context, rootNavigator: false).pop(context);},
+                ),
         ],
       ),
       body: Column(
@@ -49,6 +74,7 @@ class _AddRoomState extends State<AddRoom> {
           Padding(
             padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: TextField(
+              controller: roomNameController,
               decoration: InputDecoration(
                   fillColor: Colors.white,
                   enabledBorder: OutlineInputBorder(
@@ -68,31 +94,71 @@ class _AddRoomState extends State<AddRoom> {
               crossAxisCount: 3,
               mainAxisSpacing: 18,
               children: <Widget>[
-                IconBtn(
+                GestureDetector(
+                  child: IconBtn(
                     iconURL: "assets/images/icons/kitchen.png",
-                    name: "Kitchen"),
+                    name: "Kitchen",
+                    onPressCallback: () {
+                      roomImg = "kitchen";
+                    },
+                  ),
+                ),
                 IconBtn(
-                    iconURL: "assets/images/icons/bedroom.png",
-                    name: "BedRoom"),
+                  iconURL: "assets/images/icons/bedroom.png",
+                  name: "BedRoom",
+                  onPressCallback: () {
+                    roomImg = "bedroom";
+                  },
+                ),
                 IconBtn(
-                    iconURL: "assets/images/icons/bathroom.png",
-                    name: "BathRoom"),
+                  iconURL: "assets/images/icons/bathroom.png",
+                  name: "BathRoom",
+                  onPressCallback: () {
+                    roomImg = "bathroom";
+                  },
+                ),
                 IconBtn(
-                    iconURL: "assets/images/icons/office.png",
-                    name: "Living Room"),
+                  iconURL: "assets/images/icons/office.png",
+                  name: "Office",
+                  onPressCallback: () {
+                    roomImg = "office";
+                  },
+                ),
                 IconBtn(
-                    iconURL: "assets/images/icons/tvroom.png", name: "BedRoom"),
+                  iconURL: "assets/images/icons/tvroom.png",
+                  name: "TV Room",
+                  onPressCallback: () {
+                    roomImg = "tvroom";
+                  },
+                ),
                 IconBtn(
-                    iconURL: "assets/images/icons/livingroom.png",
-                    name: "BathRoom"),
+                  iconURL: "assets/images/icons/livingroom.png",
+                  name: "Living Room",
+                  onPressCallback: () {
+                    roomImg = "livingroom";
+                  },
+                ),
                 IconBtn(
-                    iconURL: "assets/images/icons/garage.png",
-                    name: "Living Room"),
+                  iconURL: "assets/images/icons/garage.png",
+                  name: "Garage",
+                  onPressCallback: () {
+                    roomImg = "garage";
+                  },
+                ),
                 IconBtn(
-                    iconURL: "assets/images/icons/toilet.png", name: "BedRoom"),
+                  iconURL: "assets/images/icons/toilet.png",
+                  name: "Toilet",
+                  onPressCallback: () {
+                    roomImg = "toilet";
+                  },
+                ),
                 IconBtn(
-                    iconURL: "assets/images/icons/kidroom.png",
-                    name: "BathRoom"),
+                  iconURL: "assets/images/icons/kidroom.png",
+                  name: "Kidroom",
+                  onPressCallback: () {
+                    roomImg = "kidroom";
+                  },
+                ),
               ],
             ),
           ),

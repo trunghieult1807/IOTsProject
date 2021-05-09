@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class IconBtn extends StatefulWidget {
   final String iconURL;
   final String name;
+  var onPressCallback;
 
-  IconBtn({this.iconURL, this.name});
+  IconBtn({this.iconURL, this.name, this.onPressCallback});
 
   @override
   _IconBtnState createState() => _IconBtnState();
@@ -23,7 +24,7 @@ class _IconBtnState extends State<IconBtn> {
                 child: FloatingActionButton(
                   backgroundColor: Color(0xffF0F0F0),
                   foregroundColor: Color(0xFFAFAFAF),
-                  onPressed: () {},
+                  onPressed: () {widget.onPressCallback();},
                   child: SizedBox(
                       width: 60,
                       height: 60,

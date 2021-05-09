@@ -25,4 +25,10 @@ class Device{
     this.dImg = imgURL;
     this.dType = type;
   }
+  Device.db(String userID, String name, String imgURL, int type){
+    this.dID = userID;
+    this.dName = name;
+    this.dImg = imgURL;
+    this.dType = type;
+  }
 }

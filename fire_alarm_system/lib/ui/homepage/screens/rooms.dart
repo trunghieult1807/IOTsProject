@@ -16,41 +16,6 @@ class _RoomsState extends State<Rooms> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    List<Widget> cards = [
-      RoomsCard(
-        roomInfo: RoomInfo(
-          "0",
-          "1",
-          "livingroom",
-          "Living Room",
-          "30C",
-          "Normal",
-          "OK",
-        ),
-      ),
-      RoomsCard(
-        roomInfo: RoomInfo(
-          "1",
-          "2",
-          "bedroom",
-          "Bed Room",
-          "30C",
-          "Normal",
-          "OK",
-        ),
-      ),
-      RoomsCard(
-        roomInfo: RoomInfo(
-          "2",
-          "3",
-          "bathroom",
-          "Bath Room",
-          "30C",
-          "Normal",
-          "OK",
-        ),
-      ),
-    ];
     return Scaffold(
       backgroundColor: LightThemeColors.primary,
       body: Padding(
