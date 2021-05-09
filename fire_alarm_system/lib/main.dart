@@ -20,10 +20,14 @@ import 'package:provider/provider.dart';
 
 import 'package:fire_alarm_system/config.dart' as CONFIG;
 import 'package:fire_alarm_system/MQTTclient/server.dart' as mqttsetup;
-import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:fire_alarm_system/model/model_export.dart';
 
 bool gasthresholdReach = false;
-bool tempthresholdReach =false;
+bool tempthresholdReach = false;
+int fireThreshold = 0;
+int warningThreshold = 0;
+var warningDataStream;
+
 
 void checkForFire(){
   if (gasthresholdReach && tempthresholdReach){
@@ -57,6 +61,14 @@ void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  warningDataStream = Stream.periodic(Duration(seconds: 1), (_) {
+    print("a");
+    return UserService.getWarningThreshold();
+  });
+  // warningDataStream = Stream.fromFuture(UserService.getWarningThreshold());
+  warningDataStream.updates.listen((event) {
+    print("event $event");
+  });
 
   CONFIG.Config.gasSensorClient = await mqttsetup.setup('io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
   CONFIG.Config.tempSensorClient = await mqttsetup.setup('io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);

@@ -12,7 +12,7 @@ class UserService{
 
   static void setFireThreshold(int newThreshold){
     String uid = FirebaseAuth.instance.currentUser.uid;
-    db.collection('users').doc(uid).set({'fireThreshold': newThreshold});
+    db.collection('users').doc(uid).update({'fireThreshold': newThreshold});
   }
 
   static Future<int> getWarningThreshold() async{
@@ -22,7 +22,7 @@ class UserService{
 
   static void setWarningThreshold(int newThreshold){
     String uid = FirebaseAuth.instance.currentUser.uid;
-    db.collection('users').doc(uid).set({'warningThreshold': newThreshold});
+    db.collection('users').doc(uid).update({'warningThreshold': newThreshold});
   }
 
 }
