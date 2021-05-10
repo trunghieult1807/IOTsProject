@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
-Future<MqttServerClient> setup(String serverAddress, int port, String username, String apikey) async {
+Future<MqttServerClient> setup(
+    String serverAddress, int port, String username, String apikey) async {
   // connection succeeded
   void onConnected() {
     print('Connected');
@@ -34,8 +35,7 @@ Future<MqttServerClient> setup(String serverAddress, int port, String username, 
     print('Ping response client callback invoked');
   }
 
-  MqttServerClient client =
-      MqttServerClient.withPort(serverAddress, '', port);
+  MqttServerClient client = MqttServerClient.withPort(serverAddress, '', port);
   client.logging(on: false);
   client.keepAlivePeriod = 20;
   client.onConnected = onConnected;
@@ -63,7 +63,8 @@ Future<MqttServerClient> setup(String serverAddress, int port, String username, 
 
   client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
     final MqttPublishMessage message = c[0].payload;
-    final payload = MqttPublishPayload.bytesToStringAsString(message.payload.message);
+    final payload =
+        MqttPublishPayload.bytesToStringAsString(message.payload.message);
     print('Received message:$payload from topic: ${c[0].topic}>');
     //var msg = message.header.toString() + message.payload.toString();
     //print('Received message:$msg from topic: ${c[0].topic}>');
@@ -71,10 +72,3 @@ Future<MqttServerClient> setup(String serverAddress, int port, String username, 
 
   return client;
 }
-
-
-
-
-
-
-

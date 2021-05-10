@@ -10,6 +10,7 @@ import 'package:fire_alarm_system/ui/add_devices/screens/screens.dart';
 import 'package:fire_alarm_system/ui/add_room/screens/screens.dart';
 import 'package:fire_alarm_system/ui/homepage/nested_tab_bar.dart';
 import 'package:fire_alarm_system/controllers/wrapper.dart';
+import 'package:fire_alarm_system/ui/report/screens/report.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fire_alarm_system/ui/roomview/screens/roomview.dart';
 import 'package:flutter/material.dart';
@@ -23,21 +24,26 @@ import 'package:fire_alarm_system/MQTTclient/server.dart' as mqttsetup;
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 bool gasthresholdReach = false;
-bool tempthresholdReach =false;
+bool tempthresholdReach = false;
 
-void checkForFire(){
+void checkForFire() {
   print("HI3");
-  if (gasthresholdReach && tempthresholdReach){
+  if (gasthresholdReach && tempthresholdReach) {
     print("HI4");
     final builder2 = MqttClientPayloadBuilder();
-    builder2.addString('{"id":"3", "name":"SPEAKER", "data":"1023", "unit":""}');
-    CONFIG.Config.buzzerClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce, builder2.payload);
+    builder2
+        .addString('{"id":"3", "name":"SPEAKER", "data":"1023", "unit":""}');
+    CONFIG.Config.buzzerClient.publishMessage(
+        CONFIG.Config.username + '/feeds/bk-iot-speaker',
+        MqttQos.atLeastOnce,
+        builder2.payload);
   }
 }
 
 void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
-  final payload = MqttPublishPayload.bytesToStringAsString(message.payload.message);
+  final payload =
+      MqttPublishPayload.bytesToStringAsString(message.payload.message);
   //print('Received message:$payload from topic: ${c[0].topic}>');
   var json = jsonDecode(payload);
   //YPUR CODE HERE
@@ -47,9 +53,11 @@ void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
     checkForFire();
   }
 }
+
 void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
-  final payload = MqttPublishPayload.bytesToStringAsString(message.payload.message);
+  final payload =
+      MqttPublishPayload.bytesToStringAsString(message.payload.message);
   //print('Received message:$payload from topic: ${c[0].topic}>');
   var json = jsonDecode(payload);
   //YPUR CODE HERE
@@ -64,17 +72,27 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  CONFIG.Config.gasSensorClient = await mqttsetup.setup('io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
-  CONFIG.Config.tempSensorClient = await mqttsetup.setup('io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
-  CONFIG.Config.ledClient = await mqttsetup.setup('io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
-  CONFIG.Config.buzzerClient = await mqttsetup.setup('io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
-  CONFIG.Config.relayClient = await mqttsetup.setup('io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
+  CONFIG.Config.gasSensorClient = await mqttsetup.setup(
+      'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
+  CONFIG.Config.tempSensorClient = await mqttsetup.setup(
+      'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
+  CONFIG.Config.ledClient = await mqttsetup.setup(
+      'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
+  CONFIG.Config.buzzerClient = await mqttsetup.setup(
+      'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
+  CONFIG.Config.relayClient = await mqttsetup.setup(
+      'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
 
-  CONFIG.Config.gasSensorClient.subscribe(CONFIG.Config.username + '/feeds/bk-iot-gas', MqttQos.atLeastOnce);
-  CONFIG.Config.tempSensorClient.subscribe(CONFIG.Config.username + '/feeds/bk-iot-temp-humid', MqttQos.atLeastOnce);
-  CONFIG.Config.ledClient.subscribe(CONFIG.Config.username + '/feeds/bk-iot-led', MqttQos.atLeastOnce);
-  CONFIG.Config.buzzerClient.subscribe(CONFIG.Config.username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce);
-  CONFIG.Config.relayClient.subscribe(CONFIG.Config.username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce);
+  CONFIG.Config.gasSensorClient.subscribe(
+      CONFIG.Config.username + '/feeds/bk-iot-gas', MqttQos.atLeastOnce);
+  CONFIG.Config.tempSensorClient.subscribe(
+      CONFIG.Config.username + '/feeds/bk-iot-temp-humid', MqttQos.atLeastOnce);
+  CONFIG.Config.ledClient.subscribe(
+      CONFIG.Config.username + '/feeds/bk-iot-led', MqttQos.atLeastOnce);
+  CONFIG.Config.buzzerClient.subscribe(
+      CONFIG.Config.username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce);
+  CONFIG.Config.relayClient.subscribe(
+      CONFIG.Config.username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce);
 
   CONFIG.Config.tempSensorClient.updates.listen(checkTempThreshold);
   CONFIG.Config.gasSensorClient.updates.listen(checkGasThreshold);
@@ -104,7 +122,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fire Alarm System',
-        home: Splash(),
+        home: Report(),
         routes: {
           'splash': (context) => Splash(),
           'onboarding': (context) => IntroScreen(),
@@ -117,6 +135,7 @@ class MyApp extends StatelessWidget {
           'addRoomView': (context) => AddRoom(),
           'addDeviceView': (context) => AddDevice(),
           'editThreshold': (context) => EditThreshold(),
+          'report': (context) => Report(),
         },
       ),
     );

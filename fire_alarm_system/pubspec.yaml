@@ -20,7 +20,11 @@ dependencies:
   animations: ^2.0.0
   charcode: ^1.2.0
 
+  # package to draw chart
   syncfusion_flutter_gauges: ^19.1.59
+  syncfusion_flutter_charts: ^19.1.59
+  linear_gradient: ^0.1.12
+  intl: ^0.17.0
 
   provider: ^5.0.0
   animated_bottom_navigation_bar: ^0.3.2
