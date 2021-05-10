@@ -68,14 +68,6 @@ void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  warningDataStream = UserService.getFireThresholdStream();
-  warningDataStream.listen((event) {
-    warningThreshold = event;
-  });
-  fireDataStream = UserService.getFireThresholdStream();
-  fireDataStream.listen((event) {
-    fireThreshold = event;
-  });
 
   CONFIG.Config.gasSensorClient = await mqttsetup.setup(
       'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
@@ -123,7 +115,7 @@ class MyApp extends StatelessWidget {
           'home': (context) => NestedTabBar(),
           'wrapper': (context) => Wrapper(),
           'navbar': (context) => NavigationBarController(),
-          'login': (context) => LoginPage(),
+          'login': (context) => LoginPage(onLoginSuccessCallback: onLoginCallbackToMain),
           'register': (context) => RegisterPage(),
           'roomview': (context) => RoomView(),
           'addRoomView': (context) => AddRoom(),
@@ -133,4 +125,15 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+onLoginCallbackToMain(){
+  warningDataStream = UserService.getFireThresholdStream();
+  warningDataStream.listen((event) {
+    warningThreshold = event;
+  });
+  fireDataStream = UserService.getFireThresholdStream();
+  fireDataStream.listen((event) {
+    fireThreshold = event;
+  });
 }

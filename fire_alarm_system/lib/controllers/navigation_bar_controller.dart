@@ -23,6 +23,7 @@ class _NavigationBarControllerState extends State<NavigationBarController> {
     Icons.notifications,
     Icons.bar_chart,
     Icons.person,
+    Icons.home,
   ];
 
   @override
@@ -37,6 +38,7 @@ class _NavigationBarControllerState extends State<NavigationBarController> {
       RoomView(),
       EditThreshold(),
       SignoutScreen(),
+      NestedTabBar(),//thay trang moi vao cho nay, dung them moi vao vi navBar chi cho max 5 icon thoi
     ];
   }
   @override
