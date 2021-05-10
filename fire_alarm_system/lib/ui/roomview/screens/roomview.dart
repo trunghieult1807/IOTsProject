@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 
 import 'package:fire_alarm_system/ui/roomview/models/device_info.dart';
 import 'package:fire_alarm_system/ui/roomview/widgets/circular_indicator.dart';
@@ -8,9 +8,13 @@ import 'package:fire_alarm_system/ui/roomview/widgets/switch_button.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
+//IMPORT THESE FOR USING MQTT CLIENT
+import 'dart:async';
+import 'dart:convert';
 import 'package:fire_alarm_system/config.dart' as CONFIG;
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+//END IMPORT THESE FOR USING MQTT CLIENT
 
 enum DeviceType { tempSensor, gasSensor, pump, led, buzzer }
 
@@ -178,6 +182,7 @@ class _RoomViewState extends State<RoomView> {
     CONFIG.Config.buzzerClient.updates.listen(updateBuzzerText);
   }
 
+  StreamSubscription temperatureClientStreamEvent;
   String roomName = '';
   String situation = 'OK';
   bool _autofire = true;

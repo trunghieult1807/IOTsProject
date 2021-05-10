@@ -3,19 +3,21 @@ import 'package:fire_alarm_system/model/core/room_schema.dart';
 import 'package:fire_alarm_system/ui/homepage/utils/utils.dart';
 import 'package:flutter/material.dart';
 
-class RoomsCard extends StatefulWidget {
-  final RoomInfo roomInfo;
+import 'package:fire_alarm_system/model/core/device_schema.dart';
 
-  RoomsCard({
+class DeviceWidgetCard extends StatefulWidget {
+  final Device deviceSchema;
+
+  DeviceWidgetCard({
     Key key,
-    @required this.roomInfo,
+    @required this.deviceSchema,
   }) : super(key: key);
 
   @override
-  _RoomsCardState createState() => _RoomsCardState();
+  _DeviceWidgetCardState createState() => _DeviceWidgetCardState();
 }
 
-class _RoomsCardState extends State<RoomsCard> {
+class _DeviceWidgetCardState extends State<DeviceWidgetCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,11 +38,11 @@ class _RoomsCardState extends State<RoomsCard> {
                 child: Container(
                   height: 80,
                   width: 80,
-                  child: getImageFromId(widget.roomInfo.imageId),
+                  child: getImageFromId(widget.deviceSchema.dImg),
                 ),
               ),
               Text(
-                widget.roomInfo.roomName,
+                widget.deviceSchema.dName,
                 maxLines: 1,
                 style: TextStyle(color: Colors.white),
               )

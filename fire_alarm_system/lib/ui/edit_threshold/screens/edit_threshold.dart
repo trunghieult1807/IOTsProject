@@ -1,5 +1,6 @@
 import 'package:fire_alarm_system/ui/edit_threshold/widgets/temp_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:fire_alarm_system/model/model_export.dart';
 
 class EditThreshold extends StatefulWidget {
   // This widget is the home page of your application. It is stateful, meaning
@@ -16,24 +17,39 @@ class EditThreshold extends StatefulWidget {
 }
 
 class _EditThresholdState extends State<EditThreshold> {
-  int cur_risk = 90;
-  int cur_actual = 100;
+  int curRisk = 0;
+  int curActual = 0;
+  
 
+  
+  _EditThresholdState() {
+    UserService.getFireThreshold().then((value) {
+      setState(() {
+        curActual = value;
+      });
+    });
+    UserService.getWarningThreshold().then((value) {
+      setState(() {
+        curRisk = value;
+      });
+    });
+  }
+  
   void handleClick(bool isIncrease, bool isRisk) {
     if (isIncrease) {
       setState(() {
         if (isRisk) {
-          cur_risk += 1;
+          curRisk += 1;
         } else {
-          cur_actual += 1;
+          curActual += 1;
         }
       });
     } else {
       setState(() {
         if (isRisk) {
-          cur_risk -= 1;
+          curRisk -= 1;
         } else {
-          cur_actual -= 1;
+          curActual -= 1;
         }
       });
     }
@@ -43,26 +59,27 @@ class _EditThresholdState extends State<EditThreshold> {
     if (isIncrease) {
       setState(() {
         if (isRisk) {
-          cur_risk += 5;
+          curRisk += 5;
         } else {
-          cur_actual += 5;
+          curActual += 5;
         }
       });
     } else {
       setState(() {
         if (isRisk) {
-          cur_risk -= 5;
+          curRisk -= 5;
         } else {
-          cur_actual -= 5;
+          curActual -= 5;
         }
       });
     }
   }
 
   void handleSave() {
-    print("set risk threshold to: $cur_risk");
-    print("set actual fire threshold to: $cur_actual");
+    UserService.setFireThreshold(curActual);
+    UserService.setWarningThreshold(curRisk);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +109,7 @@ class _EditThresholdState extends State<EditThreshold> {
                       ),
                       Expanded(
                           child: TempBar(
-                              currValue: cur_risk, title: 'Risk of fire'),
+                              currValue: curRisk, title: 'Risk of fire'),
                           flex: 4),
                       Expanded(
                           child: ElevatedButton(
@@ -121,7 +138,7 @@ class _EditThresholdState extends State<EditThreshold> {
                         ),
                         Expanded(
                             child: TempBar(
-                                currValue: cur_actual, title: 'Actual fire'),
+                                currValue: curActual, title: 'Actual fire'),
                             flex: 4),
                         Expanded(
                             child: ElevatedButton(

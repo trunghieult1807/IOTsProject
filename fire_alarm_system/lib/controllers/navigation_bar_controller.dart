@@ -1,5 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:fire_alarm_system/theme.dart';
+import 'package:fire_alarm_system/ui/edit_threshold/screens/edit_threshold.dart';
 import 'package:fire_alarm_system/ui/homepage/nested_tab_bar.dart';
 import 'package:fire_alarm_system/ui/roomview/screens/roomview.dart';
 import 'package:flutter/foundation.dart';
@@ -33,7 +34,7 @@ class _NavigationBarControllerState extends State<NavigationBarController> {
     return [
       NestedTabBar(),
       RoomView(),
-      SizedBox(),
+      EditThreshold(),
       SizedBox(),
     ];
   }

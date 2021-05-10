@@ -20,15 +20,17 @@ import 'package:provider/provider.dart';
 
 import 'package:fire_alarm_system/config.dart' as CONFIG;
 import 'package:fire_alarm_system/MQTTclient/server.dart' as mqttsetup;
-import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:fire_alarm_system/model/model_export.dart';
 
-bool gasthresholdReach = false;
+bool gasthresholdReach = true;
 bool tempthresholdReach = false;
+int fireThreshold = 0;
+var warningThreshold = 0;
+Stream<int> warningDataStream;
+Stream<int> fireDataStream;
 
 void checkForFire() {
-  print("HI3");
   if (gasthresholdReach && tempthresholdReach) {
-    print("HI4");
     final builder2 = MqttClientPayloadBuilder();
     builder2
         .addString('{"id":"3", "name":"SPEAKER", "data":"1023", "unit":""}');
@@ -43,11 +45,9 @@ void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
   final payload =
       MqttPublishPayload.bytesToStringAsString(message.payload.message);
-  //print('Received message:$payload from topic: ${c[0].topic}>');
   var json = jsonDecode(payload);
   //YOUR CODE HERE
-  print("HI");
-  if (int.parse(json['data']) > 200) {
+  if (int.parse(json['data']) > fireThreshold) {
     tempthresholdReach = true;
     checkForFire();
   }
@@ -57,19 +57,19 @@ void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
   final payload =
       MqttPublishPayload.bytesToStringAsString(message.payload.message);
-  //print('Received message:$payload from topic: ${c[0].topic}>');
   var json = jsonDecode(payload);
   //YOUR CODE HERE
-  print("HI2");
-  if (int.parse(json['data']) == 1) {
-    gasthresholdReach = true;
-    checkForFire();
-  }
-}
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  warningDataStream = UserService.getFireThresholdStream();
+  warningDataStream.listen((event) {
+    warningThreshold = event;
+  });
+  fireDataStream = UserService.getFireThresholdStream();
+  fireDataStream.listen((event) {
+    fireThreshold = event;
+  });
 
   CONFIG.Config.gasSensorClient = await mqttsetup.setup(
       'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
@@ -95,17 +95,6 @@ void main() async {
 
   CONFIG.Config.tempSensorClient.updates.listen(checkTempThreshold);
   CONFIG.Config.gasSensorClient.updates.listen(checkGasThreshold);
-  // final builder1 = MqttClientPayloadBuilder();
-  // builder1.addString('TEST LED PUBLISH');
-  // G_ledClient.publishMessage(G_username + '/feeds/bk-iot-led', MqttQos.atLeastOnce, builder1.payload);
-  //
-  // final builder2 = MqttClientPayloadBuilder();
-  // builder2.addString('TEST BUZZER PUBLISH');
-  // G_buzzerClient.publishMessage(G_username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce, builder2.payload);
-  //
-  // final builder3 = MqttClientPayloadBuilder();
-  // builder3.addString('TEST PUMP PUBLISH');
-  // G_relayClient.publishMessage(G_username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce, builder3.payload);
 
   runApp(MyApp());
 }
