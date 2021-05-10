@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 class CircularIndicator extends StatefulWidget {
-  final double initialVal;
+  final double value;
 
   CircularIndicator({
     Key key,
-    @required this.initialVal,
+    @required this.value,
   }) : super(key: key);
 
   @override
@@ -16,16 +16,19 @@ class CircularIndicator extends StatefulWidget {
 class _CircularIndicatorState extends State<CircularIndicator> {
   @override
   Widget build(BuildContext context) {
+    double idicator_value = widget.value;
+    if (widget.value > 100) {
+      idicator_value = 100;
+    }
     final Size size = MediaQuery.of(context).size;
     return SleekCircularSlider(
-      initialValue: widget.initialVal,
+      initialValue: idicator_value,
       appearance: CircularSliderAppearance(
-
-        size: size.width - 150,
-      ),
-      onChangeEnd: (double value) {
-        print(value);
-      },
+          size: size.width - 150,
+          infoProperties: InfoProperties(modifier: (value) {
+            final roundedValue = (widget.value).ceil().toInt().toString();
+            return roundedValue + "°C";
+          })),
     );
   }
 }

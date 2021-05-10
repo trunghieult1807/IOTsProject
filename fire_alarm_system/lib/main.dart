@@ -56,7 +56,7 @@ void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
 void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
   final payload =
-      MqttPublishPayload.bytesToStringAsString(message.payload.message);
+  MqttPublishPayload.bytesToStringAsString(message.payload.message);
   var json = jsonDecode(payload);
   //YOUR CODE HERE
   if (int.parse(json['data']) == 1) {
@@ -108,7 +108,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fire Alarm System',
-        home: Splash(),
+        home: RoomView(),
         routes: {
           'splash': (context) => Splash(),
           'onboarding': (context) => IntroScreen(),
