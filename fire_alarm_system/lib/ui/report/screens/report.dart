@@ -13,15 +13,22 @@ class _ReportState extends State<Report> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.black54,
-        title: Text("Report"),
+        backgroundColor: Colors.black87,
+        title: Text("Report",
+            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 30)),
       ),
-      body: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            children: <Widget>[Chart(), Summary()],
+      body: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: [Colors.black87, Colors.white],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           )),
-      backgroundColor: Colors.brown,
+          child: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Column(
+                children: <Widget>[Chart(), Summary()],
+              ))),
     );
   }
 }

@@ -119,7 +119,7 @@ class _SummaryState extends State<Summary> {
                           TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
                   Icon(Icons.warning_amber_outlined,
                       size: 30,
-                      color: (gas == 1) ? Colors.redAccent : Colors.greenAccent)
+                      color: (gas == 1) ? Colors.redAccent : Colors.black54)
                 ],
               ),
             ],

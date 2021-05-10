@@ -23,13 +23,6 @@ import 'package:fire_alarm_system/config.dart' as CONFIG;
 import 'package:fire_alarm_system/MQTTclient/server.dart' as mqttsetup;
 import 'package:fire_alarm_system/model/model_export.dart';
 
-bool gasthresholdReach = false;
-bool tempthresholdReach = false;
-
-void checkForFire() {
-  print("HI3");
-  if (gasthresholdReach && tempthresholdReach) {
-    print("HI4");
 bool gasthresholdReach = true;
 bool tempthresholdReach = false;
 int fireThreshold = 0;
@@ -39,7 +32,6 @@ Stream<int> fireDataStream;
 
 void checkForFire() {
   if (gasthresholdReach && tempthresholdReach) {
-
     final builder2 = MqttClientPayloadBuilder();
     builder2
         .addString('{"id":"3", "name":"SPEAKER", "data":"1023", "unit":""}');
@@ -54,9 +46,6 @@ void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
   final payload =
       MqttPublishPayload.bytesToStringAsString(message.payload.message);
-
-  //print('Received message:$payload from topic: ${c[0].topic}>');
-
   var json = jsonDecode(payload);
   //YOUR CODE HERE
   if (int.parse(json['data']) > fireThreshold) {
@@ -68,7 +57,7 @@ void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
 void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
   final payload =
-  MqttPublishPayload.bytesToStringAsString(message.payload.message);
+      MqttPublishPayload.bytesToStringAsString(message.payload.message);
   var json = jsonDecode(payload);
   //YOUR CODE HERE
   if (int.parse(json['data']) == 1) {
@@ -120,14 +109,15 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fire Alarm System',
-        home: RoomView(),
+        home: Report(),
         routes: {
           'splash': (context) => Splash(),
           'onboarding': (context) => IntroScreen(),
           'home': (context) => NestedTabBar(),
           'wrapper': (context) => Wrapper(),
           'navbar': (context) => NavigationBarController(),
-          'login': (context) => LoginPage(onLoginSuccessCallback: onLoginCallbackToMain),
+          'login': (context) =>
+              LoginPage(onLoginSuccessCallback: onLoginCallbackToMain),
           'register': (context) => RegisterPage(),
           'roomview': (context) => RoomView(),
           'addRoomView': (context) => AddRoom(),
@@ -140,7 +130,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-onLoginCallbackToMain(){
+onLoginCallbackToMain() {
   warningDataStream = UserService.getFireThresholdStream();
   warningDataStream.listen((event) {
     warningThreshold = event;

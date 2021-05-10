@@ -71,8 +71,13 @@ class _ChartState extends State<Chart> {
   //Loading counter value on start
   _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var initString =
+        "[[\"2021-05-10 09:14:55.429800\", 35], [\"2021-05-10 09:14:58.407250\", 36], [\"2021-05-10 09:15:00.925448\", 35], [\"2021-05-10 09:15:02.827349\", 36], [\"2021-05-10 09:15:05.570285\", 37], [\"2021-05-10 09:15:08.020876\", 36], [\"2021-05-10 09:15:09.936717\", 35], [\"2021-05-10 09:15:11.718249\", 36], [\"2021-05-10 09:15:14.489728\", 36], [\"2021-05-10 09:15:16.821363\", 36], [\"2021-05-10 09:15:18.824252\", 36], [\"2021-05-10 09:15:21.042974\", 36], [\"2021-05-10 09:15:24.912226\", 36], [\"2021-05-10 09:15:27.787085\", 36]]";
 
-    var dataString = jsonDecode((prefs.getString('tempData') ?? "[]"));
+    var dataString = jsonDecode((prefs.getString('tempData') ?? initString));
+    if (dataString.length == 0) {
+      dataString = jsonDecode(initString);
+    }
     setState(() {
       var data;
       List<_ChartData> tempData = [];
