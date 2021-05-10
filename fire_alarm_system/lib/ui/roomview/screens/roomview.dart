@@ -16,8 +16,7 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 //END IMPORT THESE FOR USING MQTT CLIENT
 
-enum DeviceType { tempSensor, gasSensor, pump, circuitRelay }
-
+enum DeviceType { tempSensor, gasSensor, pump, led, buzzer }
 
 class DeviceStatus {
   //might not be a good class in 'flutter way', but I'm only familiar with this C++ class style, fix it to be more 'flutter' if you wish
@@ -32,14 +31,15 @@ class DeviceStatus {
   }
 }
 
-
-
 class RoomView extends StatefulWidget {
   @override
   _RoomViewState createState() =>
       _RoomViewState(roomName: "Kitchen", deviceStatusList: [
-        DeviceStatus("Stove Temperature Sensor", "37C", DeviceType.tempSensor),
-        DeviceStatus("The Pump", "ready", DeviceType.pump)
+        DeviceStatus("Stove Temperature Sensor", "37", DeviceType.tempSensor),
+        DeviceStatus("Gas Sensor", "normal", DeviceType.gasSensor),
+        DeviceStatus("The Pump", "closed", DeviceType.pump),
+        DeviceStatus("The LED", "closed", DeviceType.led),
+        DeviceStatus("The Buzzer", "closed", DeviceType.buzzer),
       ]);
 }
 
@@ -49,26 +49,137 @@ class _RoomViewState extends State<RoomView> {
     final MqttPublishMessage message = c[0].payload;
     final payload =
         MqttPublishPayload.bytesToStringAsString(message.payload.message);
-    //print('Received message:$payload from topic: ${c[0].topic}>');
+    // print('Received message:$payload from topic: ${c[0].topic}>');
     var json = jsonDecode(payload);
 
     //YPUR CODE HERE
     print(json['data']);
     setState(() {
       for (var d in this.deviceStatusList) {
-        if (d.type == DeviceType.tempSensor) d.status = json['data'] + 'C';
+        if (d.type == DeviceType.tempSensor) d.status = json['data'];
       }
     });
   }
+
+  void updateGasText(List<MqttReceivedMessage<MqttMessage>> c) {
+    final MqttPublishMessage message = c[0].payload;
+    final payload =
+        MqttPublishPayload.bytesToStringAsString(message.payload.message);
+    // print('Received message:$payload from topic: ${c[0].topic}>');
+    var json = jsonDecode(payload);
+
+    //YOUR CODE HERE
+    print(json['data']);
+    setState(() {
+      for (var d in this.deviceStatusList) {
+        if (d.type == DeviceType.gasSensor && int.parse(json['data']) == 1) {
+          d.status = "Heavy smoke";
+        } else if (d.type == DeviceType.gasSensor &&
+            int.parse(json['data']) == 0) {
+          d.status = "normal";
+        }
+      }
+    });
+  }
+
+  void updateRelayText(List<MqttReceivedMessage<MqttMessage>> c) {
+    final MqttPublishMessage message = c[0].payload;
+    final payload =
+        MqttPublishPayload.bytesToStringAsString(message.payload.message);
+    print('****Received message:$payload from topic: ${c[0].topic}>');
+    var json = jsonDecode(payload);
+
+    //YPUR CODE HERE
+    print(json['data']);
+    setState(() {
+      for (var d in this.deviceStatusList) {
+        if (d.type == DeviceType.pump && int.parse(json['data']) == 1) {
+          d.status = "opened";
+        } else if (d.type == DeviceType.pump && int.parse(json['data']) == 0) {
+          d.status = "closed";
+        }
+      }
+    });
+  }
+
+  void updateLedText(List<MqttReceivedMessage<MqttMessage>> c) {
+    final MqttPublishMessage message = c[0].payload;
+    final payload =
+        MqttPublishPayload.bytesToStringAsString(message.payload.message);
+    print('****Received message:$payload from topic: ${c[0].topic}>');
+    var json = jsonDecode(payload);
+
+    //YPUR CODE HERE
+    print(json['data']);
+    setState(() {
+      for (var d in this.deviceStatusList) {
+        if (d.type == DeviceType.led &&
+            (int.parse(json['data']) == 1 || int.parse(json['data']) == 2)) {
+          d.status = "opened";
+        } else if (d.type == DeviceType.led && int.parse(json['data']) == 0) {
+          d.status = "closed";
+        }
+      }
+    });
+  }
+
+  void updateBuzzerText(List<MqttReceivedMessage<MqttMessage>> c) {
+    final MqttPublishMessage message = c[0].payload;
+    final payload =
+        MqttPublishPayload.bytesToStringAsString(message.payload.message);
+    print('****Received message:$payload from topic: ${c[0].topic}>');
+    var json = jsonDecode(payload);
+
+    //YPUR CODE HERE
+    print(json['data']);
+    setState(() {
+      for (var d in this.deviceStatusList) {
+        if (d.type == DeviceType.buzzer && int.parse(json['data']) > 0) {
+          d.status = "opened";
+        } else if (d.type == DeviceType.buzzer &&
+            int.parse(json['data']) == 0) {
+          d.status = "closed";
+        }
+      }
+    });
+  }
+
+  bool checkSituation() {
+    int statusTemp;
+    bool haveGas = false;
+    for (var d in this.deviceStatusList) {
+      if (d.type == DeviceType.tempSensor) {
+        statusTemp = int.parse(d.status);
+      }
+      if (d.type == DeviceType.gasSensor) {
+        if (d.status == "Heavy smoke") {
+          haveGas = true;
+        }
+      }
+    }
+    if (statusTemp >= 100 && haveGas) {
+      return false;
+    } else if (statusTemp < 100 && !haveGas) {
+      return true;
+    }
+    return true;
+  }
+
   /*END CALL BACK Function */
 
-
-  _RoomViewState({Key key, String roomName = "roomview", List<DeviceStatus> deviceStatusList}): super() {
+  _RoomViewState(
+      {Key key,
+      String roomName = "roomview",
+      List<DeviceStatus> deviceStatusList})
+      : super() {
     this.roomName = roomName;
     this.deviceStatusList = deviceStatusList;
 
-    temperatureClientStreamEvent = CONFIG.Config.tempSensorClient.updates.listen(updateTemperatureText);
-    //temperatureClientStreamEvent.cancel();//USE this to cancel the listener if you need
+    CONFIG.Config.tempSensorClient.updates.listen(updateTemperatureText);
+    CONFIG.Config.gasSensorClient.updates.listen(updateGasText);
+    CONFIG.Config.relayClient.updates.listen(updateRelayText);
+    CONFIG.Config.ledClient.updates.listen(updateLedText);
+    CONFIG.Config.buzzerClient.updates.listen(updateBuzzerText);
   }
 
   StreamSubscription temperatureClientStreamEvent;
@@ -79,8 +190,18 @@ class _RoomViewState extends State<RoomView> {
 
   @override
   Widget build(BuildContext context) {
+    bool situationIsOk = checkSituation();
+    if (situationIsOk) {
+      situation = 'OK';
+    } else {
+      situation = 'ON FIRE!!!';
+    }
     return Scaffold(
+      backgroundColor: situationIsOk ? Colors.white : Color(0xffFF9393),
       appBar: AppBar(
+        leading: BackButton(),
+        backgroundColor: Color(0xff2A2A37),
+        centerTitle: true,
         title: Text(this.roomName),
         actions: <Widget>[
           IconButton(
@@ -104,27 +225,43 @@ class _RoomViewState extends State<RoomView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Situation: " + this.situation),
+                Text(
+                  "Situation: " + this.situation,
+                  style: TextStyle(fontSize: 20),
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text("Auto fire control"),
+                    SizedBox(height: 5),
                     SwitchButton(),
                   ],
                 ),
               ],
             ),
             SizedBox(
-              height: 30,
-            ),
-            CircularIndicator(initialVal: 30),
-            SizedBox(
-              height: 30,
+              height: 25,
             ),
             for (var d in this.deviceStatusList)
-              Text(d.deviceName + ": " + d.status),
+              if (d.type == DeviceType.tempSensor)
+                CircularIndicator(
+                  value: double.parse(d.status),
+                ),
             SizedBox(
-              height: 80,
+              height: 5,
+            ),
+            for (var d in this.deviceStatusList)
+              if (d.type == DeviceType.tempSensor)
+                Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                    child: Text(d.deviceName + ": " + d.status + '°C')),
+            for (var d in this.deviceStatusList)
+              if (d.type != DeviceType.tempSensor)
+                Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                    child: Text(d.deviceName + ": " + d.status)),
+            SizedBox(
+              height: 40,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -136,25 +273,38 @@ class _RoomViewState extends State<RoomView> {
                     ),
                     "Pump water",
                   ),
+                  situtionState: situationIsOk,
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 20,
                 ),
                 DeviceButton(
                   deviceInfo: DeviceInfo(
                     Image(
-                      image:
-                          AssetImage('assets/images/icons/breakerButton.png'),
+                      image: AssetImage('assets/images/icons/led.png'),
                     ),
-                    "Break circuit",
+                    "LED",
                   ),
+                  situtionState: situationIsOk,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                DeviceButton(
+                  deviceInfo: DeviceInfo(
+                    Image(
+                      image: AssetImage('assets/images/icons/buzzer.png'),
+                    ),
+                    "Buzzer",
+                  ),
+                  situtionState: situationIsOk,
                 ),
               ],
             ),
-            //SizedBox(
-            //  height: 50,
-            //),
-            //PowerButton(),
+            SizedBox(
+              height: 35,
+            ),
+            PowerButton(),
           ],
         ),
       ),

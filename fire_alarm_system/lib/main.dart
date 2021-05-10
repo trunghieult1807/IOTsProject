@@ -68,8 +68,7 @@ void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
 void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
   final payload =
-      MqttPublishPayload.bytesToStringAsString(message.payload.message);
-  //print('Received message:$payload from topic: ${c[0].topic}>');
+  MqttPublishPayload.bytesToStringAsString(message.payload.message);
   var json = jsonDecode(payload);
   //YOUR CODE HERE
   if (int.parse(json['data']) == 1) {
@@ -81,14 +80,6 @@ void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  warningDataStream = UserService.getFireThresholdStream();
-  warningDataStream.listen((event) {
-    warningThreshold = event;
-  });
-  fireDataStream = UserService.getFireThresholdStream();
-  fireDataStream.listen((event) {
-    fireThreshold = event;
-  });
 
   CONFIG.Config.gasSensorClient = await mqttsetup.setup(
       'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
@@ -129,14 +120,14 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fire Alarm System',
-        home: Report(),
+        home: RoomView(),
         routes: {
           'splash': (context) => Splash(),
           'onboarding': (context) => IntroScreen(),
           'home': (context) => NestedTabBar(),
           'wrapper': (context) => Wrapper(),
           'navbar': (context) => NavigationBarController(),
-          'login': (context) => LoginPage(),
+          'login': (context) => LoginPage(onLoginSuccessCallback: onLoginCallbackToMain),
           'register': (context) => RegisterPage(),
           'roomview': (context) => RoomView(),
           'addRoomView': (context) => AddRoom(),
@@ -147,4 +138,15 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+onLoginCallbackToMain(){
+  warningDataStream = UserService.getFireThresholdStream();
+  warningDataStream.listen((event) {
+    warningThreshold = event;
+  });
+  fireDataStream = UserService.getFireThresholdStream();
+  fireDataStream.listen((event) {
+    fireThreshold = event;
+  });
 }

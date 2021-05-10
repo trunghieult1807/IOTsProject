@@ -6,6 +6,10 @@ class UserService{
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
   static  Future<int> getFireThreshold() async{
+    if(FirebaseAuth.instance.currentUser == null){
+      print("fire null");
+      return 0;
+    }
     String uid = FirebaseAuth.instance.currentUser.uid;
     return (await db.collection('users').doc(uid).get())['fireThreshold'];
   }
@@ -16,6 +20,10 @@ class UserService{
   }
 
   static Future<int> getWarningThreshold() async{
+    if(FirebaseAuth.instance.currentUser == null){
+      print("warning null");
+      return 0;
+    }
     String uid = FirebaseAuth.instance.currentUser.uid;
     return (await db.collection('users').doc(uid).get())['warningThreshold'];
   }
