@@ -3,6 +3,7 @@ import 'package:fire_alarm_system/theme.dart';
 import 'package:fire_alarm_system/ui/edit_threshold/screens/edit_threshold.dart';
 import 'package:fire_alarm_system/ui/homepage/nested_tab_bar.dart';
 import 'package:fire_alarm_system/ui/roomview/screens/roomview.dart';
+import 'package:fire_alarm_system/ui/signout.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class _NavigationBarControllerState extends State<NavigationBarController> {
       NestedTabBar(),
       RoomView(),
       EditThreshold(),
-      SizedBox(),
+      SignoutScreen(),
     ];
   }
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fire_alarm_system/services/auth.dart';
 
-class HomeScreen extends StatelessWidget {
+class SignoutScreen extends StatelessWidget {
   final AuthService authBase = AuthService();
   @override
   Widget build(BuildContext context) {
