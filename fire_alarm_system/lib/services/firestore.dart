@@ -1,4 +1,4 @@
-import 'package:fire_alarm_system/ui/homepage/models/room_info.dart';
+import 'package:fire_alarm_system/model/core/room_schema.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -8,7 +8,9 @@ class FirestoreService {
 
   List<RoomInfo> _roomListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
+      print(doc.id);
       return RoomInfo.db(
+        FirebaseAuth.instance.currentUser.uid,
         doc["roomId"],
         doc["imageId"],
         doc["roomName"],
@@ -24,4 +26,6 @@ class FirestoreService {
         .snapshots()
         .map(_roomListFromSnapshot);
   }
+
+
 }

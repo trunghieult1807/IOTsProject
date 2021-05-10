@@ -2,12 +2,14 @@ import 'dart:ui';
 
 import 'package:animations/animations.dart';
 import 'package:fire_alarm_system/theme.dart';
+import 'package:fire_alarm_system/ui/add_devices/screens/screens.dart';
+import 'package:fire_alarm_system/ui/add_room/screens/screens.dart';
 import 'package:fire_alarm_system/ui/homepage/rooms_provider.dart';
-import 'package:fire_alarm_system/ui/homepage/screens/add_room.dart';
+// import 'package:fire_alarm_system/ui/homepage/screens/add_room.dart';
+import 'package:fire_alarm_system/ui/homepage/screens/device_widgetA.dart';
 import 'package:fire_alarm_system/ui/signout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import "package:charcode/ascii.dart";
 import "package:charcode/html_entity.dart";
 
 class NestedTabBar extends StatefulWidget {
@@ -18,11 +20,16 @@ class NestedTabBar extends StatefulWidget {
 class _NestedTabBarState extends State<NestedTabBar>
     with TickerProviderStateMixin {
   TabController _nestedTabController;
-
+  // int _selectedIndex = 0;
   @override
   void initState() {
     super.initState();
     _nestedTabController = new TabController(length: 2, vsync: this);
+    _nestedTabController.addListener(() {
+      setState(() {
+        // _selectedIndex = _nestedTabController.index;
+      });
+    });
   }
 
   @override
@@ -174,7 +181,7 @@ class _NestedTabBarState extends State<NestedTabBar>
                     controller: _nestedTabController,
                     children: <Widget>[
                       RoomsProvider(),
-                      HomeScreen(),
+                      DeviceWigdetA(),
                     ],
                   ),
                 ),
@@ -183,7 +190,7 @@ class _NestedTabBarState extends State<NestedTabBar>
           ],
         ),
       ),
-      floatingActionButton: OpenContainer(
+      floatingActionButton: _nestedTabController.index == 0 ? OpenContainer(
         openColor: Colors.transparent,
         closedColor: Colors.transparent,
         transitionDuration: Duration(milliseconds: 1000),
@@ -192,14 +199,31 @@ class _NestedTabBarState extends State<NestedTabBar>
         openElevation: 0.0,
         closedBuilder: (BuildContext c, VoidCallback action) {
           return FloatingActionButton(
-            // onPressed: (){},
             backgroundColor: LightThemeColors.contrast,
             elevation: 0,
             child: Icon(Icons.add),
           );
         },
         openBuilder: (BuildContext c, VoidCallback action) {
-          return AddRoom(isEditMode: false);
+          return AddRoom();//isEditMode: false);
+        },
+        tappable: true,
+      ): OpenContainer(
+        openColor: Colors.transparent,
+        closedColor: Colors.transparent,
+        transitionDuration: Duration(milliseconds: 1000),
+        transitionType: ContainerTransitionType.fade,
+        closedElevation: 0.0,
+        openElevation: 0.0,
+        closedBuilder: (BuildContext c, VoidCallback action) {
+          return FloatingActionButton(
+            backgroundColor: Colors.red,
+            elevation: 0,
+            child: Icon(Icons.add),
+          );
+        },
+        openBuilder: (BuildContext c, VoidCallback action) {
+          return AddDevice();//isEditMode: false);
         },
         tappable: true,
       ),

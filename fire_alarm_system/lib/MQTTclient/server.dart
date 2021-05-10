@@ -43,7 +43,7 @@ Future<MqttServerClient> setup(
   client.onUnsubscribed = onUnsubscribed;
   client.onSubscribed = onSubscribed;
   client.onSubscribeFail = onSubscribeFail;
-  client.pongCallback = pong;
+  //client.pongCallback = pong;
 
   final connMessage = MqttConnectMessage()
       .authenticateAs(username, apikey)

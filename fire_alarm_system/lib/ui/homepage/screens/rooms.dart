@@ -1,6 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:fire_alarm_system/theme.dart';
-import 'package:fire_alarm_system/ui/homepage/models/room_info.dart';
+import 'package:fire_alarm_system/model/core/room_schema.dart';
 import 'package:fire_alarm_system/ui/homepage/screens/add_room.dart';
 import 'package:fire_alarm_system/ui/homepage/widgets/rooms_card.dart';
 import 'package:flutter/material.dart';
@@ -16,38 +16,6 @@ class _RoomsState extends State<Rooms> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    List<Widget> cards = [
-      RoomsCard(
-        roomInfo: RoomInfo(
-          "1",
-          "livingroom",
-          "Living Room",
-          "30C",
-          "Normal",
-          "OK",
-        ),
-      ),
-      RoomsCard(
-        roomInfo: RoomInfo(
-          "2",
-          "bedroom",
-          "Bed Room",
-          "30C",
-          "Normal",
-          "OK",
-        ),
-      ),
-      RoomsCard(
-        roomInfo: RoomInfo(
-          "3",
-          "bathroom",
-          "Bath Room",
-          "30C",
-          "Normal",
-          "OK",
-        ),
-      ),
-    ];
     return Scaffold(
       backgroundColor: LightThemeColors.primary,
       body: Padding(
