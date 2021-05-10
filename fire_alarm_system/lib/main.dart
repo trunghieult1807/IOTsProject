@@ -56,11 +56,17 @@ void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
 void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
   final payload =
-      MqttPublishPayload.bytesToStringAsString(message.payload.message);
+  MqttPublishPayload.bytesToStringAsString(message.payload.message);
   var json = jsonDecode(payload);
   //YOUR CODE HERE
+  if (int.parse(json['data']) == 1) {
+    gasthresholdReach = true;
+    checkForFire();
+  }
+}
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   CONFIG.Config.gasSensorClient = await mqttsetup.setup(
