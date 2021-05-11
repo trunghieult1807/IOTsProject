@@ -86,7 +86,6 @@ class _ChartState extends State<Chart> {
 
     return SfCartesianChart(
         // Initialize category axis
-        enableAxisAnimation: true,
         primaryYAxis: NumericAxis(
             labelStyle: TextStyle(
                 color: Colors.white,
@@ -102,7 +101,7 @@ class _ChartState extends State<Chart> {
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w500)),
         series: <ChartSeries<_ChartData, DateTime>>[
-          SplineAreaSeries<_ChartData, DateTime>(
+          AreaSeries<_ChartData, DateTime>(
               gradient: gradientColors,
               markerSettings: MarkerSettings(
                   isVisible: true,
