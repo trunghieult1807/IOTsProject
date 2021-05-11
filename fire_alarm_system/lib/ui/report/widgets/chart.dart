@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 //IMPORT THESE FOR USING MQTT CLIENT
 import 'dart:convert';
@@ -52,15 +51,12 @@ class _ChartState extends State<Chart> {
         count += 1;
       }
     });
-
-    _incrementData();
   }
   /*END CALL BACK Function */
 
   _ChartState() : super() {
     temperatureClientStreamEvent =
         CONFIG.Config.tempSensorClient.updates.listen(_updateDataSource);
-    _loadData();
   }
 
   List<_ChartData> chartData = <_ChartData>[];
@@ -69,34 +65,6 @@ class _ChartState extends State<Chart> {
 
   // Storing some data:
   //Loading counter value on start
-  _loadData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var initString =
-        "[[\"2021-05-10 09:14:55.429800\", 35], [\"2021-05-10 09:14:58.407250\", 36], [\"2021-05-10 09:15:00.925448\", 35], [\"2021-05-10 09:15:02.827349\", 36], [\"2021-05-10 09:15:05.570285\", 37], [\"2021-05-10 09:15:08.020876\", 36], [\"2021-05-10 09:15:09.936717\", 35], [\"2021-05-10 09:15:11.718249\", 36], [\"2021-05-10 09:15:14.489728\", 36], [\"2021-05-10 09:15:16.821363\", 36], [\"2021-05-10 09:15:18.824252\", 36], [\"2021-05-10 09:15:21.042974\", 36], [\"2021-05-10 09:15:24.912226\", 36], [\"2021-05-10 09:15:27.787085\", 36]]";
-
-    var dataString = jsonDecode((prefs.getString('tempData') ?? initString));
-    if (dataString.length == 0) {
-      dataString = jsonDecode(initString);
-    }
-    setState(() {
-      var data;
-      List<_ChartData> tempData = [];
-      for (data in dataString) {
-        tempData.add(new _ChartData(DateTime.parse(data[0]), data[1]));
-      }
-
-      chartData = tempData;
-    });
-  }
-
-  //Incrementing counter after click
-  _incrementData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    List<String> stringData = [for (var data in chartData) data.getString()];
-
-    prefs.setString('tempData', stringData.toString());
-  }
 
   @override
   Widget build(BuildContext context) {
