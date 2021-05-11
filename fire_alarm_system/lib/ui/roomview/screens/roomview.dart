@@ -1,5 +1,3 @@
-
-
 import 'package:fire_alarm_system/ui/roomview/models/device_info.dart';
 import 'package:fire_alarm_system/ui/roomview/widgets/circular_indicator.dart';
 import 'package:fire_alarm_system/ui/roomview/widgets/device_button.dart';
@@ -7,6 +5,7 @@ import 'package:fire_alarm_system/ui/roomview/widgets/power_button.dart';
 import 'package:fire_alarm_system/ui/roomview/widgets/switch_button.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
+import 'package:fire_alarm_system/model/model_export.dart';
 
 //IMPORT THESE FOR USING MQTT CLIENT
 import 'dart:async';
@@ -33,14 +32,15 @@ class DeviceStatus {
 
 class RoomView extends StatefulWidget {
   @override
+  RoomInfo theRoom;
+
+  RoomView(RoomInfo room){
+    this.theRoom = room;
+    print("ROMINFO CONSTUCTOR: " + theRoom.roomId);
+  }
+
   _RoomViewState createState() =>
-      _RoomViewState(roomName: "Kitchen", deviceStatusList: [
-        DeviceStatus("Stove Temperature Sensor", "37", DeviceType.tempSensor),
-        DeviceStatus("Gas Sensor", "normal", DeviceType.gasSensor),
-        DeviceStatus("The Pump", "closed", DeviceType.pump),
-        DeviceStatus("The LED", "closed", DeviceType.led),
-        DeviceStatus("The Buzzer", "closed", DeviceType.buzzer),
-      ]);
+      _RoomViewState(room: theRoom);
 }
 
 class _RoomViewState extends State<RoomView> {
@@ -145,7 +145,7 @@ class _RoomViewState extends State<RoomView> {
   }
 
   bool checkSituation() {
-    int statusTemp;
+    int statusTemp = 0;
     bool haveGas = false;
     for (var d in this.deviceStatusList) {
       if (d.type == DeviceType.tempSensor) {
@@ -157,9 +157,11 @@ class _RoomViewState extends State<RoomView> {
         }
       }
     }
-    if (statusTemp >= 100 && haveGas) {
+    print(CONFIG.Global.fireThreshold);
+    print("NULLCHECK:" + statusTemp.toString());
+    if (statusTemp >= CONFIG.Global.fireThreshold && haveGas) {
       return false;
-    } else if (statusTemp < 100 && !haveGas) {
+    } else if (statusTemp < CONFIG.Global.fireThreshold && !haveGas) {
       return true;
     }
     return true;
@@ -168,18 +170,27 @@ class _RoomViewState extends State<RoomView> {
   /*END CALL BACK Function */
 
   _RoomViewState(
-      {Key key,
-      String roomName = "roomview",
-      List<DeviceStatus> deviceStatusList})
+      {Key key, room})
       : super() {
-    this.roomName = roomName;
-    this.deviceStatusList = deviceStatusList;
 
     CONFIG.Config.tempSensorClient.updates.listen(updateTemperatureText);
     CONFIG.Config.gasSensorClient.updates.listen(updateGasText);
     CONFIG.Config.relayClient.updates.listen(updateRelayText);
     CONFIG.Config.ledClient.updates.listen(updateLedText);
     CONFIG.Config.buzzerClient.updates.listen(updateBuzzerText);
+
+    this.roomName = room.roomName;
+    DeviceService.getAllDeviceInRoom(room).then((value){
+      setState(() {
+        this.deviceStatusList = value.map((device){
+          return DeviceStatus(device.dName, '0',
+            device.dType == 1 ? DeviceType.tempSensor :   device.dType == 2 ? DeviceType.gasSensor :
+            device.dType == 3 ? DeviceType.led : device.dType == 4 ? DeviceType.buzzer : DeviceType.pump
+          );
+        }).toList();
+
+      });
+    });
   }
 
   StreamSubscription temperatureClientStreamEvent;
