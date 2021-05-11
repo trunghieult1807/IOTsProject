@@ -11,3 +11,8 @@ class Config {
   static const username = 'haily835';
   static const apikey = 'aio_IFZu2517SGPLkd41apSTgofxrM1d';
 }
+
+class Global{
+  static int fireThreshold = 0;
+  static int warnThreshold = 0;
+}

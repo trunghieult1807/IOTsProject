@@ -25,46 +25,46 @@ import 'package:fire_alarm_system/model/model_export.dart';
 
 bool gasthresholdReach = true;
 bool tempthresholdReach = false;
-int fireThreshold = 0;
-var warningThreshold = 0;
+//int fireThreshold = 0;
+//int warningThreshold = 0;
 Stream<int> warningDataStream;
 Stream<int> fireDataStream;
 
-void checkForFire() {
-  if (gasthresholdReach && tempthresholdReach) {
-    final builder2 = MqttClientPayloadBuilder();
-    builder2
-        .addString('{"id":"3", "name":"SPEAKER", "data":"1023", "unit":""}');
-    CONFIG.Config.buzzerClient.publishMessage(
-        CONFIG.Config.username + '/feeds/bk-iot-speaker',
-        MqttQos.atLeastOnce,
-        builder2.payload);
-  }
-}
-
-void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
-  final MqttPublishMessage message = c[0].payload;
-  final payload =
-      MqttPublishPayload.bytesToStringAsString(message.payload.message);
-  var json = jsonDecode(payload);
-  //YOUR CODE HERE
-  if (int.parse(json['data']) > fireThreshold) {
-    tempthresholdReach = true;
-    checkForFire();
-  }
-}
-
-void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
-  final MqttPublishMessage message = c[0].payload;
-  final payload =
-      MqttPublishPayload.bytesToStringAsString(message.payload.message);
-  var json = jsonDecode(payload);
-  //YOUR CODE HERE
-  if (int.parse(json['data']) == 1) {
-    gasthresholdReach = true;
-    checkForFire();
-  }
-}
+// void checkForFire() {
+//   if (gasthresholdReach && tempthresholdReach) {
+//     final builder2 = MqttClientPayloadBuilder();
+//     builder2
+//         .addString('{"id":"3", "name":"SPEAKER", "data":"1023", "unit":""}');
+//     CONFIG.Config.buzzerClient.publishMessage(
+//         CONFIG.Config.username + '/feeds/bk-iot-speaker',
+//         MqttQos.atLeastOnce,
+//         builder2.payload);
+//   }
+// }
+//
+// void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
+//   final MqttPublishMessage message = c[0].payload;
+//   final payload =
+//       MqttPublishPayload.bytesToStringAsString(message.payload.message);
+//   var json = jsonDecode(payload);
+//   //YOUR CODE HERE
+//   if (int.parse(json['data']) > fireThreshold) {
+//     tempthresholdReach = true;
+//     checkForFire();
+//   }
+// }
+//
+// void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
+//   final MqttPublishMessage message = c[0].payload;
+//   final payload =
+//       MqttPublishPayload.bytesToStringAsString(message.payload.message);
+//   var json = jsonDecode(payload);
+//   //YOUR CODE HERE
+//   if (int.parse(json['data']) == 1) {
+//     gasthresholdReach = true;
+//     checkForFire();
+//   }
+// }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -92,8 +92,8 @@ void main() async {
   CONFIG.Config.relayClient.subscribe(
       CONFIG.Config.username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce);
 
-  CONFIG.Config.tempSensorClient.updates.listen(checkTempThreshold);
-  CONFIG.Config.gasSensorClient.updates.listen(checkGasThreshold);
+  //CONFIG.Config.tempSensorClient.updates.listen(checkTempThreshold);
+  //CONFIG.Config.gasSensorClient.updates.listen(checkGasThreshold);
 
   runApp(MyApp());
 }
@@ -119,7 +119,7 @@ class MyApp extends StatelessWidget {
           'login': (context) =>
               LoginPage(onLoginSuccessCallback: onLoginCallbackToMain),
           'register': (context) => RegisterPage(),
-          'roomview': (context) => RoomView(),
+          //'roomview': (context) => RoomView(),
           'addRoomView': (context) => AddRoom(),
           'addDeviceView': (context) => AddDevice(),
           'editThreshold': (context) => EditThreshold(),
@@ -133,10 +133,10 @@ class MyApp extends StatelessWidget {
 onLoginCallbackToMain() {
   warningDataStream = UserService.getFireThresholdStream();
   warningDataStream.listen((event) {
-    warningThreshold = event;
+    CONFIG.Global.warnThreshold = event;
   });
   fireDataStream = UserService.getFireThresholdStream();
   fireDataStream.listen((event) {
-    fireThreshold = event;
+    CONFIG.Global.fireThreshold = event;
   });
 }
