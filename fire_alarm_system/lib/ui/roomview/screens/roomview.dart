@@ -35,12 +35,12 @@ class RoomView extends StatefulWidget {
   RoomInfo theRoom;
 
   RoomView(RoomInfo room){
-    print("ROMINFO CONSTUCTOR: $room");
     this.theRoom = room;
+    print("ROMINFO CONSTUCTOR: " + theRoom.roomId);
   }
 
   _RoomViewState createState() =>
-      _RoomViewState();
+      _RoomViewState(room: theRoom);
 }
 
 class _RoomViewState extends State<RoomView> {
@@ -145,7 +145,7 @@ class _RoomViewState extends State<RoomView> {
   }
 
   bool checkSituation() {
-    int statusTemp;
+    int statusTemp = 0;
     bool haveGas = false;
     for (var d in this.deviceStatusList) {
       if (d.type == DeviceType.tempSensor) {
@@ -157,6 +157,8 @@ class _RoomViewState extends State<RoomView> {
         }
       }
     }
+    print(CONFIG.Global.fireThreshold);
+    print("NULLCHECK:" + statusTemp.toString());
     if (statusTemp >= CONFIG.Global.fireThreshold && haveGas) {
       return false;
     } else if (statusTemp < CONFIG.Global.fireThreshold && !haveGas) {
@@ -168,7 +170,7 @@ class _RoomViewState extends State<RoomView> {
   /*END CALL BACK Function */
 
   _RoomViewState(
-      {Key key})
+      {Key key, room})
       : super() {
 
     CONFIG.Config.tempSensorClient.updates.listen(updateTemperatureText);
@@ -177,17 +179,15 @@ class _RoomViewState extends State<RoomView> {
     CONFIG.Config.ledClient.updates.listen(updateLedText);
     CONFIG.Config.buzzerClient.updates.listen(updateBuzzerText);
 
-    print(widget.theRoom);
-
-    this.roomName = widget.theRoom.roomName;
-    DeviceService.getAllDeviceInRoom(widget.theRoom).then((value){
+    this.roomName = room.roomName;
+    DeviceService.getAllDeviceInRoom(room).then((value){
       setState(() {
         this.deviceStatusList = value.map((device){
-          return DeviceStatus(device.dName, '',
+          return DeviceStatus(device.dName, '0',
             device.dType == 1 ? DeviceType.tempSensor :   device.dType == 2 ? DeviceType.gasSensor :
             device.dType == 3 ? DeviceType.led : device.dType == 4 ? DeviceType.buzzer : DeviceType.pump
           );
-        });
+        }).toList();
 
       });
     });
