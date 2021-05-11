@@ -10,6 +10,7 @@ import 'package:fire_alarm_system/ui/add_devices/screens/screens.dart';
 import 'package:fire_alarm_system/ui/add_room/screens/screens.dart';
 import 'package:fire_alarm_system/ui/homepage/nested_tab_bar.dart';
 import 'package:fire_alarm_system/controllers/wrapper.dart';
+import 'package:fire_alarm_system/ui/report/screens/report.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fire_alarm_system/ui/roomview/screens/roomview.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,7 @@ void checkTempThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
 void checkGasThreshold(List<MqttReceivedMessage<MqttMessage>> c) {
   final MqttPublishMessage message = c[0].payload;
   final payload =
-  MqttPublishPayload.bytesToStringAsString(message.payload.message);
+      MqttPublishPayload.bytesToStringAsString(message.payload.message);
   var json = jsonDecode(payload);
   //YOUR CODE HERE
   if (int.parse(json['data']) == 1) {
@@ -115,19 +116,21 @@ class MyApp extends StatelessWidget {
           'home': (context) => NestedTabBar(),
           'wrapper': (context) => Wrapper(),
           'navbar': (context) => NavigationBarController(),
-          'login': (context) => LoginPage(onLoginSuccessCallback: onLoginCallbackToMain),
+          'login': (context) =>
+              LoginPage(onLoginSuccessCallback: onLoginCallbackToMain),
           'register': (context) => RegisterPage(),
           'roomview': (context) => RoomView(),
           'addRoomView': (context) => AddRoom(),
           'addDeviceView': (context) => AddDevice(),
           'editThreshold': (context) => EditThreshold(),
+          'report': (context) => Report(),
         },
       ),
     );
   }
 }
 
-onLoginCallbackToMain(){
+onLoginCallbackToMain() {
   warningDataStream = UserService.getFireThresholdStream();
   warningDataStream.listen((event) {
     warningThreshold = event;
