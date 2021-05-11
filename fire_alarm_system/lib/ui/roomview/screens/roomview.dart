@@ -156,8 +156,6 @@ class _RoomViewState extends State<RoomView> {
         }
       }
     }
-    print(CONFIG.Global.fireThreshold);
-    print("NULLCHECK:" + statusTemp.toString());
     if (statusTemp >= CONFIG.Global.fireThreshold && haveGas) {
       return false;
     } else if (statusTemp < CONFIG.Global.fireThreshold && !haveGas) {
