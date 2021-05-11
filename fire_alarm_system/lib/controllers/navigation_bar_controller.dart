@@ -2,6 +2,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:fire_alarm_system/theme.dart';
 import 'package:fire_alarm_system/ui/edit_threshold/screens/edit_threshold.dart';
 import 'package:fire_alarm_system/ui/homepage/nested_tab_bar.dart';
+import 'package:fire_alarm_system/ui/report/screens/report.dart';
 import 'package:fire_alarm_system/ui/roomview/screens/roomview.dart';
 import 'package:fire_alarm_system/ui/signout.dart';
 import 'package:flutter/foundation.dart';
@@ -38,7 +39,7 @@ class _NavigationBarControllerState extends State<NavigationBarController> {
       RoomView(),
       EditThreshold(),
       SignoutScreen(),
-      NestedTabBar(),//thay trang moi vao cho nay, dung them moi vao vi navBar chi cho max 5 icon thoi
+      Report(),//thay trang moi vao cho nay, dung them moi vao vi navBar chi cho max 5 icon thoi
     ];
   }
   @override
