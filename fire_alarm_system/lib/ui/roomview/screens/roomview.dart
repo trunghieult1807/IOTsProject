@@ -34,13 +34,12 @@ class RoomView extends StatefulWidget {
   @override
   RoomInfo theRoom;
 
-  RoomView(RoomInfo room){
+  RoomView(RoomInfo room) {
     this.theRoom = room;
     print("ROMINFO CONSTUCTOR: " + theRoom.roomId);
   }
 
-  _RoomViewState createState() =>
-      _RoomViewState(room: theRoom);
+  _RoomViewState createState() => _RoomViewState(room: theRoom);
 }
 
 class _RoomViewState extends State<RoomView> {
@@ -169,10 +168,7 @@ class _RoomViewState extends State<RoomView> {
 
   /*END CALL BACK Function */
 
-  _RoomViewState(
-      {Key key, room})
-      : super() {
-
+  _RoomViewState({Key key, room}) : super() {
     CONFIG.Config.tempSensorClient.updates.listen(updateTemperatureText);
     CONFIG.Config.gasSensorClient.updates.listen(updateGasText);
     CONFIG.Config.relayClient.updates.listen(updateRelayText);
@@ -180,15 +176,22 @@ class _RoomViewState extends State<RoomView> {
     CONFIG.Config.buzzerClient.updates.listen(updateBuzzerText);
 
     this.roomName = room.roomName;
-    DeviceService.getAllDeviceInRoom(room).then((value){
+    DeviceService.getAllDeviceInRoom(room).then((value) {
       setState(() {
-        this.deviceStatusList = value.map((device){
-          return DeviceStatus(device.dName, '0',
-            device.dType == 1 ? DeviceType.tempSensor :   device.dType == 2 ? DeviceType.gasSensor :
-            device.dType == 3 ? DeviceType.led : device.dType == 4 ? DeviceType.buzzer : DeviceType.pump
-          );
+        this.deviceStatusList = value.map((device) {
+          return DeviceStatus(
+              device.dName,
+              '0',
+              device.dType == 1
+                  ? DeviceType.tempSensor
+                  : device.dType == 2
+                      ? DeviceType.gasSensor
+                      : device.dType == 3
+                          ? DeviceType.led
+                          : device.dType == 4
+                              ? DeviceType.buzzer
+                              : DeviceType.pump);
         }).toList();
-
       });
     });
   }
@@ -201,6 +204,15 @@ class _RoomViewState extends State<RoomView> {
 
   @override
   Widget build(BuildContext context) {
+    var thermalCircle = null;
+    for (var d in this.deviceStatusList) {
+      if (d.type == DeviceType.tempSensor) {
+        thermalCircle = CircularIndicator(
+          value: double.parse(d.status),
+        );
+        break;
+      }
+    }
     bool situationIsOk = checkSituation();
     if (situationIsOk) {
       situation = 'OK';
@@ -253,11 +265,12 @@ class _RoomViewState extends State<RoomView> {
             SizedBox(
               height: 25,
             ),
-            for (var d in this.deviceStatusList)
-              if (d.type == DeviceType.tempSensor)
-                CircularIndicator(
-                  value: double.parse(d.status),
-                ),
+            // for (var d in this.deviceStatusList)
+            //   if (d.type == DeviceType.tempSensor)
+            //     CircularIndicator(
+            //       value: double.parse(d.status),
+            //     ),
+            if (thermalCircle != null) thermalCircle,
             SizedBox(
               height: 5,
             ),
