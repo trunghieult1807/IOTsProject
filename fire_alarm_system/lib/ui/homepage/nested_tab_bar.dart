@@ -174,16 +174,14 @@ class _NestedTabBarState extends State<NestedTabBar>
               ],
             ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Container(
-                  height: size.height * 1.0,
-                  child: TabBarView(
-                    controller: _nestedTabController,
-                    children: <Widget>[
-                      RoomsProvider(),
-                      DeviceWigdetA(),
-                    ],
-                  ),
+              child: Container(
+                height: size.height * 0.5,
+                child: TabBarView(
+                  controller: _nestedTabController,
+                  children: <Widget>[
+                    RoomsProvider(),
+                    DeviceWigdetA(),
+                  ],
                 ),
               ),
             )
