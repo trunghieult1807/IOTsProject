@@ -10,14 +10,15 @@ class DeviceService {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
   static Future<List<Device>> getAllDeviceInRoom(RoomInfo room) async {
+    String uID = room.userID == null ? FirebaseAuth.instance.currentUser.uid: room.userID;
     var snapshot = await db
         .collection('users')
-        .doc(room.userID)
+        .doc(uID)
         .collection('roomList')
         .doc(room.roomId)
         .collection('DeviceList')
         .get();
-    return snapshot.docs.map((doc) => Device(room.userID, room.userID, doc.id,
+    return snapshot.docs.map((doc) => Device(uID, room.userID, doc.id,
         doc['deviceName'], doc['deviceImg'], doc['deviceType'])).toList();
   }
 

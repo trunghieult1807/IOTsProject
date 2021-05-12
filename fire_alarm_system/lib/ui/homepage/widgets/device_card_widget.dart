@@ -1,9 +1,7 @@
 import 'package:fire_alarm_system/theme.dart';
-import 'package:fire_alarm_system/model/core/room_schema.dart';
 import 'package:fire_alarm_system/ui/homepage/utils/utils.dart';
 import 'package:flutter/material.dart';
-
-import 'package:fire_alarm_system/model/core/device_schema.dart';
+import 'package:fire_alarm_system/model/model_export.dart';
 
 class DeviceWidgetCard extends StatefulWidget {
   final Device deviceSchema;
@@ -14,10 +12,21 @@ class DeviceWidgetCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _DeviceWidgetCardState createState() => _DeviceWidgetCardState();
+  _DeviceWidgetCardState createState() =>
+      _DeviceWidgetCardState(this.deviceSchema);
 }
 
 class _DeviceWidgetCardState extends State<DeviceWidgetCard> {
+  String roomName = '';
+
+  _DeviceWidgetCardState(Device device) {
+    RoomService.getRoomNameFromDevice(device).then((value) {
+      setState(() {
+        this.roomName = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,20 +78,20 @@ class _DeviceWidgetCardState extends State<DeviceWidgetCard> {
                 ),
                 Row(
                   children: [
-                    Container(
-                      height: 20,
-                      width: 20,
-                      child: Image(
-                        image:
-                            AssetImage('assets/images/icons/temperature.png'),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
+                    // Container(
+                    //   height: 20,
+                    //   width: 20,
+                    //   child: Image(
+                    //     image:
+                    //         AssetImage('assets/images/icons/temperature.png'),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   width: 20,
+                    // ),
                     Container(
                       child: Text(
-                        "Temperature",
+                        "Belong to: " + this.roomName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -97,20 +106,29 @@ class _DeviceWidgetCardState extends State<DeviceWidgetCard> {
                 ),
                 Row(
                   children: [
-                    Container(
-                      height: 20,
-                      width: 20,
-                      child: Image(
-                        image:
-                            AssetImage('assets/images/icons/sensor.png'),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
+                    // Container(
+                    //   height: 20,
+                    //   width: 20,
+                    //   child: Image(
+                    //     image:
+                    //         AssetImage('assets/images/icons/sensor.png'),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   width: 20,
+                    // ),
                     Container(
                       child: Text(
-                        "Gas status",
+                        "Type: " +
+                            (widget.deviceSchema.dType == 1
+                                ? 'thermal sensor'
+                                : widget.deviceSchema.dType == 2
+                                    ? 'gas sensor'
+                                    : widget.deviceSchema.dType == 3
+                                        ? 'LED'
+                                        : widget.deviceSchema.dType == 4
+                                            ? 'buzzer'
+                                            : 'relay'),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -123,37 +141,37 @@ class _DeviceWidgetCardState extends State<DeviceWidgetCard> {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Container(
-                      height: 20,
-                      width: 20,
-                      child: Image(
-                        image:
-                            AssetImage('assets/images/icons/prediction_warning.png'),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      child: Text(
-                        "Prediction",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontFamily: 'theme',
-                          fontSize: 15.0,
-                          color: LightThemeColors.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
+                // Row(
+                //   children: [
+                //     Container(
+                //       height: 20,
+                //       width: 20,
+                //       child: Image(
+                //         image: AssetImage(
+                //             'assets/images/icons/prediction_warning.png'),
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       width: 20,
+                //     ),
+                //     Container(
+                //       child: Text(
+                //         "Prediction",
+                //         maxLines: 1,
+                //         overflow: TextOverflow.ellipsis,
+                //         style: TextStyle(
+                //           fontFamily: 'theme',
+                //           fontSize: 15.0,
+                //           color: LightThemeColors.primary,
+                //           fontWeight: FontWeight.w600,
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: 10,
+                // ),
               ],
             ),
           ),
