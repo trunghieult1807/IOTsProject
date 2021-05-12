@@ -21,11 +21,11 @@ class _DeviceWigdetAState extends State<DeviceWigdetA> {
   List<Device> deviceList = [];
 
   _DeviceWigdetAState(){
-    print("HI");
     DeviceService.getAllDeviceOfUser().then((value) =>
       setState(() {
+        //print(value.length.toString());
         this.deviceList = value;
-        print("HERE");
+        //print("HERE");
       })
     );
   }
@@ -68,7 +68,7 @@ class _DeviceWigdetAState extends State<DeviceWigdetA> {
                         ?
                     ListView.builder(
                       padding: EdgeInsets.only(top: 20),
-                      physics: NeverScrollableScrollPhysics(),
+                      //physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: deviceList.length,
                       itemBuilder: (context, index) {

@@ -17,15 +17,15 @@ class RoomsProvider extends StatelessWidget {
         return db.streamRoomList(user); //return into roomList param in room.dart builder
       },
       initialData: [
-        RoomInfo(
-          "0",
-          "1",
-          "livingroom",
-          "Living Room",
-          "30C",
-          "Normal",
-          "OK",
-        ),
+        // RoomInfo(
+        //   "0",
+        //   "1",
+        //   "livingroom",
+        //   "Living Room",
+        //   "30C",
+        //   "Normal",
+        //   "OK",
+        // ),
       ],
       child: Rooms(),
     );

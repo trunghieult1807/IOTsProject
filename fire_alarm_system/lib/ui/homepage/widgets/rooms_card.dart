@@ -14,10 +14,20 @@ class RoomsCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RoomsCardState createState() => _RoomsCardState();
+  _RoomsCardState createState() => _RoomsCardState(this.roomInfo);
 }
 
 class _RoomsCardState extends State<RoomsCard> {
+  int deviceCount = 0;
+
+  _RoomsCardState(RoomInfo room){
+    DeviceService.getAllDeviceInRoom(room).then((value){
+      setState(() {
+        this.deviceCount = value.length;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -72,95 +82,45 @@ class _RoomsCardState extends State<RoomsCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 10,
+                  Container(
+                    child: Text(
+                      "Number of devices: ",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: 'theme',
+                        fontSize: 15.0,
+                        color: LightThemeColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        height: 20,
-                        width: 20,
-                        child: Image(
-                          image:
-                              AssetImage('assets/images/icons/temperature.png'),
-                        ),
+                  Container(
+                    child: Text(
+                      this.deviceCount.toString(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: 'theme',
+                        fontSize: 15.0,
+                        color: LightThemeColors.primary,
+                        fontWeight: FontWeight.w600,
                       ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        child: Text(
-                          "Temperature",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontFamily: 'theme',
-                            fontSize: 15.0,
-                            color: LightThemeColors.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Container(
-                        height: 20,
-                        width: 20,
-                        child: Image(
-                          image:
-                              AssetImage('assets/images/icons/sensor.png'),
-                        ),
+                  Container(
+                    width: 120,
+                    child: Text(
+                      "ID: " + widget.roomInfo.roomId,
+                      maxLines: 3,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        fontFamily: 'theme',
+                        fontSize: 15.0,
+                        color: LightThemeColors.primary,
+                        fontWeight: FontWeight.w600,
                       ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        child: Text(
-                          "Gas status",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontFamily: 'theme',
-                            fontSize: 15.0,
-                            color: LightThemeColors.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        height: 20,
-                        width: 20,
-                        child: Image(
-                          image:
-                              AssetImage('assets/images/icons/prediction_warning.png'),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        child: Text(
-                          "Prediction",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontFamily: 'theme',
-                            fontSize: 15.0,
-                            color: LightThemeColors.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
+                    ),
                   ),
                 ],
               ),

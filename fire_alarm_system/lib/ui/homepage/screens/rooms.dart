@@ -53,10 +53,11 @@ class _RoomsState extends State<Rooms> {
                         ?
                         ListView.builder(
                                 padding: EdgeInsets.only(top: 20),
-                                physics: NeverScrollableScrollPhysics(),
+                                //physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: roomList.length,
                                 itemBuilder: (context, index) {
+                                  //print (roomList.length.toString());
                                   return RoomsCard(roomInfo: roomList[index]);
                                 },
                               )
