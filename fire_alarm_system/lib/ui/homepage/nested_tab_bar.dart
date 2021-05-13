@@ -5,12 +5,14 @@ import 'package:fire_alarm_system/theme.dart';
 import 'package:fire_alarm_system/ui/add_devices/screens/screens.dart';
 import 'package:fire_alarm_system/ui/add_room/screens/screens.dart';
 import 'package:fire_alarm_system/ui/homepage/rooms_provider.dart';
+
 // import 'package:fire_alarm_system/ui/homepage/screens/add_room.dart';
 import 'package:fire_alarm_system/ui/homepage/screens/device_widgetA.dart';
 import 'package:fire_alarm_system/ui/signout.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import "package:charcode/html_entity.dart";
+import 'package:fire_alarm_system/model/model_export.dart';
 
 class NestedTabBar extends StatefulWidget {
   @override
@@ -20,6 +22,7 @@ class NestedTabBar extends StatefulWidget {
 class _NestedTabBarState extends State<NestedTabBar>
     with TickerProviderStateMixin {
   TabController _nestedTabController;
+
   // int _selectedIndex = 0;
   @override
   void initState() {
@@ -36,6 +39,22 @@ class _NestedTabBarState extends State<NestedTabBar>
   void dispose() {
     super.dispose();
     _nestedTabController.dispose();
+  }
+
+  int totalNumberOfRoom = 0;
+  int totalNumberOfDevice = 0;
+
+  _NestedTabBarState() : super() {
+    RoomService.getAllRoom().then((value) {
+      setState(() {
+        this.totalNumberOfRoom = value.length;
+      });
+    });
+    DeviceService.getAllDeviceOfUser().then((value) {
+      setState(() {
+        this.totalNumberOfDevice = value.length;
+      });
+    });
   }
 
   @override
@@ -61,7 +80,7 @@ class _NestedTabBarState extends State<NestedTabBar>
                   Column(
                     children: [
                       Text(
-                        "Your home",
+                        "WELCOME HOME",
                         style: TextStyle(
                           fontFamily: ThemeText.textStyle,
                           fontSize: 30,
@@ -77,11 +96,11 @@ class _NestedTabBarState extends State<NestedTabBar>
                         children: [
                           Column(
                             children: [
-                              Icon(Icons.cloud),
+                              Text("Number of Rooms"),
                               SizedBox(
                                 height: 5,
                               ),
-                              Text("Cloudy"),
+                              Text(this.totalNumberOfRoom.toString()),
                             ],
                           ),
                           SizedBox(
@@ -89,37 +108,11 @@ class _NestedTabBarState extends State<NestedTabBar>
                           ),
                           Column(
                             children: [
-                              Text(
-                                "14${String.fromCharCodes([$deg])}C",
-                                style: TextStyle(
-                                  fontFamily: ThemeText.textStyle,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                              Text('Number of Devices'),
                               SizedBox(
                                 height: 5,
                               ),
-                              Text("Temp outside"),
-                            ],
-                          ),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "20${String.fromCharCodes([$deg])}C",
-                                style: TextStyle(
-                                  fontFamily: ThemeText.textStyle,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text("Temp inside"),
+                              Text(this.totalNumberOfDevice.toString()),
                             ],
                           ),
                         ],
@@ -190,43 +183,45 @@ class _NestedTabBarState extends State<NestedTabBar>
           ],
         ),
       ),
-      floatingActionButton: _nestedTabController.index == 0 ? OpenContainer(
-        openColor: Colors.transparent,
-        closedColor: Colors.transparent,
-        transitionDuration: Duration(milliseconds: 1000),
-        transitionType: ContainerTransitionType.fade,
-        closedElevation: 0.0,
-        openElevation: 0.0,
-        closedBuilder: (BuildContext c, VoidCallback action) {
-          return FloatingActionButton(
-            backgroundColor: LightThemeColors.contrast,
-            elevation: 0,
-            child: Icon(Icons.add),
-          );
-        },
-        openBuilder: (BuildContext c, VoidCallback action) {
-          return AddRoom();//isEditMode: false);
-        },
-        tappable: true,
-      ): OpenContainer(
-        openColor: Colors.transparent,
-        closedColor: Colors.transparent,
-        transitionDuration: Duration(milliseconds: 1000),
-        transitionType: ContainerTransitionType.fade,
-        closedElevation: 0.0,
-        openElevation: 0.0,
-        closedBuilder: (BuildContext c, VoidCallback action) {
-          return FloatingActionButton(
-            backgroundColor: Colors.red,
-            elevation: 0,
-            child: Icon(Icons.add),
-          );
-        },
-        openBuilder: (BuildContext c, VoidCallback action) {
-          return AddDevice();//isEditMode: false);
-        },
-        tappable: true,
-      ),
+      floatingActionButton: _nestedTabController.index == 0
+          ? OpenContainer(
+              openColor: Colors.transparent,
+              closedColor: Colors.transparent,
+              transitionDuration: Duration(milliseconds: 1000),
+              transitionType: ContainerTransitionType.fade,
+              closedElevation: 0.0,
+              openElevation: 0.0,
+              closedBuilder: (BuildContext c, VoidCallback action) {
+                return FloatingActionButton(
+                  backgroundColor: Colors.green,
+                  elevation: 0,
+                  child: Icon(Icons.add),
+                );
+              },
+              openBuilder: (BuildContext c, VoidCallback action) {
+                return AddRoom(); //isEditMode: false);
+              },
+              tappable: true,
+            )
+          : OpenContainer(
+              openColor: Colors.transparent,
+              closedColor: Colors.transparent,
+              transitionDuration: Duration(milliseconds: 1000),
+              transitionType: ContainerTransitionType.fade,
+              closedElevation: 0.0,
+              openElevation: 0.0,
+              closedBuilder: (BuildContext c, VoidCallback action) {
+                return FloatingActionButton(
+                  backgroundColor: Colors.green,
+                  elevation: 0,
+                  child: Icon(Icons.add),
+                );
+              },
+              openBuilder: (BuildContext c, VoidCallback action) {
+                return AddDevice(); //isEditMode: false);
+              },
+              tappable: true,
+            ),
     );
   }
 }

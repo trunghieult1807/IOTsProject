@@ -8,7 +8,7 @@ class FirestoreService {
 
   List<RoomInfo> _roomListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
-      print(doc.id);
+      //print(doc.id);
       return RoomInfo.db(
         FirebaseAuth.instance.currentUser.uid,
         doc["roomId"],
