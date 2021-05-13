@@ -25,7 +25,7 @@ Color setColor(
 
 class DeviceButton extends StatefulWidget {
   final DeviceInfo deviceInfo;
-  final bool situtionState;
+  final int situtionState;
 
   DeviceButton({
     Key key,
@@ -44,14 +44,14 @@ class _DeviceButtonState extends State<DeviceButton> {
   Color c = LightThemeColors.primary;
 
   void check() {
-    if (widget.situtionState) {
-      pumpOpened = false;
-      ledOpened = false;
-      buzzerOpened = false;
-    } else {
+    if (widget.situtionState == 1) {
       pumpOpened = true;
       ledOpened = true;
       buzzerOpened = true;
+    } else {
+      pumpOpened = false;
+      ledOpened = false;
+      buzzerOpened = false;
     }
   }
 
@@ -59,14 +59,22 @@ class _DeviceButtonState extends State<DeviceButton> {
     if (device == "Pump water") {
       if (pumpOpened) {
         final builder1 = MqttClientPayloadBuilder();
-        builder1.addString('{ "id":"11", "name":"RELAY", "data":"0", "unit":"" }');
-        CONFIG.Config.relayClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce, builder1.payload);
+        builder1
+            .addString('{ "id":"11", "name":"RELAY", "data":"0", "unit":"" }');
+        CONFIG.Config.relayClient.publishMessage(
+            CONFIG.Config.username + '/feeds/bk-iot-relay',
+            MqttQos.atLeastOnce,
+            builder1.payload);
         pumpOpened = false;
         print(pumpOpened);
       } else {
         final builder1 = MqttClientPayloadBuilder();
-        builder1.addString('{ "id":"11", "name":"RELAY", "data":"1", "unit":"" }');
-        CONFIG.Config.relayClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce, builder1.payload);
+        builder1
+            .addString('{ "id":"11", "name":"RELAY", "data":"1", "unit":"" }');
+        CONFIG.Config.relayClient.publishMessage(
+            CONFIG.Config.username + '/feeds/bk-iot-relay',
+            MqttQos.atLeastOnce,
+            builder1.payload);
         pumpOpened = true;
         print(pumpOpened);
       }
@@ -74,27 +82,41 @@ class _DeviceButtonState extends State<DeviceButton> {
       if (ledOpened) {
         final builder2 = MqttClientPayloadBuilder();
         builder2.addString('{ "id":"1", "name":"LED", "data":"0", "unit":"" }');
-        CONFIG.Config.ledClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-led', MqttQos.atLeastOnce, builder2.payload);
+        CONFIG.Config.ledClient.publishMessage(
+            CONFIG.Config.username + '/feeds/bk-iot-led',
+            MqttQos.atLeastOnce,
+            builder2.payload);
         ledOpened = false;
         print(ledOpened);
       } else {
         final builder2 = MqttClientPayloadBuilder();
         builder2.addString('{ "id":"1", "name":"LED", "data":"1", "unit":"" }');
-        CONFIG.Config.ledClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-led', MqttQos.atLeastOnce, builder2.payload);
+        CONFIG.Config.ledClient.publishMessage(
+            CONFIG.Config.username + '/feeds/bk-iot-led',
+            MqttQos.atLeastOnce,
+            builder2.payload);
         ledOpened = true;
         print(ledOpened);
       }
     } else {
       if (buzzerOpened) {
         final builder3 = MqttClientPayloadBuilder();
-        builder3.addString('{ "id":"3", "name":"SPEAKER", "data":"0", "unit":"" }');
-        CONFIG.Config.buzzerClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce, builder3.payload);
+        builder3
+            .addString('{ "id":"3", "name":"SPEAKER", "data":"0", "unit":"" }');
+        CONFIG.Config.buzzerClient.publishMessage(
+            CONFIG.Config.username + '/feeds/bk-iot-speaker',
+            MqttQos.atLeastOnce,
+            builder3.payload);
         buzzerOpened = false;
         print(buzzerOpened);
       } else {
         final builder3 = MqttClientPayloadBuilder();
-        builder3.addString('{ "id":"3", "name":"SPEAKER", "data":"1000", "unit":"" }');
-        CONFIG.Config.buzzerClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce, builder3.payload);
+        builder3.addString(
+            '{ "id":"3", "name":"SPEAKER", "data":"1000", "unit":"" }');
+        CONFIG.Config.buzzerClient.publishMessage(
+            CONFIG.Config.username + '/feeds/bk-iot-speaker',
+            MqttQos.atLeastOnce,
+            builder3.payload);
         buzzerOpened = true;
         print(buzzerOpened);
       }
