@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
   final Function toggleView;
-  var onLoginSuccessCallback;
+  final VoidCallback onLoginSuccessCallback;
 
   LoginPage({this.toggleView, this.onLoginSuccessCallback});
 
@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                           error = 'Could not sign in with those credentials';
                         });
                       }
-                      else{
+                      else if(widget.onLoginSuccessCallback != null){
                         widget.onLoginSuccessCallback();
                       }
                     }
