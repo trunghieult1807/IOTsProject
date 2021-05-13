@@ -28,7 +28,7 @@ class _RoomsState extends State<Rooms> {
         child: Consumer<List<RoomInfo>>(
           builder: (context, roomList, child) {
             if (roomList == null) {
-              print("there");
+              //print("there");
               return Column(
                 children: [
                   SizedBox(

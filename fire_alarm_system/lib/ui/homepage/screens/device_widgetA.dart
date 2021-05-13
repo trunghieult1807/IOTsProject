@@ -23,9 +23,7 @@ class _DeviceWigdetAState extends State<DeviceWigdetA> {
   _DeviceWigdetAState(){
     DeviceService.getAllDeviceOfUser().then((value) =>
       setState(() {
-        //print(value.length.toString());
         this.deviceList = value;
-        //print("HERE");
       })
     );
   }
