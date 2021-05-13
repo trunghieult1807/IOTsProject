@@ -55,7 +55,16 @@ class _RoomViewState extends State<RoomView> {
     print(json['data']);
     setState(() {
       for (var d in this.deviceStatusList) {
-        if (d.type == DeviceType.tempSensor) d.status = json['data'];
+        if (d.type == DeviceType.tempSensor) {
+          String data = json['data'];
+          for (int i = 0; i < data.length; i++) {
+            if (data[i] == '-') {
+              data = data.substring(0, i);
+              break;
+            }
+          }
+          d.status = data;
+        }
       }
     });
   }
@@ -143,7 +152,7 @@ class _RoomViewState extends State<RoomView> {
     });
   }
 
-  bool checkSituation() {
+  int checkSituation() {
     int statusTemp = 0;
     bool haveGas = false;
     for (var d in this.deviceStatusList) {
@@ -157,13 +166,21 @@ class _RoomViewState extends State<RoomView> {
       }
     }
     if (statusTemp >= CONFIG.Global.fireThreshold && haveGas) {
-      return false;
-    } else if (statusTemp < CONFIG.Global.fireThreshold && !haveGas) {
-      return true;
+      print("****" + (CONFIG.Global.fireThreshold).toString());
+      print("***" + (CONFIG.Global.warnThreshold).toString());
+      return 1;
+    } else if (statusTemp < CONFIG.Global.fireThreshold &&
+        statusTemp >= CONFIG.Global.warnThreshold &&
+        !haveGas) {
+      return 2;
     }
-    return true;
+    return 0;
   }
 
+  /*  x < warnThreshold                     -> 0
+  *   warnThreshold <= x                    -> 1
+  *   warnThreshold <= x <= fireThreshold   -> 2
+  * */
   /*END CALL BACK Function */
 
   _RoomViewState({Key key, room}) : super() {
@@ -211,14 +228,20 @@ class _RoomViewState extends State<RoomView> {
         break;
       }
     }
-    bool situationIsOk = checkSituation();
-    if (situationIsOk) {
+    int situationIsOk = checkSituation();
+    if (situationIsOk == 0) {
       situation = 'OK';
-    } else {
+    } else if (situationIsOk == 1) {
       situation = 'ON FIRE!!!';
+    } else {
+      situation = 'WARNING!!';
     }
     return Scaffold(
-      backgroundColor: situationIsOk ? Colors.white : Color(0xffFF9393),
+      backgroundColor: situationIsOk == 0
+          ? Colors.white
+          : situationIsOk == 1
+              ? Color(0xffFF9393)
+              : Colors.yellow,
       appBar: AppBar(
         leading: BackButton(),
         backgroundColor: Color(0xff2A2A37),
