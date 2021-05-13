@@ -31,4 +31,9 @@ class RoomService {
       "roomName": newRoom.roomName,
     });
   }
+
+  static Future<String> getRoomNameFromDevice(Device device) async{
+    String uID = device.userID == null ? FirebaseAuth.instance.currentUser.uid: device.userID;
+    return (await db.collection('users').doc(uID).collection('roomList').doc(device.roomID).get())['roomName'];
+  }
 }
