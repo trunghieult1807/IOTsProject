@@ -278,15 +278,6 @@ class _RoomViewState extends State<RoomView> {
         backgroundColor: Color(0xff2A2A37),
         centerTitle: true,
         title: Text(this.roomName),
-        actions: <Widget>[
-          IconButton(
-              icon: const Icon(Icons.add_alert),
-              tooltip: 'Show Snackbar',
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('This is a snackbar')));
-              })
-        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

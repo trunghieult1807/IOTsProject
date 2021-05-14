@@ -35,6 +35,7 @@ class _AddDeviceState extends State<AddDevice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Color(0xff2A2A37),

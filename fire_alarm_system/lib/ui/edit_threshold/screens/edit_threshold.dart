@@ -88,6 +88,7 @@ class _EditThresholdState extends State<EditThreshold> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
+          automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: Colors.black54,
           title: Text("Set threshold"),
