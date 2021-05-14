@@ -7,7 +7,6 @@ class UserService{
 
   static  Future<int> getFireThreshold() async{
     if(FirebaseAuth.instance.currentUser == null){
-      print("fire null");
       return 0;
     }
     String uid = FirebaseAuth.instance.currentUser.uid;
@@ -21,7 +20,6 @@ class UserService{
 
   static Future<int> getWarningThreshold() async{
     if(FirebaseAuth.instance.currentUser == null){
-      print("warning null");
       return 0;
     }
     String uid = FirebaseAuth.instance.currentUser.uid;
@@ -33,11 +31,11 @@ class UserService{
     db.collection('users').doc(uid).update({'warningThreshold': newThreshold});
   }
 
-  static Stream<int> getFireThresholdStream(){
+  static Stream<int> getFireThresholdStream(){ //don't use this
     String uid = FirebaseAuth.instance.currentUser.uid;
     return db.collection('users').doc(uid).snapshots().map((snapshot) => snapshot['fireThreshold']);
   }
-  static Stream<int> getWarningThresholdStream(){
+  static Stream<int> getWarningThresholdStream(){ //don't use this
     String uid = FirebaseAuth.instance.currentUser.uid;
     return db.collection('users').doc(uid).snapshots().map((snapshot) => snapshot['warningThreshold']);
   }

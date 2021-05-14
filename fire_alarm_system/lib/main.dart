@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:fire_alarm_system/ui/edit_threshold/screens/edit_threshold.dart';
@@ -92,6 +93,8 @@ void main() async {
   CONFIG.Config.relayClient.subscribe(
       CONFIG.Config.username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce);
 
+  onLoginCallbackToMain();
+
   //CONFIG.Config.tempSensorClient.updates.listen(checkTempThreshold);
   //CONFIG.Config.gasSensorClient.updates.listen(checkGasThreshold);
 
@@ -117,7 +120,7 @@ class MyApp extends StatelessWidget {
           'wrapper': (context) => Wrapper(),
           'navbar': (context) => NavigationBarController(),
           'login': (context) =>
-              LoginPage(onLoginSuccessCallback: onLoginCallbackToMain),
+              LoginPage(/*onLoginSuccessCallback: onLoginCallbackToMain*/),
           'register': (context) => RegisterPage(),
           //'roomview': (context) => RoomView(),
           'addRoomView': (context) => AddRoom(),
@@ -129,14 +132,25 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
+Timer warningThresholdGetTimer;
+Timer fireThresholdGetTimer;
 onLoginCallbackToMain() {
-  warningDataStream = UserService.getFireThresholdStream();
-  warningDataStream.listen((event) {
-    CONFIG.Global.warnThreshold = event;
+  // warningDataStream = UserService.getFireThresholdStream();
+  // warningDataStream.listen((event) {
+  //   CONFIG.Global.warnThreshold = event;
+  // });
+  // fireDataStream = UserService.getFireThresholdStream();
+  // fireDataStream.listen((event) {
+  //   CONFIG.Global.fireThreshold = event;
+  // });
+  warningThresholdGetTimer = Timer.periodic(new Duration(seconds: 1), (timer) async {
+    int data = await UserService.getWarningThreshold();
+    CONFIG.Global.warnThreshold = data;
   });
-  fireDataStream = UserService.getFireThresholdStream();
-  fireDataStream.listen((event) {
-    CONFIG.Global.fireThreshold = event;
+
+  fireThresholdGetTimer =Timer.periodic(new Duration(seconds: 1), (timer) async {
+    int data = await UserService.getFireThreshold();
+    CONFIG.Global.fireThreshold = data;
   });
+  return;
 }

@@ -39,7 +39,6 @@ class _AddRoomState extends State<AddRoom> {
               ),
               onPressed: () {
                 RoomService.createOrEditRoom(RoomInfo.db(null, null, this.roomImg, this.roomNameController.text));
-
                 Navigator.of(context, rootNavigator: false).pop(context);},
                 ),
         ],

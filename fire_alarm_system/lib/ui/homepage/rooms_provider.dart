@@ -11,7 +11,6 @@ class RoomsProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(user.uid);
     return StreamProvider<List<RoomInfo>>(
       create: (_) {
         return db.streamRoomList(user); //return into roomList param in room.dart builder

@@ -18,6 +18,7 @@ class _RoomsState extends State<Rooms> {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: LightThemeColors.primary,
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(
@@ -33,6 +34,7 @@ class _RoomsState extends State<Rooms> {
                   children: [
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.3,
+
                     ),
                     Container(
                       child: LoadingBouncingGrid.circle(

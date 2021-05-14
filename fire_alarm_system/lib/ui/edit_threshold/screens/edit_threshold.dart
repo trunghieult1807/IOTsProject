@@ -1,6 +1,7 @@
 import 'package:fire_alarm_system/ui/edit_threshold/widgets/temp_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fire_alarm_system/model/model_export.dart';
+import 'package:fire_alarm_system/config.dart' as CONFIG;
 
 class EditThreshold extends StatefulWidget {
   // This widget is the home page of your application. It is stateful, meaning
@@ -33,6 +34,8 @@ class _EditThresholdState extends State<EditThreshold> {
         curRisk = value;
       });
     });
+
+    print(CONFIG.Global.fireThreshold);
   }
   
   void handleClick(bool isIncrease, bool isRisk) {
@@ -85,6 +88,7 @@ class _EditThresholdState extends State<EditThreshold> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
+          automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: Colors.black54,
           title: Text("Set threshold"),
