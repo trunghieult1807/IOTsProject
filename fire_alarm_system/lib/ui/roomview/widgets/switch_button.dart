@@ -25,10 +25,10 @@ class _CustomSwitchState extends State<CustomSwitch>
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 60));
     _circleAnimation = AlignmentTween(
-            begin: widget.value ? Alignment.centerRight : Alignment.centerLeft,
-            end: widget.value ? Alignment.centerLeft : Alignment.centerRight)
+        begin: widget.value ? Alignment.centerRight : Alignment.centerLeft,
+        end: widget.value ? Alignment.centerLeft : Alignment.centerRight)
         .animate(CurvedAnimation(
-            parent: _animationController, curve: Curves.linear));
+        parent: _animationController, curve: Curves.linear));
   }
 
   @override
@@ -63,15 +63,15 @@ class _CustomSwitchState extends State<CustomSwitch>
                 children: <Widget>[
                   _circleAnimation.value == Alignment.centerRight
                       ? Padding(
-                          padding: const EdgeInsets.only(left: 4.0, right: 2.0),
-                          child: Text(
-                            'On',
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 12.0),
-                          ),
-                        )
+                    padding: const EdgeInsets.only(left: 4.0, right: 2.0),
+                    child: Text(
+                      'On',
+                      style: TextStyle(
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 12.0),
+                    ),
+                  )
                       : Container(),
                   Align(
                     alignment: _circleAnimation.value,
@@ -84,15 +84,15 @@ class _CustomSwitchState extends State<CustomSwitch>
                   ),
                   _circleAnimation.value == Alignment.centerLeft
                       ? Padding(
-                          padding: const EdgeInsets.only(left: 2.0, right: 4.0),
-                          child: Text(
-                            'Off',
-                            style: TextStyle(
-                                color: Colors.white70,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 12.0),
-                          ),
-                        )
+                    padding: const EdgeInsets.only(left: 2.0, right: 4.0),
+                    child: Text(
+                      'Off',
+                      style: TextStyle(
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 12.0),
+                    ),
+                  )
                       : Container(),
                 ],
               ),
@@ -105,6 +105,11 @@ class _CustomSwitchState extends State<CustomSwitch>
 }
 
 class SwitchButton extends StatefulWidget {
+
+  var changeState;
+
+  SwitchButton({this.changeState});
+
   @override
   _SwitchButtonState createState() => _SwitchButtonState();
 }
@@ -122,9 +127,11 @@ class _SwitchButtonState extends State<SwitchButton> {
         value: status,
         onChanged: (value) {
           print("VALUE : $value");
+
           setState(() {
             status = value;
           });
+          widget.changeState(status);
         },
       ),
     );
