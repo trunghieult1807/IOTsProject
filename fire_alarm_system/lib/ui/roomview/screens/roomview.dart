@@ -209,12 +209,26 @@ class _RoomViewState extends State<RoomView> {
 
   /*END CALL BACK Function */
 
+  StreamSubscription tempSub, gasSub, relaySub, ledSub, buzzerSub;
+
+  @protected
+  @mustCallSuper
+  void dispose(){
+    print("DISPOSED");
+    this.tempSub.cancel();
+    this.gasSub.cancel();
+    this.relaySub.cancel();
+    this.ledSub.cancel();
+    this.buzzerSub.cancel();
+    super.dispose();
+  }
+
   _RoomViewState({Key key, room}) : super() {
-    CONFIG.Config.tempSensorClient.updates.listen(updateTemperatureText);
-    CONFIG.Config.gasSensorClient.updates.listen(updateGasText);
-    CONFIG.Config.relayClient.updates.listen(updateRelayText);
-    CONFIG.Config.ledClient.updates.listen(updateLedText);
-    CONFIG.Config.buzzerClient.updates.listen(updateBuzzerText);
+    this.tempSub = CONFIG.Config.tempSensorClient.updates.listen(updateTemperatureText);
+    this.gasSub = CONFIG.Config.gasSensorClient.updates.listen(updateGasText);
+    this.relaySub = CONFIG.Config.relayClient.updates.listen(updateRelayText);
+    this.ledSub = CONFIG.Config.ledClient.updates.listen(updateLedText);
+    this.buzzerSub = CONFIG.Config.buzzerClient.updates.listen(updateBuzzerText);
 
     this.roomName = room.roomName;
     DeviceService.getAllDeviceInRoom(room).then((value) {
