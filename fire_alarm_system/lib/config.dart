@@ -8,8 +8,8 @@ class Config {
   static MqttServerClient buzzerClient;
   static MqttServerClient relayClient;
 
-  static const username = 'Siv_Cloud';
-  static const apikey = 'aio_AQgi91NzzPCkj0SDhFDxM1h2VIfb';
+  static String username = '2TMH4';
+  static String apikey = 'aio_SzAy57MIRK53AffqPku6XNUgkqJ5';
 }
 
 class Global{
