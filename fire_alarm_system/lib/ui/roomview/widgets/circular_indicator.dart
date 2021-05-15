@@ -17,11 +17,16 @@ class _CircularIndicatorState extends State<CircularIndicator> {
   @override
   Widget build(BuildContext context) {
     double idicator_value = widget.value;
-    if (widget.value > 100) {
-      idicator_value = 100;
+    if (widget.value > 200) {
+      idicator_value = 200;
+    }
+    if(widget.value < -20){
+      idicator_value = -20;
     }
     final Size size = MediaQuery.of(context).size;
     return SleekCircularSlider(
+      min: -20,
+      max: 200,
       initialValue: idicator_value,
       appearance: CircularSliderAppearance(
           size: size.width - 150,
