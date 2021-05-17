@@ -115,7 +115,7 @@ class SwitchButton extends StatefulWidget {
 }
 
 class _SwitchButtonState extends State<SwitchButton> {
-  bool status = false;
+  bool status = true;
 
   @override
   Widget build(BuildContext context) {
