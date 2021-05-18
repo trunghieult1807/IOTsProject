@@ -309,11 +309,6 @@ class _RoomViewState extends State<RoomView> {
               SizedBox(
                 height: 25,
               ),
-              // for (var d in this.deviceStatusList)
-              //   if (d.type == DeviceType.tempSensor)
-              //     CircularIndicator(
-              //       value: double.parse(d.status),
-              //     ),
               if (thermalCircle != null) thermalCircle,
               SizedBox(
                 height: 5,
@@ -324,7 +319,22 @@ class _RoomViewState extends State<RoomView> {
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                       child: Text(d.deviceName + ": " + d.status + '°C')),
               for (var d in this.deviceStatusList)
-                if (d.type != DeviceType.tempSensor)
+                if (d.type == DeviceType.gasSensor)
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      child: Text(d.deviceName + ": " + d.status)),
+              for (var d in this.deviceStatusList)
+                if (d.type == DeviceType.pump)
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      child: Text(d.deviceName + ": " + d.status)),
+              for (var d in this.deviceStatusList)
+                if (d.type == DeviceType.led)
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      child: Text(d.deviceName + ": " + d.status)),
+              for (var d in this.deviceStatusList)
+                if (d.type == DeviceType.buzzer)
                   Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
                       child: Text(d.deviceName + ": " + d.status)),
