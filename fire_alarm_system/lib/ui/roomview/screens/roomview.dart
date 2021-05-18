@@ -67,14 +67,14 @@ class _RoomViewState extends State<RoomView> {
       for (var d in this.deviceStatusList) {
         if (d.type == DeviceType.tempSensor) {
           String data = json['data'];
-          // for (int i = 0; i < data.length; i++) {
-          //   if (data[i] == '-') {
-          //     data = data.substring(0, i);
-          //     statusTemp = int.parse(data);
-          //     break;
-          //   }
-          // }
-          // d.status = data;
+          for (int i = 1; i < data.length; i++) {
+            if (data[i] == '-') {
+              data = data.substring(0, i);
+              statusTemp = int.parse(data);
+              break;
+            }
+          }
+          d.status = data;
           statusTemp = int.parse(data);
           d.status = data;
         }
@@ -338,17 +338,17 @@ class _RoomViewState extends State<RoomView> {
                 if (d.type == DeviceType.gasSensor)
                   Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status)),
+                      child: Text(d.deviceName + ": " + d.status, style: TextStyle(fontSize: 17))),
               for (var d in this.deviceStatusList)
                 if (d.type == DeviceType.pump)
                   Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status)),
+                      child: Text(d.deviceName + ": " + d.status, style: TextStyle(fontSize: 17))),
               for (var d in this.deviceStatusList)
                 if (d.type == DeviceType.led)
                   Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status)),
+                      child: Text(d.deviceName + ": " + d.status, style: TextStyle(fontSize: 17))),
               for (var d in this.deviceStatusList)
                 if (d.type == DeviceType.buzzer)
                   Padding(
