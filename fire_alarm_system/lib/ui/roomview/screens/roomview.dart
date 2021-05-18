@@ -17,7 +17,7 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 
 enum DeviceType { tempSensor, gasSensor, pump, led, buzzer }
 
-int statusTemp = 0;
+
 
 class DeviceStatus {
   //might not be a good class in 'flutter way', but I'm only familiar with this C++ class style, fix it to be more 'flutter' if you wish
@@ -51,6 +51,7 @@ class _RoomViewState extends State<RoomView> {
   bool ledOpened = false;
   bool buzzerpOpened = false;
   int situationIsOk = 0;
+  int statusTemp = 0;
 
   void updateTemperatureText(List<MqttReceivedMessage<MqttMessage>> c) {
     final MqttPublishMessage message = c[0].payload;
@@ -66,13 +67,15 @@ class _RoomViewState extends State<RoomView> {
       for (var d in this.deviceStatusList) {
         if (d.type == DeviceType.tempSensor) {
           String data = json['data'];
-          for (int i = 0; i < data.length; i++) {
-            if (data[i] == '-') {
-              data = data.substring(0, i);
-              statusTemp = int.parse(data);
-              break;
-            }
-          }
+          // for (int i = 0; i < data.length; i++) {
+          //   if (data[i] == '-') {
+          //     data = data.substring(0, i);
+          //     statusTemp = int.parse(data);
+          //     break;
+          //   }
+          // }
+          // d.status = data;
+          statusTemp = int.parse(data);
           d.status = data;
         }
       }
@@ -185,9 +188,8 @@ class _RoomViewState extends State<RoomView> {
   int checkSituation() {
     if (statusTemp >= CONFIG.Global.fireThreshold && haveGas) {
       return 1;
-    } else if (statusTemp < CONFIG.Global.fireThreshold &&
-            statusTemp >= CONFIG.Global.warnThreshold ||
-        haveGas) {
+    }
+    else if (statusTemp >= CONFIG.Global.warnThreshold || haveGas) {
       return 2;
     }
     return 0;
@@ -209,12 +211,26 @@ class _RoomViewState extends State<RoomView> {
 
   /*END CALL BACK Function */
 
+  StreamSubscription tempSub, gasSub, relaySub, ledSub, buzzerSub;
+
+  @protected
+  @mustCallSuper
+  void dispose(){
+    print("DISPOSED");
+    this.tempSub.cancel();
+    this.gasSub.cancel();
+    this.relaySub.cancel();
+    this.ledSub.cancel();
+    this.buzzerSub.cancel();
+    super.dispose();
+  }
+
   _RoomViewState({Key key, room}) : super() {
-    CONFIG.Config.tempSensorClient.updates.listen(updateTemperatureText);
-    CONFIG.Config.gasSensorClient.updates.listen(updateGasText);
-    CONFIG.Config.relayClient.updates.listen(updateRelayText);
-    CONFIG.Config.ledClient.updates.listen(updateLedText);
-    CONFIG.Config.buzzerClient.updates.listen(updateBuzzerText);
+    this.tempSub = CONFIG.Config.tempSensorClient.updates.listen(updateTemperatureText);
+    this.gasSub = CONFIG.Config.gasSensorClient.updates.listen(updateGasText);
+    this.relaySub = CONFIG.Config.relayClient.updates.listen(updateRelayText);
+    this.ledSub = CONFIG.Config.ledClient.updates.listen(updateLedText);
+    this.buzzerSub = CONFIG.Config.buzzerClient.updates.listen(updateBuzzerText);
 
     this.roomName = room.roomName;
     DeviceService.getAllDeviceInRoom(room).then((value) {
@@ -243,7 +259,7 @@ class _RoomViewState extends State<RoomView> {
   bool _autofire = true;
   List<DeviceStatus> deviceStatusList = [];
 
-  bool autoFireState = false;
+  bool autoFireState = true;
 
   void changeState(state) {
     autoFireState = state;
@@ -322,12 +338,12 @@ class _RoomViewState extends State<RoomView> {
                 if (d.type == DeviceType.tempSensor)
                   Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status + '°C')),
+                      child: Text(d.deviceName + ": " + d.status + '°C', style: TextStyle(fontSize: 17))),
               for (var d in this.deviceStatusList)
                 if (d.type != DeviceType.tempSensor)
                   Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status)),
+                      child: Text(d.deviceName + ": " + d.status, style: TextStyle(fontSize: 17))),
               SizedBox(
                 height: 40,
               ),
