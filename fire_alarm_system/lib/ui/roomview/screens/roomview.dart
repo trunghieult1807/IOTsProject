@@ -259,7 +259,7 @@ class _RoomViewState extends State<RoomView> {
   bool _autofire = true;
   List<DeviceStatus> deviceStatusList = [];
 
-  bool autoFireState = true;
+  bool autoFireState = false;
 
   void changeState(state) {
     autoFireState = state;
@@ -333,7 +333,7 @@ class _RoomViewState extends State<RoomView> {
                 if (d.type == DeviceType.tempSensor)
                   Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status + '°C', style: TextStyle(fontSize: 17))),
+                      child: Text(d.deviceName + ": " + d.status + '°C')),
               for (var d in this.deviceStatusList)
                 if (d.type == DeviceType.gasSensor)
                   Padding(
@@ -353,7 +353,7 @@ class _RoomViewState extends State<RoomView> {
                 if (d.type == DeviceType.buzzer)
                   Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status, style: TextStyle(fontSize: 17))),
+                      child: Text(d.deviceName + ": " + d.status)),
               SizedBox(
                 height: 40,
               ),
