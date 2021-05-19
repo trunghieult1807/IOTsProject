@@ -12,6 +12,7 @@ class _ReportState extends State<Report> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.black87,
         title: Text("Report",
