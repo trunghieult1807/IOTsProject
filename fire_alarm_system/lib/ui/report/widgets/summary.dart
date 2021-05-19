@@ -61,17 +61,6 @@ class _SummaryState extends State<Summary> {
     });
   }
 
-  @protected
-  @mustCallSuper
-  void dispose() {
-    print("DISPOSED");
-    this.buzzerClientStreamEvent.cancel();
-    this.gasClientStreamEvent.cancel();
-    this.circuitClientStreamEvent.cancel();
-    this.ledClientStreamEvent.cancel();
-    super.dispose();
-  }
-
   _SummaryState() : super() {
     buzzerClientStreamEvent =
         CONFIG.Config.buzzerClient.updates.listen(_updateBuzzer);
