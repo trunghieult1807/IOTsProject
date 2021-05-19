@@ -59,6 +59,14 @@ class _ChartState extends State<Chart> {
         CONFIG.Config.tempSensorClient.updates.listen(_updateDataSource);
   }
 
+  @protected
+  @mustCallSuper
+  void dispose() {
+    print("DISPOSED");
+    this.temperatureClientStreamEvent.cancel();
+    super.dispose();
+  }
+
   List<_ChartData> chartData = <_ChartData>[];
   int count = 0;
   StreamSubscription temperatureClientStreamEvent;
