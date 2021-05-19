@@ -36,14 +36,22 @@ class _ChartState extends State<Chart> {
     var json = jsonDecode(payload);
     var time = DateTime.now();
 
+    var data = json['data'];
+
+    for (int i = 1; i < data.length; i++) {
+      if (data[i] == '-') {
+        data = data.substring(0, i);
+        break;
+      }
+    }
     setState(() {
       if (chartData.length == 0) {
-        chartData.add(_ChartData(time, num.parse(json['data'])));
+        chartData.add(_ChartData(time, num.parse(data)));
       } else {
         var last = chartData[chartData.length - 1];
         if (time.millisecondsSinceEpoch - last.time.millisecondsSinceEpoch >=
             1000) {
-          chartData.add(_ChartData(time, num.parse(json['data'])));
+          chartData.add(_ChartData(time, num.parse(data)));
           if (chartData.length == 10) {
             chartData.removeAt(0);
           }
