@@ -52,7 +52,15 @@ class _ChartState extends State<Chart> {
       }
     });
   }
+
   /*END CALL BACK Function */
+  @protected
+  @mustCallSuper
+  void dispose() {
+    print("DISPOSED");
+    this.temperatureClientStreamEvent.cancel();
+    super.dispose();
+  }
 
   _ChartState() : super() {
     temperatureClientStreamEvent =
