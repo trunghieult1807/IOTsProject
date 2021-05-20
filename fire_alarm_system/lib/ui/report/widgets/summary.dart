@@ -61,6 +61,17 @@ class _SummaryState extends State<Summary> {
     });
   }
 
+  @protected
+  @mustCallSuper
+  void dispose() {
+    print("DISPOSED");
+    this.buzzerClientStreamEvent.cancel();
+    this.gasClientStreamEvent.cancel();
+    this.circuitClientStreamEvent.cancel();
+    this.ledClientStreamEvent.cancel();
+    super.dispose();
+  }
+
   _SummaryState() : super() {
     buzzerClientStreamEvent =
         CONFIG.Config.buzzerClient.updates.listen(_updateBuzzer);
@@ -76,10 +87,10 @@ class _SummaryState extends State<Summary> {
   StreamSubscription circuitClientStreamEvent;
   StreamSubscription ledClientStreamEvent;
 
-  int buzzer;
-  int gas;
-  int circuit;
-  int led;
+  int buzzer = 0;
+  int gas = 0;
+  int circuit = 0;
+  int led = 0;
 
   /*END CALL BACK Function */
   @override
@@ -109,7 +120,7 @@ class _SummaryState extends State<Summary> {
                           TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
                   Icon(Icons.volume_up,
                       size: 30,
-                      color: (buzzer == 1) ? Colors.redAccent : Colors.black54)
+                      color: (buzzer > 0) ? Colors.redAccent : Colors.black54)
                 ],
               ),
               Column(
@@ -145,7 +156,7 @@ class _SummaryState extends State<Summary> {
                           TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
                   Icon(Icons.lightbulb_outline_sharp,
                       size: 30,
-                      color: (led == 1) ? Colors.yellow : Colors.black54)
+                      color: (led == 1) ? Colors.red  : (led == 2) ? Colors.green : Colors.black54)
                 ],
               ),
             ],
