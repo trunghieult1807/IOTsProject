@@ -199,12 +199,18 @@ class _RoomViewState extends State<RoomView> {
     if (autoFireState) {
       if (situationIsOk == 1) {
         pumpOpened = true;
+        onPress("Pump water", pumpOpened);
         ledOpened = true;
+        onPress("LED", ledOpened);
         buzzerpOpened = true;
+        onPress("Buzzer", buzzerpOpened);
       }else{
         pumpOpened = false;
+        onPress("Pump water", pumpOpened);
         ledOpened = false;
+        onPress("LED", ledOpened);
         buzzerpOpened = false;
+        onPress("Buzzer", buzzerpOpened);
       }
     }
   }
