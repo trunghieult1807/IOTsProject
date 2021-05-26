@@ -271,6 +271,9 @@ class _RoomViewState extends State<RoomView> {
     autoFireState = state;
   }
 
+  TextEditingController soundVolumnController = new TextEditingController(text: '1023');
+  TextEditingController ledController = new TextEditingController(text: '1');
+
   @override
   Widget build(BuildContext context) {
     var thermalCircle = null;
@@ -411,73 +414,92 @@ class _RoomViewState extends State<RoomView> {
                 height: 35,
               ),
               PowerButton(),
-              SizedBox(height: 10)
+              SizedBox(height: 10),
+
+              Text('Volumn (0-1023):', style: TextStyle(fontSize: 15)),
+              TextField(
+                controller: soundVolumnController,
+              ),
+              Text('LED color (0-2):', style: TextStyle(fontSize: 15)),
+              TextField(
+                controller: ledController,
+              )
             ],
           ),
         ),
       ),
     );
   }
-}
 
-void onPress(String device, bool btnState) {
-  final builder1 = MqttClientPayloadBuilder();
-  if (device == "Pump water") {
-    if (!btnState) {
-      builder1
-          .addString('{ "id":"11", "name":"RELAY", "data":"0", "unit":"" }');
-      CONFIG.Config.relayClient.publishMessage(
-          CONFIG.Config.username + '/feeds/bk-iot-relay',
-          MqttQos.atLeastOnce,
-          builder1.payload);
-      // print(pumpOpened);
-      print("2: turn off pump");
-    } else {
-      builder1
-          .addString('{ "id":"11", "name":"RELAY", "data":"1", "unit":"" }');
-      CONFIG.Config.relayClient.publishMessage(
-          CONFIG.Config.username + '/feeds/bk-iot-relay',
-          MqttQos.atLeastOnce,
-          builder1.payload);
-      // print(pumpOpened);
-      print("2: turn on pump");
+  void onPress(String device, bool btnState) {
+    final builder1 = MqttClientPayloadBuilder();
+    String server0 = CONFIG.Config.username;
+    String server1 = CONFIG.Config.username;
+    if(CONFIG.Config.username == 'test'){
+      server0 = CONFIG.Config.testName0;
+      server1 = CONFIG.Config.testName1;
     }
-  } else if (device == "LED") {
-    if (!btnState) {
-      builder1.addString('{ "id":"1", "name":"LED", "data":"0", "unit":"" }');
-      CONFIG.Config.ledClient.publishMessage(
-          CONFIG.Config.username + '/feeds/bk-iot-led',
-          MqttQos.atLeastOnce,
-          builder1.payload);
-      print("2: turn off led");
+
+    if (device == "Pump water") {
+      if (!btnState) {
+        builder1
+            .addString('{ "id":"11", "name":"RELAY", "data":"0", "unit":"" }');
+        CONFIG.Config.relayClient.publishMessage(
+            server1 + '/feeds/bk-iot-relay',
+            MqttQos.atLeastOnce,
+            builder1.payload);
+        // print(pumpOpened);
+        print("2: turn off pump");
+      } else {
+        builder1
+            .addString('{ "id":"11", "name":"RELAY", "data":"1", "unit":"" }');
+        CONFIG.Config.relayClient.publishMessage(
+            server1 + '/feeds/bk-iot-relay',
+            MqttQos.atLeastOnce,
+            builder1.payload);
+        // print(pumpOpened);
+        print("2: turn on pump");
+      }
+    } else if (device == "LED") {
+      if (!btnState) {
+        builder1.addString('{ "id":"1", "name":"LED", "data":"0", "unit":"" }');
+        CONFIG.Config.ledClient.publishMessage(
+            server0 + '/feeds/bk-iot-led',
+            MqttQos.atLeastOnce,
+            builder1.payload);
+        print("2: turn off led");
+      } else {
+        builder1.addString('{ "id":"1", "name":"LED", "data":"'+ this.ledController.text  +'", "unit":"" }');
+        CONFIG.Config.ledClient.publishMessage(
+            server0 + '/feeds/bk-iot-led',
+            MqttQos.atLeastOnce,
+            builder1.payload);
+        print("2: turn on led");
+      }
     } else {
-      builder1.addString('{ "id":"1", "name":"LED", "data":"1", "unit":"" }');
-      CONFIG.Config.ledClient.publishMessage(
-          CONFIG.Config.username + '/feeds/bk-iot-led',
-          MqttQos.atLeastOnce,
-          builder1.payload);
-      print("2: turn on led");
-    }
-  } else {
-    if (!btnState) {
-      builder1
-          .addString('{ "id":"3", "name":"SPEAKER", "data":"0", "unit":"" }');
-      CONFIG.Config.buzzerClient.publishMessage(
-          CONFIG.Config.username + '/feeds/bk-iot-speaker',
-          MqttQos.atLeastOnce,
-          builder1.payload);
-      // print(buzzerOpened);
-      print("2: turn off buzzer");
-    } else {
-      final builder3 = MqttClientPayloadBuilder();
-      builder3.addString(
-          '{ "id":"3", "name":"SPEAKER", "data":"1000", "unit":"" }');
-      CONFIG.Config.buzzerClient.publishMessage(
-          CONFIG.Config.username + '/feeds/bk-iot-speaker',
-          MqttQos.atLeastOnce,
-          builder3.payload);
-      // print(buzzerOpened);
-      print("2: turn on buzzer");
+      if (!btnState) {
+        builder1
+            .addString('{ "id":"2", "name":"SPEAKER", "data":"0", "unit":"" }');
+        CONFIG.Config.buzzerClient.publishMessage(
+            server0 + '/feeds/bk-iot-speaker',
+            MqttQos.atLeastOnce,
+            builder1.payload);
+        // print(buzzerOpened);
+        print("2: turn off buzzer");
+      } else {
+        final builder3 = MqttClientPayloadBuilder();
+        builder3.addString(
+            '{ "id":"2", "name":"SPEAKER", "data":"'+ this.soundVolumnController.text +'", "unit":"" }');
+        CONFIG.Config.buzzerClient.publishMessage(
+            server0 + '/feeds/bk-iot-speaker',
+            MqttQos.atLeastOnce,
+            builder3.payload);
+        // print(buzzerOpened);
+        print("2: turn on buzzer");
+      }
     }
   }
+
 }
+
+
