@@ -26,6 +26,4 @@ class FirestoreService {
         .snapshots()
         .map(_roomListFromSnapshot);
   }
-
-
 }
