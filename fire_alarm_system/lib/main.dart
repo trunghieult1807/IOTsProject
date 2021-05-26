@@ -71,27 +71,54 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  CONFIG.Config.gasSensorClient = await mqttsetup.setup(
-      'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
-  CONFIG.Config.tempSensorClient = await mqttsetup.setup(
-      'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
-  CONFIG.Config.ledClient = await mqttsetup.setup(
-      'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
-  CONFIG.Config.buzzerClient = await mqttsetup.setup(
-      'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
-  CONFIG.Config.relayClient = await mqttsetup.setup(
-      'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
+  if(CONFIG.Config.username == 'test'){
+    CONFIG.Config.gasSensorClient = await mqttsetup.setup(
+        'io.adafruit.com', 1883, CONFIG.Config.testName1, CONFIG.Config.testKey1);
+    CONFIG.Config.tempSensorClient = await mqttsetup.setup(
+        'io.adafruit.com', 1883, CONFIG.Config.testName0, CONFIG.Config.testKey0);
+    CONFIG.Config.ledClient = await mqttsetup.setup(
+        'io.adafruit.com', 1883, CONFIG.Config.testName0, CONFIG.Config.testKey0);
+    CONFIG.Config.buzzerClient = await mqttsetup.setup(
+        'io.adafruit.com', 1883, CONFIG.Config.testName0, CONFIG.Config.testKey0);
+    CONFIG.Config.relayClient = await mqttsetup.setup(
+        'io.adafruit.com', 1883, CONFIG.Config.testName1, CONFIG.Config.testKey1);
 
-  CONFIG.Config.gasSensorClient.subscribe(
-      CONFIG.Config.username + '/feeds/bk-iot-gas', MqttQos.atLeastOnce);
-  CONFIG.Config.tempSensorClient.subscribe(
-      CONFIG.Config.username + '/feeds/bk-iot-temp-humid', MqttQos.atLeastOnce);
-  CONFIG.Config.ledClient.subscribe(
-      CONFIG.Config.username + '/feeds/bk-iot-led', MqttQos.atLeastOnce);
-  CONFIG.Config.buzzerClient.subscribe(
-      CONFIG.Config.username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce);
-  CONFIG.Config.relayClient.subscribe(
-      CONFIG.Config.username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce);
+    CONFIG.Config.gasSensorClient.subscribe(
+        CONFIG.Config.testName1 + '/feeds/bk-iot-gas', MqttQos.atLeastOnce);
+    CONFIG.Config.tempSensorClient.subscribe(
+        CONFIG.Config.testName0 + '/feeds/bk-iot-temp-humid',
+        MqttQos.atLeastOnce);
+    CONFIG.Config.ledClient.subscribe(
+        CONFIG.Config.testName0 + '/feeds/bk-iot-led', MqttQos.atLeastOnce);
+    CONFIG.Config.buzzerClient.subscribe(
+        CONFIG.Config.testName0 + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce);
+    CONFIG.Config.relayClient.subscribe(
+        CONFIG.Config.testName1 + '/feeds/bk-iot-relay', MqttQos.atLeastOnce);
+  }
+  else {
+    CONFIG.Config.gasSensorClient = await mqttsetup.setup(
+        'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
+    CONFIG.Config.tempSensorClient = await mqttsetup.setup(
+        'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
+    CONFIG.Config.ledClient = await mqttsetup.setup(
+        'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
+    CONFIG.Config.buzzerClient = await mqttsetup.setup(
+        'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
+    CONFIG.Config.relayClient = await mqttsetup.setup(
+        'io.adafruit.com', 1883, CONFIG.Config.username, CONFIG.Config.apikey);
+
+    CONFIG.Config.gasSensorClient.subscribe(
+        CONFIG.Config.username + '/feeds/bk-iot-gas', MqttQos.atLeastOnce);
+    CONFIG.Config.tempSensorClient.subscribe(
+        CONFIG.Config.username + '/feeds/bk-iot-temp-humid',
+        MqttQos.atLeastOnce);
+    CONFIG.Config.ledClient.subscribe(
+        CONFIG.Config.username + '/feeds/bk-iot-led', MqttQos.atLeastOnce);
+    CONFIG.Config.buzzerClient.subscribe(
+        CONFIG.Config.username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce);
+    CONFIG.Config.relayClient.subscribe(
+        CONFIG.Config.username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce);
+  }
 
   onLoginCallbackToMain();
 

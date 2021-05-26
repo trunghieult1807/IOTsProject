@@ -19,10 +19,19 @@ class _PowerButtonState extends State<PowerButton> {
         final builder3 = MqttClientPayloadBuilder();
         builder1.addString('{ "id":"11", "name":"RELAY", "data":"0", "unit":"" }');
         builder2.addString('{ "id":"1", "name":"LED", "data":"0", "unit":"" }');
-        builder3.addString('{ "id":"3", "name":"SPEAKER", "data":"0", "unit":"" }');
-        CONFIG.Config.relayClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-relay', MqttQos.atLeastOnce, builder1.payload);
-        CONFIG.Config.ledClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-led', MqttQos.atLeastOnce, builder2.payload);
-        CONFIG.Config.buzzerClient.publishMessage(CONFIG.Config.username + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce, builder3.payload);
+        builder3.addString('{ "id":"2", "name":"SPEAKER", "data":"0", "unit":"" }');
+
+        String server0 = CONFIG.Config.username;
+        String server1 = CONFIG.Config.username;
+
+        if(CONFIG.Config.username == 'test'){
+          server0 = CONFIG.Config.testName0;
+          server1 = CONFIG.Config.testName1;
+        }
+
+        CONFIG.Config.relayClient.publishMessage(server1 + '/feeds/bk-iot-relay', MqttQos.atLeastOnce, builder1.payload);
+        CONFIG.Config.ledClient.publishMessage(server0 + '/feeds/bk-iot-led', MqttQos.atLeastOnce, builder2.payload);
+        CONFIG.Config.buzzerClient.publishMessage(server0 + '/feeds/bk-iot-speaker', MqttQos.atLeastOnce, builder3.payload);
       },
       child: Container(
         width: 50,
