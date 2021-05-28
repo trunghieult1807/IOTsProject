@@ -13,10 +13,10 @@ class Config {
   static String apikey = 'aio_SzAy57MIRK53AffqPku6XNUgkqJ5';
 
   static String testName0 = 'CSE_BBC';
-  static String testKey0 = 'aio_ujHa39CATridh60sV0wkkAhJmNhG';
+  static String testKey0 = 'aio_xKeh22LeySD0LkDHUda3dVPPgL5P';
 
   static String testName1 = 'CSE_BBC1';
-  static String testKey1 = 'aio_yqUQ00Ryi2liePf8ElzL3yq3dNij';
+  static String testKey1 = 'aio_Mekn95KY3lIblLX5blg8B8Ei6Qcf';
 }
 
 class Global{
