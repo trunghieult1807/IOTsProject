@@ -10,7 +10,7 @@ class Config {
 
   static String username = '2TMH4';
   //static String username = 'test'; // If username is 'test', we will switch to the two test feed (used by teacher)
-  static String apikey = 'aio_GKXm07wvEPmhyQJBInqAIh5ku07J';
+  static String apikey = 'aio_YjHf96tHbBcazR57pAqnnnznlbPr';
 
   static String testName0 = 'CSE_BBC';
   static String testKey0 = 'aio_atdS67wAR8mAG3s0MfgeS6ydx7fi';
