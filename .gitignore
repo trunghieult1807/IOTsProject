@@ -44,4 +44,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-fire_alarm_system/lib/config.dart
+lib/config.dart
