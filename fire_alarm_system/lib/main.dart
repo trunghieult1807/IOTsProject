@@ -24,6 +24,9 @@ import 'package:fire_alarm_system/config.dart' as CONFIG;
 import 'package:fire_alarm_system/MQTTclient/server.dart' as mqttsetup;
 import 'package:fire_alarm_system/model/model_export.dart';
 
+
+import 'package:http/http.dart' as http;
+
 bool gasthresholdReach = true;
 bool tempthresholdReach = false;
 //int fireThreshold = 0;
@@ -72,6 +75,14 @@ void main() async {
   await Firebase.initializeApp();
 
   if(CONFIG.Config.username == 'test'){
+    final response = await http.get(Uri.parse('http://dadn.esp32thanhdanh.link'));
+    if(response.statusCode == 200){
+      List<String> keys = jsonDecode(response.body)['key'].split(':');
+      CONFIG.Config.testKey0 = keys[0];
+      CONFIG.Config.testKey1 = keys[1];
+    }
+    else print("SOMETHING WRONG WHEN GETTING KEYS FROM http://dadn.esp32thanhdanh.link");
+
     CONFIG.Config.gasSensorClient = await mqttsetup.setup(
         'io.adafruit.com', 1883, CONFIG.Config.testName1, CONFIG.Config.testKey1);
     CONFIG.Config.tempSensorClient = await mqttsetup.setup(

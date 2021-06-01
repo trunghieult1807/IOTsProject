@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fire_alarm_system/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fire_alarm_system/config.dart' as CONFIG;
 import 'package:fire_alarm_system/MQTTclient/server.dart' as mqttsetup;
 import 'package:mqtt_client/mqtt_client.dart';
+
+import 'package:http/http.dart' as http;
 
 class SignoutScreen extends StatelessWidget {
   final AuthService authBase = AuthService();
@@ -31,6 +35,14 @@ class SignoutScreen extends StatelessWidget {
     CONFIG.Config.apikey = mqttApiKeyCtrl.text;
 
     if(CONFIG.Config.username == 'test'){
+      final response = await http.get(Uri.parse('http://dadn.esp32thanhdanh.link'));
+      if(response.statusCode == 200){
+        List<String> keys = jsonDecode(response.body)['key'].split(':');
+        CONFIG.Config.testKey0 = keys[0];
+        CONFIG.Config.testKey1 = keys[1];
+      }
+      else print("SOMETHING WRONG WHEN GETTING KEYS FROM http://dadn.esp32thanhdanh.link");
+
       CONFIG.Config.gasSensorClient = await mqttsetup.setup(
           'io.adafruit.com', 1883, CONFIG.Config.testName1, CONFIG.Config.testKey1);
       CONFIG.Config.tempSensorClient = await mqttsetup.setup(
