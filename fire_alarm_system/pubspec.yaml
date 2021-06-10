@@ -34,6 +34,7 @@ dependencies:
   shared_preferences: ^2.0.5
   sleek_circular_slider : ^2.0.0 #https://pub.dev/packages/sleek_circular_slider
   mqtt_client: ^9.2.0 #https://pub.dev/packages/mqtt_client
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:

@@ -186,7 +186,7 @@ class _RoomViewState extends State<RoomView> {
   }
 
   int checkSituation() {
-    if (statusTemp >= CONFIG.Global.fireThreshold && haveGas) {
+    if (statusTemp >= CONFIG.Global.fireThreshold) {
       return 1;
     }
     else if (statusTemp >= CONFIG.Global.warnThreshold || haveGas) {
