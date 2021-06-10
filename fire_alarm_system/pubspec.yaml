@@ -19,6 +19,8 @@ dependencies:
   loading_animations: ^2.2.0
   animations: ^2.0.0
   charcode: ^1.2.0
+  gradient_widgets: ^0.6.0
+  outline_gradient_button: ^2.0.0+1
 
   # package to draw chart
   syncfusion_flutter_gauges: ^19.1.59
@@ -47,5 +49,5 @@ flutter:
   assets:
     - assets/images/
     - assets/images/icons/
-
+    - assets/images/3d/
 

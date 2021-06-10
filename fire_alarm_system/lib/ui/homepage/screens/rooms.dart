@@ -17,7 +17,7 @@ class _RoomsState extends State<Rooms> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: LightThemeColors.primary,
+      backgroundColor: Colors.transparent,
 
       body: SingleChildScrollView(
         child: Padding(
