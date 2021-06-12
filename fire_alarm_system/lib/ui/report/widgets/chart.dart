@@ -103,6 +103,9 @@ class _ChartState extends State<Chart> {
     return SfCartesianChart(
         // Initialize category axis
         primaryYAxis: NumericAxis(
+            isVisible: true,
+            majorGridLines: MajorGridLines(
+                width: 1, color: Colors.grey, dashArray: <double>[5, 5]),
             labelStyle: TextStyle(
                 color: Colors.white,
                 fontSize: 12,
@@ -115,10 +118,12 @@ class _ChartState extends State<Chart> {
                 color: Colors.white,
                 fontSize: 12,
                 fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w500)),
+                fontWeight: FontWeight.w500),
+            majorGridLines: MajorGridLines(width: 0)),
         series: <ChartSeries<_ChartData, DateTime>>[
           AreaSeries<_ChartData, DateTime>(
               gradient: gradientColors,
+              opacity: 0.7,
               markerSettings: MarkerSettings(
                   isVisible: true,
                   // Marker shape is set to diamond
