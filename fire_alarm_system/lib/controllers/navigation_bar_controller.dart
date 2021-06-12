@@ -21,7 +21,7 @@ class _NavigationBarControllerState extends State<NavigationBarController> {
 
   final iconList = <IconData>[
     Icons.home,
-    Icons.notifications,
+    Icons.settings_input_svideo_rounded,
     Icons.bar_chart,
     Icons.person,
   ];

@@ -33,7 +33,7 @@ class _DeviceWigdetAState extends State<DeviceWigdetA> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: LightThemeColors.primary,
+      backgroundColor: Colors.transparent,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(
           20,
@@ -78,28 +78,7 @@ class _DeviceWigdetAState extends State<DeviceWigdetA> {
                       children: [
                         Column(
                           children: [
-                            Text(
-                              "Welcome 🔥🔥",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'theme',
-                                fontSize: 30,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            Container(
-                              width: size.width - 100,
-                              child: Text(
-                                "Add your first task and lets get started ",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.black45,
-                                  fontFamily: 'theme',
-                                  fontSize: 20,
-                                  // fontWeight: FontWeight.w00,
-                                ),
-                              ),
-                            ),
+                            Text(''),
                             SizedBox(
                               height: 60,
                             ),
