@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'device_schema.dart';
 
 class RoomInfo {
-  
   String _roomId;
   String _imageId;
   String _roomName;
@@ -13,8 +12,8 @@ class RoomInfo {
   String _prediction;
   String userID;
 
-  RoomInfo(String userID, String roomId, String imageId, String roomName, String temperature,
-      String sensorStatus, String prediction)
+  RoomInfo(String userID, String roomId, String imageId, String roomName,
+      String temperature, String sensorStatus, String prediction)
       : this.userID = userID,
         _roomId = roomId,
         _imageId = imageId,
@@ -28,7 +27,7 @@ class RoomInfo {
         _roomId = roomId,
         _imageId = imageId,
         _roomName = roomName;
-  
+
   // List<Device> getAllDevice(){
   //   return _db.collection('users').doc(userID).collection('roomList').doc(_roomId).collection('DeviceList').
   // }
@@ -44,5 +43,6 @@ class RoomInfo {
   String get sensorStatus => _sensorStatus;
 
   String get prediction => _prediction;
-  
+  @override
+  String toString() => _roomName;
 }

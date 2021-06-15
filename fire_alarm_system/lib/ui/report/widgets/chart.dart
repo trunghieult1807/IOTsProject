@@ -21,6 +21,12 @@ class _ChartData {
 }
 
 class Chart extends StatefulWidget {
+  final int isShow;
+  Chart({
+    Key key,
+    this.isShow,
+  }) : super(key: key);
+
   @override
   _ChartState createState() => _ChartState();
 }
@@ -60,13 +66,12 @@ class _ChartState extends State<Chart> {
       }
     });
   }
-  /*END CALL BACK Function */
 
-  _ChartState() : super() {
-    temperatureClientStreamEvent =
+  /*END CALL BACK Function */
+  _ChartState() {
+    this.temperatureClientStreamEvent =
         CONFIG.Config.tempSensorClient.updates.listen(_updateDataSource);
   }
-
   @protected
   @mustCallSuper
   void dispose() {
@@ -84,6 +89,8 @@ class _ChartState extends State<Chart> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isShow == 0) {}
+
     final List<Color> color = <Color>[];
 
     color.add(Colors.red);
@@ -103,6 +110,9 @@ class _ChartState extends State<Chart> {
     return SfCartesianChart(
         // Initialize category axis
         primaryYAxis: NumericAxis(
+            isVisible: true,
+            majorGridLines: MajorGridLines(
+                width: 1, color: Colors.grey, dashArray: <double>[5, 5]),
             labelStyle: TextStyle(
                 color: Colors.white,
                 fontSize: 12,
@@ -115,10 +125,12 @@ class _ChartState extends State<Chart> {
                 color: Colors.white,
                 fontSize: 12,
                 fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w500)),
+                fontWeight: FontWeight.w500),
+            majorGridLines: MajorGridLines(width: 0)),
         series: <ChartSeries<_ChartData, DateTime>>[
           AreaSeries<_ChartData, DateTime>(
               gradient: gradientColors,
+              opacity: 0.7,
               markerSettings: MarkerSettings(
                   isVisible: true,
                   // Marker shape is set to diamond
@@ -128,7 +140,7 @@ class _ChartState extends State<Chart> {
                   isVisible: true,
                   // Positioning the data label
                   labelAlignment: ChartDataLabelAlignment.top),
-              dataSource: chartData,
+              dataSource: (widget.isShow != 0) ? chartData : [],
               xValueMapper: (_ChartData temp, _) => temp.time,
               yValueMapper: (_ChartData temp, _) => temp.temp),
         ]);
