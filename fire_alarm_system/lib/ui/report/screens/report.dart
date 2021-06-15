@@ -19,6 +19,7 @@ class _ReportState extends State<Report> {
   int numOfPump = 0;
   int numOfLed = 0;
   int numOfBuzz = 0;
+  int numOfCircuit = 0;
 
   _ReportState() {
     RoomService.getAllRoom().then((value) => {
@@ -40,9 +41,9 @@ class _ReportState extends State<Report> {
         this.numOfPump = 0;
         this.numOfLed = 0;
         this.numOfBuzz = 0;
+        this.numOfCircuit = 0;
 
         for (var device in devices) {
-          print(device.dType);
           if (device.dType == 1) {
             this.numOfTemp += 1;
           } else if (device.dType == 2) {
@@ -52,6 +53,8 @@ class _ReportState extends State<Report> {
           } else if (device.dType == 4) {
             this.numOfBuzz += 1;
           } else if (device.dType == 5) {
+            this.numOfCircuit += 1;
+          } else if (device.dType == 6) {
             this.numOfPump += 1;
           }
         }
@@ -64,6 +67,7 @@ class _ReportState extends State<Report> {
       print('pump ' + this.numOfPump.toString());
       print('led ' + this.numOfLed.toString());
       print('buzz ' + this.numOfBuzz.toString());
+      print('circuit ' + this.numOfCircuit.toString());
     });
   }
 
@@ -145,7 +149,8 @@ class _ReportState extends State<Report> {
                       numOfGas: this.numOfGas,
                       numOfPump: this.numOfPump,
                       numOfLed: this.numOfLed,
-                      numOfBuzz: this.numOfBuzz),
+                      numOfBuzz: this.numOfBuzz,
+                      numOfCircuit: this.numOfCircuit),
                 ],
               ))),
     );

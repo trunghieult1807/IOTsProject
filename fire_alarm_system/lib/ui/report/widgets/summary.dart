@@ -16,13 +16,15 @@ class Summary extends StatefulWidget {
   final int numOfPump;
   final int numOfLed;
   final int numOfBuzz;
-  Summary({
-    Key key,
-    this.numOfGas,
-    this.numOfPump,
-    this.numOfLed,
-    this.numOfBuzz,
-  }) : super(key: key);
+  final int numOfCircuit;
+  Summary(
+      {Key key,
+      this.numOfGas,
+      this.numOfPump,
+      this.numOfLed,
+      this.numOfBuzz,
+      this.numOfCircuit})
+      : super(key: key);
 
   @override
   _SummaryState createState() => _SummaryState();
@@ -165,7 +167,7 @@ class _SummaryState extends State<Summary> {
     widgetRow = [];
 
     // circuit
-    for (var i = 1; i <= widget.numOfPump; i++) {
+    for (var i = 1; i <= widget.numOfCircuit; i++) {
       Widget w = Column(
         children: [
           Text("Circuit " + i.toString(),
