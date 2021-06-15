@@ -12,6 +12,18 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 //END IMPORT THESE FOR USING MQTT CLIENT
 
 class Summary extends StatefulWidget {
+  final int numOfGas;
+  final int numOfPump;
+  final int numOfLed;
+  final int numOfBuzz;
+  Summary({
+    Key key,
+    this.numOfGas,
+    this.numOfPump,
+    this.numOfLed,
+    this.numOfBuzz,
+  }) : super(key: key);
+
   @override
   _SummaryState createState() => _SummaryState();
 }
@@ -95,7 +107,82 @@ class _SummaryState extends State<Summary> {
   /*END CALL BACK Function */
   @override
   Widget build(BuildContext context) {
-    return Container(
+    List<List<Widget>> widgets = [];
+    List<Widget> widgetRow = [];
+
+    for (var i = 1; i <= widget.numOfBuzz; i++) {
+      Widget w = Column(
+        children: [
+          Text("Speaker " + i.toString(),
+              style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
+          Icon(Icons.volume_up,
+              size: 30, color: (buzzer > 0) ? Colors.redAccent : Colors.black54)
+        ],
+      );
+
+      widgetRow.add(w);
+    }
+
+    widgets.add(widgetRow);
+    widgetRow = [];
+
+    for (var i = 1; i <= widget.numOfGas; i++) {
+      Widget w = Column(
+        children: [
+          Text("Gas " + i.toString(),
+              style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
+          Icon(Icons.warning_amber_outlined,
+              size: 30, color: (gas == 1) ? Colors.redAccent : Colors.black54)
+        ],
+      );
+
+      widgetRow.add(w);
+    }
+
+    widgets.add(widgetRow);
+    widgetRow = [];
+
+    // Led
+    for (var i = 1; i <= widget.numOfLed; i++) {
+      Widget w = Column(
+        children: [
+          Text("Led " + i.toString(),
+              style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
+          Icon(Icons.lightbulb_outline_sharp,
+              size: 30,
+              color: (led == 1)
+                  ? Colors.red
+                  : (led == 2)
+                      ? Colors.green
+                      : Colors.black54)
+        ],
+      );
+
+      widgetRow.add(w);
+    }
+
+    widgets.add(widgetRow);
+    widgetRow = [];
+
+    // circuit
+    for (var i = 1; i <= widget.numOfPump; i++) {
+      Widget w = Column(
+        children: [
+          Text("Circuit " + i.toString(),
+              style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
+          Icon(Icons.power,
+              size: 30, color: (circuit == 1) ? Colors.yellow : Colors.black54)
+        ],
+      );
+
+      widgetRow.add(w);
+    }
+
+    widgets.add(widgetRow);
+    widgetRow = [];
+
+    return SingleChildScrollView(
+        child: Container(
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(3),
@@ -111,58 +198,19 @@ class _SummaryState extends State<Summary> {
       child: Column(
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Column(
-                children: [
-                  Text("Speaker",
-                      style:
-                          TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
-                  Icon(Icons.volume_up,
-                      size: 30,
-                      color: (buzzer > 0) ? Colors.redAccent : Colors.black54)
-                ],
-              ),
-              Column(
-                children: [
-                  Text("Gas",
-                      style:
-                          TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
-                  Icon(Icons.warning_amber_outlined,
-                      size: 30,
-                      color: (gas == 1) ? Colors.redAccent : Colors.black54)
-                ],
-              ),
-            ],
-          ),
-          Divider(color: Colors.black),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: widgets[0]),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Column(
-                children: [
-                  Text("Circuit",
-                      style:
-                          TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
-                  Icon(Icons.power,
-                      size: 30,
-                      color: (circuit == 1) ? Colors.yellow : Colors.black54)
-                ],
-              ),
-              Column(
-                children: [
-                  Text("Led",
-                      style:
-                          TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
-                  Icon(Icons.lightbulb_outline_sharp,
-                      size: 30,
-                      color: (led == 1) ? Colors.red  : (led == 2) ? Colors.green : Colors.black54)
-                ],
-              ),
-            ],
-          )
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: widgets[1]),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: widgets[2]),
+          Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: widgets[3]),
         ],
       ),
-    );
+    ));
   }
 }

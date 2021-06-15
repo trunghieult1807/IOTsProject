@@ -87,26 +87,59 @@ class _ReportState extends State<Report> {
               padding: EdgeInsets.all(20.0),
               child: Column(
                 children: <Widget>[
-                  Text(
-                      (this.selectedRoom != null)
-                          ? this.selectedRoom.roomName
-                          : '',
-                      style: TextStyle(color: Colors.white)),
                   Chart(isShow: this.numOfTemp),
-                  Summary(),
-                  ElevatedButton(
-                    child: Text('Select room'),
-                    onPressed: () => showMaterialScrollPicker<RoomInfo>(
-                      context: context,
-                      title: 'Choose a room',
-                      showDivider: false,
-                      items: this.roomList,
-                      selectedItem: this.selectedRoom,
-                      onChanged: (value) {
-                        this.handleSelectedRoom(value);
-                      },
-                    ),
-                  )
+                  Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
+                            ),
+                          ]),
+                      padding: const EdgeInsets.all(10.0),
+                      margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                              child: Text(
+                                  (this.selectedRoom != null)
+                                      ? this.selectedRoom.roomName
+                                      : 'No room selected',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: 20))),
+                          ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.orange.shade800)),
+                            child: Text('Select room',
+                                style: TextStyle(fontSize: 17)),
+                            onPressed: () => showMaterialScrollPicker<RoomInfo>(
+                              context: context,
+                              title: 'Choose a room',
+                              showDivider: false,
+                              items: this.roomList,
+                              selectedItem: this.selectedRoom,
+                              onChanged: (value) {
+                                this.handleSelectedRoom(value);
+                              },
+                            ),
+                          )
+                        ],
+                      )),
+                  Summary(
+                      numOfGas: this.numOfGas,
+                      numOfPump: this.numOfPump,
+                      numOfLed: this.numOfLed,
+                      numOfBuzz: this.numOfBuzz),
                 ],
               ))),
     );
