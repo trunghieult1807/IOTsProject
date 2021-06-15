@@ -3,6 +3,7 @@ import 'package:fire_alarm_system/ui/report/widgets/chart.dart';
 import 'package:fire_alarm_system/ui/report/widgets/summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
+import 'package:fire_alarm_system/ui/homepage/utils/utils.dart';
 
 class Report extends StatefulWidget {
   @override
@@ -107,21 +108,26 @@ class _ReportState extends State<Report> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Container(
-                              child: Text(
-                                  (this.selectedRoom != null)
-                                      ? this.selectedRoom.roomName
-                                      : 'No room selected',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: 20))),
+                              height: 50,
+                              width: 50,
+                              child: getImageFromId((selectedRoom != null
+                                  ? selectedRoom.imageId
+                                  : "livingroom"))),
+                          Text(
+                              (this.selectedRoom != null)
+                                  ? this.selectedRoom.roomName
+                                  : 'No room selected',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 15)),
                           ElevatedButton(
                             style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Colors.orange.shade800)),
+                                        Colors.blue.shade700)),
                             child: Text('Select room',
-                                style: TextStyle(fontSize: 17)),
+                                style: TextStyle(fontSize: 15)),
                             onPressed: () => showMaterialScrollPicker<RoomInfo>(
                               context: context,
                               title: 'Choose a room',

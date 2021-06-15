@@ -199,16 +199,24 @@ class _SummaryState extends State<Summary> {
         children: <Widget>[
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: widgets[0]),
+              children: widgets[0].length != 0
+                  ? widgets[0]
+                  : [Text('No buzzer devices')]),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: widgets[1]),
+              children: widgets[1].length != 0
+                  ? widgets[1]
+                  : [Text('No gas devices')]),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: widgets[2]),
+              children: widgets[2].length != 0
+                  ? widgets[2]
+                  : [Text('No led devices')]),
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: widgets[3]),
+              children: widgets[3].length != 0
+                  ? widgets[3]
+                  : [Text('No circuit devices')]),
         ],
       ),
     ));
