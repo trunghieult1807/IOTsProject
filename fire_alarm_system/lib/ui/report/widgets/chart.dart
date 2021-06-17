@@ -58,7 +58,7 @@ class _ChartState extends State<Chart> {
         if (time.millisecondsSinceEpoch - last.time.millisecondsSinceEpoch >=
             1000) {
           chartData.add(_ChartData(time, num.parse(data)));
-          if (chartData.length == 10) {
+          if (chartData.length == 15) {
             chartData.removeAt(0);
           }
         }
