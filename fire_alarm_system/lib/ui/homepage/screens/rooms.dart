@@ -34,7 +34,6 @@ class _RoomsState extends State<Rooms> {
                   children: [
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.3,
-
                     ),
                     Container(
                       child: LoadingBouncingGrid.circle(

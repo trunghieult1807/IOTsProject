@@ -29,7 +29,7 @@ class _CircularIndicatorState extends State<CircularIndicator> {
       max: 200,
       initialValue: idicator_value,
       appearance: CircularSliderAppearance(
-          size: size.width - 200,
+          size: size.width -200,
           infoProperties: InfoProperties(modifier: (value) {
             final roundedValue = (widget.value).ceil().toInt().toString();
             return roundedValue + "°C";

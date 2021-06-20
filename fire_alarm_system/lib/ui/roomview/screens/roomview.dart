@@ -1,12 +1,13 @@
 import 'package:fire_alarm_system/ui/roomview/models/device_info.dart';
 import 'package:fire_alarm_system/ui/roomview/widgets/circular_indicator.dart';
 import 'package:fire_alarm_system/ui/roomview/widgets/device_button.dart';
+import 'package:fire_alarm_system/ui/roomview/widgets/device_card.dart';
 import 'package:fire_alarm_system/ui/roomview/widgets/power_button.dart';
 import 'package:fire_alarm_system/ui/roomview/widgets/switch_button.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:fire_alarm_system/model/model_export.dart';
-
+import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 //IMPORT THESE FOR USING MQTT CLIENT
 import 'dart:async';
 import 'dart:convert';
@@ -16,8 +17,6 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 //END IMPORT THESE FOR USING MQTT CLIENT
 
 enum DeviceType { tempSensor, gasSensor, pump, led, buzzer }
-
-
 
 class DeviceStatus {
   //might not be a good class in 'flutter way', but I'm only familiar with this C++ class style, fix it to be more 'flutter' if you wish
@@ -188,8 +187,7 @@ class _RoomViewState extends State<RoomView> {
   int checkSituation() {
     if (statusTemp >= CONFIG.Global.fireThreshold) {
       return 1;
-    }
-    else if (statusTemp >= CONFIG.Global.warnThreshold || haveGas) {
+    } else if (statusTemp >= CONFIG.Global.warnThreshold || haveGas) {
       return 2;
     }
     return 0;
@@ -204,7 +202,7 @@ class _RoomViewState extends State<RoomView> {
         onPress("LED", ledOpened);
         buzzerpOpened = true;
         onPress("Buzzer", buzzerpOpened);
-      }else{
+      } else {
         pumpOpened = false;
         onPress("Pump water", pumpOpened);
         ledOpened = false;
@@ -221,7 +219,7 @@ class _RoomViewState extends State<RoomView> {
 
   @protected
   @mustCallSuper
-  void dispose(){
+  void dispose() {
     print("DISPOSED");
     this.tempSub.cancel();
     this.gasSub.cancel();
@@ -232,11 +230,13 @@ class _RoomViewState extends State<RoomView> {
   }
 
   _RoomViewState({Key key, room}) : super() {
-    this.tempSub = CONFIG.Config.tempSensorClient.updates.listen(updateTemperatureText);
+    this.tempSub =
+        CONFIG.Config.tempSensorClient.updates.listen(updateTemperatureText);
     this.gasSub = CONFIG.Config.gasSensorClient.updates.listen(updateGasText);
     this.relaySub = CONFIG.Config.relayClient.updates.listen(updateRelayText);
     this.ledSub = CONFIG.Config.ledClient.updates.listen(updateLedText);
-    this.buzzerSub = CONFIG.Config.buzzerClient.updates.listen(updateBuzzerText);
+    this.buzzerSub =
+        CONFIG.Config.buzzerClient.updates.listen(updateBuzzerText);
 
     this.roomName = room.roomName;
     DeviceService.getAllDeviceInRoom(room).then((value) {
@@ -271,11 +271,14 @@ class _RoomViewState extends State<RoomView> {
     autoFireState = state;
   }
 
-  TextEditingController soundVolumnController = new TextEditingController(text: '1023');
   TextEditingController ledController = new TextEditingController(text: '1');
+
+  int ledColorState = 1;
+  double soundVolumn = 200;
 
   @override
   Widget build(BuildContext context) {
+    double widthScreen = MediaQuery.of(context).size.width;
     var thermalCircle = null;
     for (var d in this.deviceStatusList) {
       if (d.type == DeviceType.tempSensor) {
@@ -302,7 +305,7 @@ class _RoomViewState extends State<RoomView> {
         leading: BackButton(),
         backgroundColor: Color(0xff2A2A37),
         centerTitle: true,
-        title: Text(this.roomName),
+        title: Text(this.roomName)
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -334,35 +337,56 @@ class _RoomViewState extends State<RoomView> {
               SizedBox(
                 height: 25,
               ),
-              if (thermalCircle != null) thermalCircle,
+              if (thermalCircle != null)
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      for (var d in this.deviceStatusList)
+                        if (d.type == DeviceType.tempSensor)
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(80, 0, 0, 0),
+                              child: CircularIndicator(
+                                value: double.parse(d.status),
+                              ))
+                    ],
+                  ),
+                ),
               SizedBox(
                 height: 5,
               ),
-              for (var d in this.deviceStatusList)
-                if (d.type == DeviceType.tempSensor)
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status + '°C', style: TextStyle(fontSize: 17))),
-              for (var d in this.deviceStatusList)
-                if (d.type == DeviceType.gasSensor)
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status, style: TextStyle(fontSize: 17))),
-              for (var d in this.deviceStatusList)
-                if (d.type == DeviceType.pump)
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status, style: TextStyle(fontSize: 17))),
-              for (var d in this.deviceStatusList)
-                if (d.type == DeviceType.led)
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status, style: TextStyle(fontSize: 17))),
-              for (var d in this.deviceStatusList)
-                if (d.type == DeviceType.buzzer)
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                      child: Text(d.deviceName + ": " + d.status, style: TextStyle(fontSize: 17))),
+              DeviceCard(
+                  deviceStatusList: this.deviceStatusList,
+                  type: DeviceType.tempSensor,
+                  image: AssetImage('assets/images/icons/thermalSensor.png')),
+              SizedBox(
+                height: 5,
+              ),
+              DeviceCard(
+                  deviceStatusList: this.deviceStatusList,
+                  type: DeviceType.gasSensor,
+                  image: AssetImage('assets/images/icons/gasSensor.png')),
+              SizedBox(
+                height: 5,
+              ),
+              DeviceCard(
+                  deviceStatusList: this.deviceStatusList,
+                  type: DeviceType.pump,
+                  image: AssetImage('assets/images/icons/pump.png')),
+              SizedBox(
+                height: 5,
+              ),
+              DeviceCard(
+                  deviceStatusList: this.deviceStatusList,
+                  type: DeviceType.led,
+                  image: AssetImage('assets/images/icons/led.png')),
+              SizedBox(
+                height: 5,
+              ),
+              DeviceCard(
+                  deviceStatusList: this.deviceStatusList,
+                  type: DeviceType.buzzer,
+                  image: AssetImage('assets/images/icons/buzzer.png')),
               SizedBox(
                 height: 40,
               ),
@@ -414,16 +438,49 @@ class _RoomViewState extends State<RoomView> {
                 height: 35,
               ),
               PowerButton(),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
 
-              Text('Volumn (0-1023):', style: TextStyle(fontSize: 15)),
-              TextField(
-                controller: soundVolumnController,
+              Text('Volumn (0-1023):',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              Slider(
+                  value: soundVolumn,
+                  min: 0,
+                  max: 1023,
+                  divisions: 1023,
+                  label: soundVolumn.round().toString(),
+                  onChanged: (double value) {
+                    setState(() {
+                      soundVolumn = value;
+                    });
+                  }),
+              Text('LED color (1-2):',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+
+              /// Rolling Switch Button
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: LiteRollingSwitch(
+                        value: true,
+                        textOn: ' RED',
+                        textOff: 'GREEN',
+                        colorOn: Colors.red[400],
+                        colorOff: Colors.tealAccent[400],
+                        iconOn: Icons.check,
+                        iconOff: Icons.check,
+                        animationDuration: Duration(milliseconds: 400),
+                        onChanged: (bool state) {
+                          ledController.text = state ? "1" : "2";
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
-              Text('LED color (0-2):', style: TextStyle(fontSize: 15)),
-              TextField(
-                controller: ledController,
-              )
+              SizedBox(height: 20)
             ],
           ),
         ),
@@ -435,7 +492,7 @@ class _RoomViewState extends State<RoomView> {
     final builder1 = MqttClientPayloadBuilder();
     String server0 = CONFIG.Config.username;
     String server1 = CONFIG.Config.username;
-    if(CONFIG.Config.username == 'test'){
+    if (CONFIG.Config.username == 'test') {
       server0 = CONFIG.Config.testName0;
       server1 = CONFIG.Config.testName1;
     }
@@ -463,17 +520,15 @@ class _RoomViewState extends State<RoomView> {
     } else if (device == "LED") {
       if (!btnState) {
         builder1.addString('{ "id":"1", "name":"LED", "data":"0", "unit":"" }');
-        CONFIG.Config.ledClient.publishMessage(
-            server0 + '/feeds/bk-iot-led',
-            MqttQos.atLeastOnce,
-            builder1.payload);
+        CONFIG.Config.ledClient.publishMessage(server0 + '/feeds/bk-iot-led',
+            MqttQos.atLeastOnce, builder1.payload);
         print("2: turn off led");
       } else {
-        builder1.addString('{ "id":"1", "name":"LED", "data":"'+ this.ledController.text  +'", "unit":"" }');
-        CONFIG.Config.ledClient.publishMessage(
-            server0 + '/feeds/bk-iot-led',
-            MqttQos.atLeastOnce,
-            builder1.payload);
+        builder1.addString('{ "id":"1", "name":"LED", "data":"' +
+            this.ledController.text +
+            '", "unit":"" }');
+        CONFIG.Config.ledClient.publishMessage(server0 + '/feeds/bk-iot-led',
+            MqttQos.atLeastOnce, builder1.payload);
         print("2: turn on led");
       }
     } else {
@@ -488,8 +543,9 @@ class _RoomViewState extends State<RoomView> {
         print("2: turn off buzzer");
       } else {
         final builder3 = MqttClientPayloadBuilder();
-        builder3.addString(
-            '{ "id":"2", "name":"SPEAKER", "data":"'+ this.soundVolumnController.text +'", "unit":"" }');
+        builder3.addString('{ "id":"2", "name":"SPEAKER", "data":"' +
+            soundVolumn.round().toString() +
+            '", "unit":"" }');
         CONFIG.Config.buzzerClient.publishMessage(
             server0 + '/feeds/bk-iot-speaker',
             MqttQos.atLeastOnce,
@@ -499,7 +555,4 @@ class _RoomViewState extends State<RoomView> {
       }
     }
   }
-
 }
-
-

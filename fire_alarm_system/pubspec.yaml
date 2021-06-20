@@ -21,6 +21,8 @@ dependencies:
   charcode: ^1.2.0
   gradient_widgets: ^0.6.0
   outline_gradient_button: ^2.0.0+1
+  lite_rolling_switch: ^0.1.1
+  rflutter_alert: ^1.0.3
 
   # package to draw chart
   syncfusion_flutter_gauges: ^19.1.59
