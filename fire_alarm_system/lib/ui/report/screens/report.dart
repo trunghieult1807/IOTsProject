@@ -90,7 +90,7 @@ class _ReportState extends State<Report> {
           )),
           child: Padding(
               padding: EdgeInsets.all(20.0),
-              child: Column(
+              child: ListView(
                 children: <Widget>[
                   Chart(isShow: this.numOfTemp),
                   Container(

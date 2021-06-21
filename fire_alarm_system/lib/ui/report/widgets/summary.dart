@@ -185,6 +185,7 @@ class _SummaryState extends State<Summary> {
 
     return SingleChildScrollView(
         child: Container(
+      height: 170,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(3),
@@ -197,7 +198,7 @@ class _SummaryState extends State<Summary> {
             ),
           ]),
       padding: const EdgeInsets.all(10.0),
-      child: Column(
+      child: ListView(
         children: <Widget>[
           Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
